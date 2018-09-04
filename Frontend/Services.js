@@ -12,6 +12,7 @@ var Icons=require('glyphicons');
 var NavbarTwo=require('./NavbarTwo');
 var ServicesPageBlock1=require('./ServicesPageBlock1');
 var ServicesPageBlock2=require('./ServicesPageBlock2');
+var ServicesPageBlock3=require('./ServicesPageBlock3');
 var FooterTwo=require('./FooterTwo');
 var Script=require('react-load-script');
 
@@ -27,8 +28,11 @@ class Services extends React.Component {
 				<div>
 				
 				<NavbarTwo />
-				<ServicesPageBlock1 />
-				<ServicesPageBlock2 />
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<ServicesPageBlock3 />
 				<br/><br/>
 				<FooterTwo />
                 </div>);

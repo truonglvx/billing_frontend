@@ -98,7 +98,7 @@ var Icons=require('glyphicons');
 			<br/>
             <div className="col-8 text-center">
               <br/><br/>
-              <a className="btn btn-lg btn-primary" href="/#/">See more Features</a>
+              <a className="btn btn-lg btn-primary" href="/#/Features">See more Features</a>
             </div>
 
 	</section>

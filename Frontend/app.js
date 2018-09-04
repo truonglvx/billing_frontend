@@ -16,6 +16,7 @@ var Features = require('./Features');
 var Login = require('./Login');
 var Register = require('./Register');
 var Services = require('./Services');
+var AddNewService = require('./AddNewService');
 
 var App = React.createClass({
  render: function() {
@@ -35,6 +36,9 @@ var App = React.createClass({
 			   </Router.Route>
 			   
 			   <Router.Route path='/Services' component={Services}>
+			   </Router.Route>
+			   
+			   <Router.Route path='/AddNewService' component={AddNewService}>
 			   </Router.Route>
             
 			</div>

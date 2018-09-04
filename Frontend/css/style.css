@@ -1,0 +1,75 @@
+
+.media a:not(.btn):not(.avatar) {
+    color: #4d5259;
+}
+
+.media-list-hover .media-list-body>.media:hover{background-color:#f9fafb}
+.text-truncate {
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.media-body {
+    min-width: 0;
+}
+
+.media .custom-control {
+    margin-right: 0;
+}
+.custom-checkbox {
+    cursor: pointer;
+}
+
+.media>* {
+    margin: 0 8px;
+}
+.custom-control {
+    position: relative;
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 2.5rem;
+}
+
+
+.align-items-center {
+    align-items: center;
+}
+
+.media .lead {
+    line-height: 1.875rem;
+}
+.mr-25 {
+    margin-right: 25px;
+}
+
+.text-fade {
+    color: rgba(77,82,89,0.7);
+}
+
+.lead {
+    font-size: 16px;
+    font-weight: 300;
+}
+.btn-float {
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    border-radius: 100%;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.fab-fixed {
+    right: 40px;
+    bottom: 40px;
+}
+.fab {
+    position: relative;
+    display: inline-block;
+    z-index: 9;
+}

@@ -26,7 +26,7 @@ var Icons=require('glyphicons');
         <div className="row gap-y align-items-center">
 
           <div className="col-md-3 text-center text-md-left">
-            <a href="#"><img src="assets/img/logo-dark.png" alt="logo"/></a>
+            <a href="/#/Services"><img src="assets/img/logo-dark.png" alt="logo"/></a>
           </div>
 
           <div className="col-md-6">

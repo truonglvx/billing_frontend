@@ -27,7 +27,7 @@ var Script=require('react-load-script');
 
               <div className="navbar-left mr-4">
                 <button className="navbar-toggler" type="button">&#9776;</button>
-                <a className="navbar-brand" href="#">
+                <a className="navbar-brand" href="/#/Services">
                   <img className="logo-dark" src="assets/img/logo-dark.png" alt="logo"/>
                   <img className="logo-light" src="assets/img/logo-light.png" alt="logo"/>
                 </a>
