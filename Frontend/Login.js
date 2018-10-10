@@ -9,17 +9,46 @@ var React=require('react');
 var ReactDOM=require('react-dom');
 var classNameNames=require('classnames');
 var Icons=require('glyphicons');
-var Navbar=require('./Navbar');
+var NavbarOne=require('./NavbarOne');
 var Footer=require('./Footer');
 
 class Login extends React.Component {
             
 			constructor(){
-                    super();
-            }
+                    		super();
+            		}
 			
+			componentDidMount(){
+//		     var oReq = new XMLHttpRequest();
+//		     oReq.overrideMimeType("application/json");
+//                     oReq.addEventListener("load", reqListener);
+//
+//                     oReq.open("GET", "https://billing-api.vapour-apps.com/admin/");
+//                     oReq.send();
+//					 
+//                     function reqListener () {
+		      
+                      //var re = new RegExp("<input type='hidden' name='csrfmiddlewaretoken' value='(.*)' \/>");
+		      //var myArray=re.exec(this.responseText);
+		      //console.log(myArray[1]);
+		      //var token=myArray[1];
+                      //document.cookie = "csrftoken="+token;*/
+		       fetch('https://billing-api.vapour-apps.com/admin/login/', {
+  			method: 'POST',
+  			headers: {
+    			"Content-Type": "application/x-www-form-urlencoded",
+  			},
+			 body: 'username=admin&password=tezokpass'
+
+}).then(response => console.log(response));
+                      
+			//}
+		      
+			
+		     }	
+		     
 			login(){
-				window.location.replace("/#/Services")
+			    window.location.replace("/#/Services");
 			}
 			
 			render() {
@@ -27,7 +56,7 @@ class Login extends React.Component {
 				
 				<div>
 				
-				<Navbar />
+				<NavbarOne />
 				<br/>
 				<br/>
 				<br/>

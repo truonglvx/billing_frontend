@@ -15,19 +15,73 @@ var Icons=require('glyphicons');
         class FeaturesPageBlock1 extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {};
+                this.state = {featuresHeader: '', featuresText: '', featuresImage: '', aboutSteps: []};
 
             }
+
+	    componentDidMount(){
+		var me=this;
+
+		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageAbout/?company_name=VapourApps')
+  		.then(function(response) {
+    			return response.json();
+ 		 })
+  		.then(function(myJson) {
+    			var response=myJson;
+			me.setState({featuresHeader: response.features_header,
+				     featuresText: response.features_text,
+				     featuresImage: response.features_image});
+  		});
+
+		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageAbout/?company_name=VapourApps')
+  		.then(function(response) {
+    			return response.json();
+ 		 })
+  		.then(function(myJson) {
+    			var response=myJson;
+			me.setState({featuresHeader: response.features_header,
+				     featuresText: response.features_text,
+				     featuresImage: response.features_image});
+  		});
+
+	    	fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageAboutSteps/?company_name=VapourApps')
+  		.then(function(response) {
+    			return response.json();
+ 		 })
+  		.then(function(myJson) {
+    			var response=myJson;
+			me.setState({aboutSteps: response.steps});
+  		});
+            }
+
           render() {
+
+	 var step_items=this.state.aboutSteps.map(function(step, index){
+      
+		   return (
+                            
+		<li className="step-item">
+                  <div className="step-icon">
+                    <span className="iconbox">{index+1}</span>
+                  </div>
+
+                  <div className="step-content">
+                    <h6><strong>{step.step_header}</strong></h6>
+                    <p>{step.step_details}</p>
+                  </div>
+                </li>
+                        );
+                    }.bind(this));
+
     return (
         <div>
 			
 			<section className="section">
         <div className="container">
           <header className="section-header">
-            <h2>How Does It Work?</h2>
+            <h2>{this.state.featuresHeader}</h2>
             <hr/>
-            <p className="lead">Explore the best SaaS template in the market in a short 1-minute video.</p>
+            <p className="lead">{this.state.featuresText}</p>
           </header>
 
 
@@ -35,45 +89,13 @@ var Icons=require('glyphicons');
 
             <div className="col-md-6">
               <div className="video-btn-wrapper">
-                <img className="shadow-4 rounded-lg" src="assets/img/thumb/6.jpg" alt="watch a video"/>
-                <a className="btn btn-circle btn-xl btn-info" href="https://www.youtube.com/watch?v=ah4pcPbRi2M" data-provide="lightbox"><i className="fa fa-play"></i></a>
+                <img className="shadow-4" src={this.state.featuresImage} alt="Image"/>
               </div>
             </div>
 
             <div className="col-md-6">
               <ol className="step">
-                <li className="step-item">
-                  <div className="step-icon">
-                    <span className="iconbox">1</span>
-                  </div>
-
-                  <div className="step-content">
-                    <h6><strong>Write your requirements</strong></h6>
-                    <p>Think the or organization same proposal to affected heard reclined in be it reassuring.</p>
-                  </div>
-                </li>
-
-                <li className="step-item">
-                  <div className="step-icon">
-                    <span className="iconbox">2</span>
-                  </div>
-
-                  <div className="step-content">
-                    <h6><strong>Sign the contract</strong></h6>
-                    <p>Think the or organization same proposal to affected heard reclined in be it reassuring.</p>
-                  </div>
-                </li>
-
-                <li className="step-item">
-                  <div className="step-icon">
-                    <span className="iconbox">3</span>
-                  </div>
-
-                  <div className="step-content">
-                    <h6><strong>We start developing</strong></h6>
-                    <p>Think the or organization same proposal to affected heard reclined in be it reassuring.</p>
-                  </div>
-                </li>
+          	{step_items}
               </ol>
             </div>
 

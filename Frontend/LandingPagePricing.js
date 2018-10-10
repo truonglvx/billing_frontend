@@ -15,7 +15,7 @@ var Icons=require('glyphicons');
         class LandingPagePricing extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {};
+                this.state = {pricingHeader: '', pricingDetails: ''};
             }
 			textChange1(){
 				document.getElementsByClassName("tekst")[0].textContent="Monthly";
@@ -30,15 +30,31 @@ var Icons=require('glyphicons');
 				document.getElementsByClassName("cena")[0].textContent="$60.";
 				document.getElementsByClassName("cena")[1].textContent="$180.";
 			}
+		
+		componentDidMount(){
+		var me=this;
+
+		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPagePricing/?company_name=VapourApps')
+  		.then(function(response) {
+    			return response.json();
+ 		 })
+  		.then(function(myJson) {
+    			var response=myJson;
+			me.setState({pricingHeader: response.pricing_header,
+				     pricingDetails: response.pricing_details});
+  		});
+	    
+            }
+
           render() {
     return (
         <div>
 			<section className="section bg-gray">
-        <div className="container">
+        <div className="container" id="pricing">
           <div className="row gap-y align-items-center">
 
             <div className="col-md-4">
-              <p className="lead-7 text-dark fw-600 lh-2">The most fare pricing plans ever.</p>
+              <p className="lead-7 text-dark fw-600 lh-2">{this.state.pricingHeader}</p>
 
               <div className="btn-group btn-group-toggle my-7" data-toggle="buttons">
                 <label className="btn btn-round btn-outline-dark w-150 active" onClick={() => this.textChange1()}>
@@ -49,7 +65,7 @@ var Icons=require('glyphicons');
                 </label>
               </div>
 
-              <p className="lead">Our prices are very easy to understand. There's not any extra or hidden fee. You just pay what is listed here.</p>
+              <p className="lead">{this.state.pricingDetails}</p>
               <p className="fw-400"><a href="#">View full pricing details <i className="ti-arrow-right fs-10 ml-2"></i></a></p>
             </div>
 

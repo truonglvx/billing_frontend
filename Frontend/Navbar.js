@@ -15,9 +15,27 @@ var Script=require('react-load-script');
         class Navbar extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {};
+                this.state = {headerLogo: ''};
 
             }
+	
+	componentDidMount(){
+		var me=this;
+
+		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+  		.then(function(response) {
+    			return response.json();
+ 		 })
+  		.then(function(myJson) {
+    			var response=myJson;
+			me.setState({headerLogo: response.header_logo});
+  		});
+	    
+            }
+	displayR(){
+		console.log('RRRR');
+	}
+
           render() {
     return (
         <div>
@@ -29,17 +47,17 @@ var Script=require('react-load-script');
               <div className="navbar-left mr-4">
                 <button className="navbar-toggler" type="button">&#9776;</button>
                 <a className="navbar-brand" href="/#/">
-                  <img className="logo-dark" src="assets/img/logo-dark.png" alt="logo"/>
-                  <img className="logo-light" src="assets/img/logo-light.png" alt="logo"/>
+                  <img className="logo-dark" src={this.state.headerLogo} alt="logo"/>
+                  <img className="logo-light" src={this.state.headerLogo} alt="logo"/>
                 </a>
               </div>
 
               <section className="navbar-mobile">
                 <nav className="nav nav-navbar mr-auto">
                   <a className="nav-link active" href="/#/">Home</a>
-                  <a className="nav-link" href="/#/Features">Features</a>
-                  <a className="nav-link" href="/#/">Pricing</a>
-                  <a className="nav-link" href="/#/">Contact</a>
+                  <a className="nav-link" href="/#/Features">About</a>
+                  <a id="linkPricing" className="nav-link" href="#pricing">Pricing</a>
+                  <a className="nav-link" href="../#pricing">Contact</a>
                 </nav>
 
                 <div>

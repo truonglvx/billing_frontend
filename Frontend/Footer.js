@@ -15,9 +15,34 @@ var Icons=require('glyphicons');
         class Footer extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {};
+                this.state = {footerLogo: '', footerText: '', footerFacebook: '',
+			      footerTwitter: '', footerYoutube: '', footerInstagram: ''};
 
             }
+	
+	    
+	    componentDidMount(){
+		var me=this;
+
+		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+  		.then(function(response) {
+    			return response.json();
+ 		 })
+  		.then(function(myJson) {
+    			var response=myJson;
+			me.setState({footerLogo: response.footer_logo,
+				     footerText: response.footer_text,
+				     footerFacebook: response.footer_facebook,
+				     footerTwitter: response.footer_twitter,
+				     footerYoutube: response.footer_youtube,
+				     footerInstagram: response.footer_instagram});
+  		});
+	
+		var markdown = require( "markdown" ).markdown;
+console.log(markdown.toHTML( "Hello *World*!" ) );
+	    
+            }
+
           render() {
     return (
         <div>
@@ -26,8 +51,8 @@ var Icons=require('glyphicons');
           <div className="row gap-y">
 
             <div className="col-md-6 col-xl-4">
-              <p><a href="/#/"><img src="assets/img/logo-dark.png" alt="logo"/></a></p>
-              <p>We can combine beautiful, modern designs with clean, functional and high-performance code to produce stunning websites.</p>
+              <p><a href="/"><img src={this.state.footerLogo} alt="logo" style={{maxHeight: '50px', maxWidth: '50px'}}/></a></p>
+              <p> {this.state.footerText}</p>
             </div>
 
             <div className="col-6 col-md-3 col-xl-2">
@@ -44,7 +69,7 @@ var Icons=require('glyphicons');
               <div className="nav flex-column">
                 <a className="nav-link" href="/#/">Features</a>
                 <a className="nav-link" href="/#/">Pricing</a>
-                <a className="nav-link" href="/#/">Security</a>
+                <a className="nav-link" href="/#/TermsOfService">Terms of service</a>
               </div>
             </div>
 
@@ -53,7 +78,7 @@ var Icons=require('glyphicons');
               <div className="nav flex-column">
                 <a className="nav-link" href="/#/">Help Center</a>
                 <a className="nav-link" href="/#/">API</a>
-                <a className="nav-link" href="/#/">FAQ</a>
+                <a className="nav-link" href="/#/">Privacy policy</a>
               </div>
             </div>
 
@@ -61,10 +86,10 @@ var Icons=require('glyphicons');
               <p><a className="btn btn-block btn-round btn-primary" href="/#/">Try it free</a></p>
               <br/>
               <div className="social social-bordered">
-                <a className="social-facebook" href="/#/"><i className="fa fa-facebook"></i></a>
-                <a className="social-twitter" href="/#/"><i className="fa fa-twitter"></i></a>
-                <a className="social-youtube" href="/#/"><i className="fa fa-youtube"></i></a>
-                <a className="social-instagram" href="/#/"><i className="fa fa-instagram"></i></a>
+                <a className="social-facebook" href={this.state.footerFacebook}><i className="fa fa-facebook"></i></a>
+                <a className="social-twitter" href={this.state.footerTwitter}><i className="fa fa-twitter"></i></a>
+                <a className="social-youtube" href={this.state.footerYoutube}><i className="fa fa-youtube"></i></a>
+                <a className="social-instagram" href={this.state.footerInstagram}><i className="fa fa-instagram"></i></a>
               </div>
             </div>
 

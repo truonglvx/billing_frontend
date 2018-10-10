@@ -89,17 +89,6 @@ var Icons=require('glyphicons');
               </div>
             </div>
 			
-			
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-            <div className="col-8 text-center">
-              <br/><br/>
-              <a className="btn btn-lg btn-primary" href="/#/Features">See more Features</a>
-            </div>
 
 	</section>
 	</div>

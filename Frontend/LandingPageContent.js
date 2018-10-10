@@ -15,9 +15,26 @@ var Icons=require('glyphicons');
         class LandingPageContent extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {};
+                this.state = {landingHeader:'', landingText:'', landingImageURL:''};
 
             }
+	    
+	    componentDidMount(){
+		var me=this;
+
+		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+  		.then(function(response) {
+    			return response.json();
+ 		 })
+  		.then(function(myJson) {
+    			var response=myJson;
+			me.setState({landingHeader: response.landing_header,
+				     landingText: response.landing_text,
+				     landingImageURL: response.landing_image});
+  		});
+	    
+            }
+
           render() {
     return (
         <div>
@@ -27,16 +44,16 @@ var Icons=require('glyphicons');
           <div className="row align-items-center h-100">
 
             <div className="col-lg-6">
-              <h1>Find the <span className="text-warning">best rated</span><br/><span className="text-info">restaurants</span> near you.</h1>
-              <p className="lead mt-5 mb-8" style={{fontSize: '1.1em'}}>We can help you find the best restaurants, fast foods, and cafes near you; take an order and deliver it to your door. Register once, and order from everywhere.</p>
+              <h1>{this.state.landingHeader}</h1>
+              <p className="lead mt-5 mb-8" style={{fontSize: '1.1em'}}>{this.state.landingText}</p>
               <p className="gap-xy">
-                <a className="btn btn-round btn-primary" href="#">Find restaurants</a>
+                <a className="btn btn-round btn-primary" href="#">SignUp</a>
                 <a className="btn btn-round btn-outline-secondary" href="#">Order now</a>
               </p>
             </div>
 
             <div className="col-lg-5 ml-auto d-none d-lg-block">
-              <img src="assets/img/vector/17.png" alt="img"/>
+              <img src={this.state.landingImageURL} alt="img"/>
             </div>
 
           </div>

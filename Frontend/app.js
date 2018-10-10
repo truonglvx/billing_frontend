@@ -3,7 +3,8 @@
  */
 var React=require('react');
 var ReactDOM=require('react-dom');
-var Router = require('react-router-dom');
+const HashRouter = require('react-router-dom').HashRouter
+const Route = require('react-router-dom').Route
 var Bootstrap=require('react-bootstrap');
 var classNames=require('classnames');
 var Icons=require('glyphicons');
@@ -17,32 +18,29 @@ var Login = require('./Login');
 var Register = require('./Register');
 var Services = require('./Services');
 var AddNewService = require('./AddNewService');
+var TermsOfService = require('./TermsOfService');
 
 var App = React.createClass({
  render: function() {
    return (
-       <Router.HashRouter>
+       <HashRouter>
            <div>
-               <Router.Route exact path='/' component={Main}>
-			   </Router.Route>
+               		   <Route exact path='/' component={Main}/>
 			   
-			   <Router.Route path='/Features' component={Features}>
-			   </Router.Route>
+			   <Route path="/Features" component={Features}/>
 			   
-			   <Router.Route path='/Login' component={Login}>
-			   </Router.Route>
+			   <Route path="/Login" component={Login}/>
 			   
-			   <Router.Route path='/Register' component={Register}>
-			   </Router.Route>
+			   <Route path="/Register" component={Register}/>
 			   
-			   <Router.Route path='/Services' component={Services}>
-			   </Router.Route>
+			   <Route path='/Services' component={Services}/>
 			   
-			   <Router.Route path='/AddNewService' component={AddNewService}>
-			   </Router.Route>
+			   <Route path='/AddNewService' component={AddNewService}/>
+				
+		           <Route path='/TermsOfService' component={TermsOfService}/>
             
 			</div>
-        </Router.HashRouter>
+        </HashRouter>
     );
   }
 });

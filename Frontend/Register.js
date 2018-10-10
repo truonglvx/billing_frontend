@@ -9,7 +9,7 @@ var React=require('react');
 var ReactDOM=require('react-dom');
 var classNameNames=require('classnames');
 var Icons=require('glyphicons');
-var Navbar=require('./Navbar');
+var NavbarOne=require('./NavbarOne');
 var Footer=require('./Footer');
 
 class Register extends React.Component {
@@ -23,7 +23,7 @@ class Register extends React.Component {
 				
 				<div>
 				
-				<Navbar />
+				<NavbarOne />
 				<br/>
 				<br/>
 				<br/>

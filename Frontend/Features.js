@@ -13,19 +13,22 @@ var Navbar=require('./Navbar');
 var FeaturesPageBlock1=require('./FeaturesPageBlock1');
 var FeaturesPageBlock2=require('./FeaturesPageBlock2');
 var Footer=require('./Footer');
+var LandingPagePricing=require('./LandingPagePricing');
 var Script=require('react-load-script');
 
 class Features extends React.Component {
             
-			constructor(){
-                    super();
+            constructor(props) {
+                super(props);
+                this.state = {headerLogo: ''};
+
             }
-			
+	
+
 			render() {
                 return (
-				
-				<div>
-				
+		<div>
+
 				<Navbar />
 				<br/>
 				<br/>
@@ -34,6 +37,7 @@ class Features extends React.Component {
 				<FeaturesPageBlock2 />
 				<br/><br/>
 				<Footer />
+				
                 </div>);
             }
         }
