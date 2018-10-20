@@ -19,6 +19,8 @@ var Register = require('./Register');
 var Services = require('./Services');
 var AddNewService = require('./AddNewService');
 var TermsOfService = require('./TermsOfService');
+var ChangePassword = require('./ChangePassword');
+var SuccessRegister = require('./SuccessRegister');
 
 var App = React.createClass({
  render: function() {
@@ -34,11 +36,15 @@ var App = React.createClass({
 			   <Route path="/Register" component={Register}/>
 			   
 			   <Route path='/Services' component={Services}/>
-			   
-			   <Route path='/AddNewService' component={AddNewService}/>
 				
-		           <Route path='/TermsOfService' component={TermsOfService}/>
-            
+			   <Route path='/AddNewService' component={AddNewService}/>
+		       
+			   <Route path='/TermsOfService' component={TermsOfService}/>
+			   
+			   <Route path='/ChangePassword' component={ChangePassword}/>
+			   
+			   <Route path='/SuccessRegister' component={SuccessRegister}/>
+			   
 			</div>
         </HashRouter>
     );

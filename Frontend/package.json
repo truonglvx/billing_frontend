@@ -31,6 +31,7 @@
     "react-load-script": "0.0.6",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "react-router-hash-link": "^1.2.0",
     "react-script-tag": "^1.1.2",
     "request": "^2.81.0",
     "showdown": "^1.8.6",

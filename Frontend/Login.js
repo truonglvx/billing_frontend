@@ -9,101 +9,108 @@ var React=require('react');
 var ReactDOM=require('react-dom');
 var classNameNames=require('classnames');
 var Icons=require('glyphicons');
-var NavbarOne=require('./NavbarOne');
+var Navbar=require('./Navbar');
 var Footer=require('./Footer');
 
 class Login extends React.Component {
             
 			constructor(){
                     		super();
+				this.state={};
+				this.login=this.login.bind(this);
             		}
 			
 			componentDidMount(){
-//		     var oReq = new XMLHttpRequest();
-//		     oReq.overrideMimeType("application/json");
-//                     oReq.addEventListener("load", reqListener);
-//
-//                     oReq.open("GET", "https://billing-api.vapour-apps.com/admin/");
-//                     oReq.send();
-//					 
-//                     function reqListener () {
-		      
-                      //var re = new RegExp("<input type='hidden' name='csrfmiddlewaretoken' value='(.*)' \/>");
-		      //var myArray=re.exec(this.responseText);
-		      //console.log(myArray[1]);
-		      //var token=myArray[1];
-                      //document.cookie = "csrftoken="+token;*/
-		       fetch('https://billing-api.vapour-apps.com/admin/login/', {
-  			method: 'POST',
-  			headers: {
-    			"Content-Type": "application/x-www-form-urlencoded",
-  			},
-			 body: 'username=admin&password=tezokpass'
-
-}).then(response => console.log(response));
-                      
-			//}
+				document.getElementById("unsucclogin").style.display = 'none';
+			}
 		      
 			
-		     }	
 		     
 			login(){
-			    window.location.replace("/#/Services");
-			}
+			    var url = 'https://billing-api.vapour-apps.com/va_saas/token-auth/';
+				var InputUsername=document.getElementById("InputUsername").value;
+				var InputPassword=document.getElementById("InputPassword").value;
+			    var data = {"username" : InputUsername, "password" : InputPassword};
+			    console.log(data);
+
+
+			fetch(url, {
+ 				method: 'POST',
+				body: JSON.stringify(data),
+  				headers:{
+    					'Content-Type': 'application/json'
+  					}
+				}).then(res => res.json())
+				.then(function(response) {
+					if(response.token != null){
+					console.log('Success:', response);
+					localStorage.setItem("token", response.token);
+					window.location.replace("/#/Services");}
+					else{
+					    document.getElementById("unsucclogin").click();
+					}
+					})
+				.catch(error => console.error('Error:', error));
+			    				}
 			
 			render() {
-                return (
+               			return (
 				
 				<div>
 				
-				<NavbarOne />
+				<Navbar />
 				<br/>
 				<br/>
 				<br/>
-<div className="layout-centered bg-img" style={{backgroundImage: 'url(assets/img/bg/5.jpg)'}}>
-
-    <main className="main-content">
-
-      <div className="bg-white rounded shadow-7 w-400 mw-100 p-6">
-        <h3 className="mb-7">Sign into your account</h3>
-
-          <div className="form-group">
-            <input type="text" className="form-control" style={{fontSize: '0.9em'}} name="username" placeholder="Username"/>
-          </div>
-
-          <div className="form-group">
-            <input type="password" className="form-control" style={{fontSize: '0.9em'}} name="password" placeholder="Password"/>
-          </div>
-
-          <div className="form-group flexbox py-3">
-            <div className="custom-control custom-checkbox">
-              <input type="checkbox" className="custom-control-input" defaultChecked/>
-              <label className="custom-control-label" style={{fontSize: '0.9em'}}>Remember me</label>
-            </div>
-
-            <a className="text-muted medium-1" href="#">Forgot password?</a>
-          </div>
-
-          <div className="form-group">
-            <button className="btn btn-block btn-primary" onClick={() => this.login()}>Login</button>
-          </div>
-
-        <div className="divider text-center text-muted medium-2">Or Login With</div>
-        <div className="text-center">
-          <a className="btn btn-circle btn-sm btn-facebook mr-2" href="#"><i className="fa fa-facebook"></i></a>
-          <a className="btn btn-circle btn-sm btn-google mr-2" href="#"><i className="fa fa-google"></i></a>
-          <a className="btn btn-circle btn-sm btn-twitter" href="#"><i className="fa fa-twitter"></i></a>
-        </div>
-
-        <hr className="w-30"/>
-
-        <p className="text-center text-muted medium-2"> Don't have an account? <a href="/#/Register">Register here</a></p>
-      </div>
-
-    </main>
+				<br/>
+				
+					<div className="col-md-offset-4 col-md-5">
+						<div className="container" style={{marginTop: '30px'}}>
+    <div className="panel panel-default">
+  	<div className="panel-heading"><h3 className="panel-title" style={{fontSize: '1.5em'}}><strong>Sign In </strong></h3></div>
+  		<div className="panel-body">
+  			<div className="form-group">
+    				<label htmlFor="InputUsername" style={{fontSize: '1em'}}>Username</label>
+    				<input type="email" className="form-control" id="InputUsername" placeholder="Enter username" style={{fontSize: '1em'}}/>
+  			</div>
+  			<div className="form-group">
+    				<label htmlFor="InputPassword" style={{fontSize: '1em'}}>Password</label>
+    				<input type="password" className="form-control" id="InputPassword" placeholder="Password" style={{fontSize: '1em'}}/>
+  			</div>
+  			<button type="submit" className="btn btn-large btn-default" onClick={() => this.login()}>Sign in</button>
+  		</div>
+	</div>
+    </div>
 </div>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+<button id="unsucclogin" className="btn btn-primary" type="button" data-toggle="popup" data-target="#popup-slide-down">Slide Down</button>
+<div id="popup-slide-down" className="popup col-6 col-md-4" data-position="top-right" data-animation="slide-down">
+      <button type="button" className="close" data-dismiss="popup" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div className="media">
+        <div className="media-body">
+          <h3>Invalid log in</h3>
+          <p className="mb-0 text-danger" style={{fontSize: '1.2em'}}>You have entered an invalid username or password !</p>
+        </div>
+      </div>
+    </div>
 				<Footer />
-                </div>);
+				</div>);
             }
         }
 

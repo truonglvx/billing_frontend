@@ -7,6 +7,7 @@ Backbone.$ = $;
 module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
+const Link = require('react-router-hash-link').HashLink;
 var classNameNameNames=require('classnames');
 var Icons=require('glyphicons');
 var Script=require('react-load-script');
@@ -56,8 +57,8 @@ var Script=require('react-load-script');
                 <nav className="nav nav-navbar mr-auto">
                   <a className="nav-link active" href="/#/">Home</a>
                   <a className="nav-link" href="/#/Features">About</a>
-                  <a id="linkPricing" className="nav-link" href="#pricing">Pricing</a>
-                  <a className="nav-link" href="../#pricing">Contact</a>
+                  <Link id="linkPricing" className="nav-link" to="/#pricing">Pricing</Link>
+                  <a className="nav-link" href="/#/">Contact</a>
                 </nav>
 
                 <div>

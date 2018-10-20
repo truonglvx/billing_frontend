@@ -16,8 +16,16 @@ var Script=require('react-load-script');
             constructor(props) {
                 super(props);
                 this.state = {};
+		this.logout=this.logout.bind(this);
 
             }
+
+		logout(){
+
+		localStorage.removeItem("token");
+		window.location.replace("/#/");
+
+		}
           render() {
     return (
         <div>
@@ -46,10 +54,10 @@ var Script=require('react-load-script');
                   </span>
                   <div className="dropdown-menu dropdown-menu-right">
                     <a className="dropdown-item" href="#">Profile</a>
-                    <a className="dropdown-item" href="#">Inbox</a>
+                    <a className="dropdown-item" href="/#/ChangePassword">ChangePassword</a>
                     <a className="dropdown-item" href="#">Settings</a>
                     <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="/#/">Logout</a>
+                    <a className="dropdown-item" onClick={() => this.logout()} style={{cursor: 'pointer'}}>Logout</a>
                   </div>
                 </div>
               </section>
