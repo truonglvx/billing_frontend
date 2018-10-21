@@ -21,6 +21,7 @@ var AddNewService = require('./AddNewService');
 var TermsOfService = require('./TermsOfService');
 var ChangePassword = require('./ChangePassword');
 var SuccessRegister = require('./SuccessRegister');
+var Profile = require('./Profile');
 
 var App = React.createClass({
  render: function() {
@@ -44,6 +45,8 @@ var App = React.createClass({
 			   <Route path='/ChangePassword' component={ChangePassword}/>
 			   
 			   <Route path='/SuccessRegister' component={SuccessRegister}/>
+			   
+			   <Route path='/Profile' component={Profile}/>
 			   
 			</div>
         </HashRouter>
