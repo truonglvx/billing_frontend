@@ -15,18 +15,31 @@ var Footer=require('./Footer');
 class Login extends React.Component {
             
 			constructor(){
-                    		super();
-				this.state={};
+                super();
+				this.state={previouslyClicked: false};
 				this.login=this.login.bind(this);
-            		}
+				this.handleNotificationClose=this.handleNotificationClose.bind(this);
+				document.addEventListener('keypress', (event) => {
+					const keyName = event.key;
+					if(keyName === 'Enter'){
+						this.login();
+					}
+				});
+            }
 			
 			componentDidMount(){
 				document.getElementById("unsucclogin").style.display = 'none';
 			}
-		      
+		    
+			componentWillMount(){
+			}
 			
-		     
+			handleNotificationClose(){
+				this.setState({previouslyClicked: false});
+			}
+			
 			login(){
+				var me=this;
 			    var url = 'https://billing-api.vapour-apps.com/va_saas/token-auth/';
 				var InputUsername=document.getElementById("InputUsername").value;
 				var InputPassword=document.getElementById("InputPassword").value;
@@ -47,7 +60,10 @@ class Login extends React.Component {
 					localStorage.setItem("token", response.token);
 					window.location.replace("/#/Services");}
 					else{
-					    document.getElementById("unsucclogin").click();
+						if(me.state.previouslyClicked == false){
+							document.getElementById("unsucclogin").click();
+							me.setState({previouslyClicked: true});
+						}
 					}
 					})
 				.catch(error => console.error('Error:', error));
@@ -77,8 +93,11 @@ class Login extends React.Component {
     				<label htmlFor="InputPassword" style={{fontSize: '1em'}}>Password</label>
     				<input type="password" className="form-control" id="InputPassword" placeholder="Password" style={{fontSize: '1em'}}/>
   			</div>
-  			<button type="submit" className="btn btn-large btn-default" onClick={() => this.login()}>Sign in</button>
-  		</div>
+			<div style={{clear: 'both'}}>
+				<button type="submit" className="btn btn-large btn-default" onClick={() => this.login()} style={{float: 'left'}}>Sign in</button>
+				<a href="/" style={{color: 'red', float: 'right'}}>Forgot password?</a>
+			</div>
+		</div>
 	</div>
     </div>
 </div>
@@ -99,7 +118,7 @@ class Login extends React.Component {
 				<br/>
 <button id="unsucclogin" className="btn btn-primary" type="button" data-toggle="popup" data-target="#popup-slide-down">Slide Down</button>
 <div id="popup-slide-down" className="popup col-6 col-md-4" data-position="top-right" data-animation="slide-down">
-      <button type="button" className="close" data-dismiss="popup" aria-label="Close">
+      <button type="button" className="close" data-dismiss="popup" aria-label="Close" onClick={ () => this.handleNotificationClose()}>
         <span aria-hidden="true">&times;</span>
       </button>
       <div className="media">

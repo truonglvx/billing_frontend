@@ -15,8 +15,11 @@ class ServicesPageBlock3 extends React.Component {
             
 			constructor(){
                     super();
+					this.addNewSubscription=this.addNewSubscription.bind(this);
             }
-			
+			addNewSubscription(){
+				location.href = '/#/AddNewService';
+			}
 			render() {
                 return (
 				
@@ -124,9 +127,9 @@ class ServicesPageBlock3 extends React.Component {
 <br/>
 <br/>
 		<div className="row">
-			<div className="col-md-offset-8">
-            <button type="button" className="btn btn-xl btn-success">
-				<a style={{textDecoration: 'none', color: 'white'}} href='/#/AddNewService'>Add new service</a>
+			<div className="col-md-10 text-md-right">
+            <button type="button" className="btn btn-xl btn-success" onClick={()=> this.addNewSubscription()}>
+				Add new subscription
 			</button>
 			</div>
 		</div>

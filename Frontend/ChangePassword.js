@@ -18,20 +18,28 @@ var Script=require('react-load-script');
 
 class ChangePassword extends React.Component {
             
-						constructor(){
-                    		super();
-							this.state={currentUsername: ''};
-							this.changePassword=this.changePassword.bind(this);
-            		}
+			constructor(){
+                super();
+				this.state={currentUsername: '', message: ''};
+				this.changePassword=this.changePassword.bind(this);
+				document.addEventListener('keypress', (event) => {
+					const keyName = event.key;
+					if(keyName === 'Enter'){
+						this.changePassword();
+					}
+				});
+            }
+
 			componentDidMount(){
 				var me=this;
+				document.getElementById("triger").style.display = 'none';
 				var token=localStorage.getItem("token");
 				fetch('https://billing-api.vapour-apps.com/va_saas/get-user/', {
  				method: 'GET',
   				headers:{
 						'Authorization' : 'JWT ' +token,
     					'Content-Type': 'application/json'
-  					}
+						}
 				}).then(res => res.json())
 				.then(function(response) {
 					me.setState({currentUsername: response.username});
@@ -41,12 +49,13 @@ class ChangePassword extends React.Component {
 
 			}
 
-			changePassword(){				
-				console.log(this.state.currentUsername);
-			    	var url = 'https://billing-api.vapour-apps.com/va_saas/change_user_password/';
+			changePassword(){
+				var me=this;
+				console.log('Password change');
+				var url = 'https://billing-api.vapour-apps.com/va_saas/change_user_password/';
 				var InputOldPassword=document.getElementById("InputOldPassword").value;
 				var InputNewPassword=document.getElementById("InputNewPassword").value;
-			    var data = {"old_password" : InputOldPassword, "new_password" : InputNewPassword, "username": this.state.currentUsername};
+			    var data = {"old_password" : InputOldPassword, "new_password" : InputNewPassword, "username": me.state.currentUsername};
 			    var token=localStorage.getItem("token");
 
 			fetch(url, {
@@ -54,16 +63,29 @@ class ChangePassword extends React.Component {
 				body: JSON.stringify(data),
   				headers:{
     					'Content-Type': 'application/json',
-					'Authorization' : 'JWT ' +token
+						'Authorization' : 'JWT ' +token
 
   					}
-				}).then(res => res.json())
-				.then(function(response) {
-					if(response.token != null){
-						console.log('Uspesno smenet password!!!');
-}					})
+				}).then(function(response) {
+						if(response.status==200){
+							me.setState({message: "Successfully changed password"});
+							document.getElementById("message").style.color = "black";
+							document.getElementById("triger").click();
+							document.getElementById("InputOldPassword").value="";
+							document.getElementById("InputNewPassword").value="";
+							
+						}
+						else{
+							me.setState({message: "Change password error: Incorrect old password"});
+							document.getElementById("message").style.color = "red";
+							document.getElementById("triger").click();
+							document.getElementById("InputOldPassword").value="";
+							document.getElementById("InputNewPassword").value="";
+						}
+				
+					})
 				.catch(error => console.error('Error:', error));
-			    				}
+			}
 			
 			render() {
                 return (
@@ -91,6 +113,18 @@ class ChangePassword extends React.Component {
 
 				<br/><br/>
 				<FooterTwo />
+		<button id="triger" className="btn btn-primary" type="button" data-toggle="popup" data-target="#popup-slide-down">Slide Down</button>
+		  <div id="popup-slide-down" className="popup col-6 col-md-4" data-position="top-right" data-animation="slide-down">
+      <button type="button" className="close" data-dismiss="popup" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div className="media">
+        <div className="media-body">
+          <h3>Change password</h3>
+          <p id="message" className="mb-0" style={{fontSize: '1.2em'}}>{this.state.message}</p>
+        </div>
+      </div>
+    </div>
                 </div>);
             }
         }

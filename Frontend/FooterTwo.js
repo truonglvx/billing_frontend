@@ -15,9 +15,20 @@ var Icons=require('glyphicons');
         class FooterTwo extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {};
-
+                this.state = {footerLogo: ''};
             }
+			componentDidMount(){
+				var me=this;
+				fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+				.then(function(response) {
+					return response.json();
+				})
+				.then(function(myJson) {
+					var response=myJson;
+					me.setState({footerLogo: response.footer_logo});
+				  
+				});
+			}
           render() {
     return (
         <div>
@@ -26,7 +37,7 @@ var Icons=require('glyphicons');
         <div className="row gap-y align-items-center">
 
           <div className="col-md-3 text-center text-md-left">
-            <a href="/#/Services"><img src="assets/img/logo-dark.png" alt="logo"/></a>
+            <a href="/#/Services"><img src={this.state.footerLogo} alt="logo" style={{maxHeight: '50px', maxWidth: '50px'}}/></a>
           </div>
 
           <div className="col-md-6">

@@ -51,7 +51,7 @@ console.log(markdown.toHTML( "Hello *World*!" ) );
           <div className="row gap-y">
 
             <div className="col-md-6 col-xl-4">
-              <p><a href="/#/"><img src={this.state.footerLogo} alt="logo" style={{maxHeight: '50px', maxWidth: '50px'}}/></a></p>
+              <p><a href="/"><img src={this.state.footerLogo} alt="logo" style={{maxHeight: '50px', maxWidth: '50px'}}/></a></p>
               <p> {this.state.footerText}</p>
             </div>
 
@@ -83,7 +83,7 @@ console.log(markdown.toHTML( "Hello *World*!" ) );
             </div>
 
             <div className="col-6 col-md-6 col-xl-2 text-center">
-              <p><a className="btn btn-block btn-round btn-primary" href="/#/">Try it free</a></p>
+              <p><a className="btn btn-block btn-round btn-primary" href="/#/Register">Sign up</a></p>
               <br/>
               <div className="social social-bordered">
                 <a className="social-facebook" href={this.state.footerFacebook}><i className="fa fa-facebook"></i></a>

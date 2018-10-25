@@ -47,8 +47,8 @@ var Icons=require('glyphicons');
               <h1>{this.state.landingHeader}</h1>
               <p className="lead mt-5 mb-8" style={{fontSize: '1.1em'}}>{this.state.landingText}</p>
               <p className="gap-xy">
-                <a className="btn btn-round btn-primary" href="#">SignUp</a>
-                <a className="btn btn-round btn-outline-secondary" href="#">Order now</a>
+                <a className="btn btn-round btn-primary" href="/#/Register">SignUp</a>
+                <a className="btn btn-round btn-outline-secondary" href="/#/Register">Order now</a>
               </p>
             </div>
 

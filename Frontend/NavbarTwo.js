@@ -15,12 +15,20 @@ var Script=require('react-load-script');
         class NavbarTwo extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {username: ''};
+                this.state = {username: '', headerLogo: ''};
 				this.logout=this.logout.bind(this);
 
             }
 			componentDidMount(){
 				var me=this;
+				fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+				.then(function(response) {
+					return response.json();
+				})
+				.then(function(myJson) {
+					var response=myJson;
+					me.setState({headerLogo: response.header_logo});
+				});
 				var token=localStorage.getItem("token");
 				fetch('https://billing-api.vapour-apps.com/va_saas/get-user', {
  				method: 'GET',
@@ -41,12 +49,12 @@ var Script=require('react-load-script');
 				.catch(error => console.error('Error:', error));
 			}
 
-		logout(){
+			logout(){
 
-		localStorage.removeItem("token");
-		window.location.replace("/#/");
+				localStorage.removeItem("token");
+				window.location.replace("/");
+			}
 
-		}
           render() {
     return (
         <div>
@@ -57,16 +65,15 @@ var Script=require('react-load-script');
               <div className="navbar-left mr-4">
                 <button className="navbar-toggler" type="button">&#9776;</button>
                 <a className="navbar-brand" href="/#/Services">
-                  <img className="logo-dark" src="assets/img/logo-dark.png" alt="logo"/>
-                  <img className="logo-light" src="assets/img/logo-light.png" alt="logo"/>
+                  <img className="logo-dark" src={this.state.headerLogo} alt="logo"/>
                 </a>
               </div>
 
               <section className="navbar-mobile">
                 <nav className="nav nav-navbar mr-auto">
-                  <a className="nav-link active" href="/#/Services">Services</a>
-                  <a className="nav-link" href="#">Invoices</a>
-                  <a className="nav-link" href="#">Payments</a>
+                  <a className="nav-link active" href="/#/Services">Subscriptions</a>
+                  <a className="nav-link" href="/#/Services">Invoices</a>
+                  <a className="nav-link" href="/#/Services">Payments</a>
                 </nav>
 
                 <div className="dropdown ml-lg-5">
@@ -77,7 +84,6 @@ var Script=require('react-load-script');
                   <div className="dropdown-menu dropdown-menu-right">
                     <a className="dropdown-item" href="/#/Profile">Profile</a>
                     <a className="dropdown-item" href="/#/ChangePassword">ChangePassword</a>
-                    <a className="dropdown-item" href="/#/">Settings</a>
                     <div className="dropdown-divider"></div>
                     <a className="dropdown-item" onClick={() => this.logout()} style={{cursor: 'pointer'}}>Logout</a>
                   </div>

@@ -18,12 +18,20 @@ class Register extends React.Component {
                 super();
 				this.register=this.register.bind(this);
 				this.state={errRegMessageHeader: '', errRegMessageBody: ''};
+				document.addEventListener('keypress', (event) => {
+					const keyName = event.key;
+					if(keyName === 'Enter'){
+						this.register();
+					}
+				});
             }
 			
 			componentDidMount(){
 				document.getElementById("unsuccregister").style.display = 'none';
 			}
-			
+			componentWillMount(){
+				
+			}
 			register(){
 				var me=this;
 			    var url = 'https://billing-api.vapour-apps.com/va_saas/users/';
