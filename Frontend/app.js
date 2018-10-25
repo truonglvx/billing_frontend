@@ -22,13 +22,14 @@ var TermsOfService = require('./TermsOfService');
 var ChangePassword = require('./ChangePassword');
 var SuccessRegister = require('./SuccessRegister');
 var Profile = require('./Profile');
+var ForgotPassword = require('./ForgotPassword');
 
 var App = React.createClass({
  render: function() {
    return (
        <HashRouter>
            <div>
-               		   <Route exact path='/' component={Main}/>
+			   <Route exact path='/' component={Main}/>
 			   
 			   <Route path="/Features" component={Features}/>
 			   
@@ -48,6 +49,7 @@ var App = React.createClass({
 			   
 			   <Route path='/Profile' component={Profile}/>
 			   
+			   <Route path='/ForgotPassword' component={ForgotPassword}/>
 			</div>
         </HashRouter>
     );

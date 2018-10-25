@@ -14,7 +14,11 @@ var ServicesPageBlock1=require('./ServicesPageBlock1');
 var ServicesPageBlock2=require('./ServicesPageBlock2');
 var ServicesPageBlock3=require('./ServicesPageBlock3');
 var FooterTwo=require('./FooterTwo');
-var Script=require('react-load-script');
+var StepZilla=require('react-stepzilla').default;
+const steps=[
+				{name: 'Step 1', component: <ServicesPageBlock1 />},
+				{name: 'Step 2', component: <ServicesPageBlock2 />}
+			];
 
 class AddNewService extends React.Component {
             
@@ -25,14 +29,20 @@ class AddNewService extends React.Component {
 			render() {
                 return (
 				
-				<div>
-				
-				<NavbarTwo />
-				<ServicesPageBlock1 />
-				<ServicesPageBlock2 />
-				<br/><br/>
-				<FooterTwo />
-                </div>);
+			<div>
+					<NavbarTwo />
+					<br/><br/><br/><br/><br/>
+					<div className="col-md-offset-2 col-md-8">
+						<div className='step-progress'>
+							<StepZilla steps={steps} onStepChange={(step) => console.log(step)}/>
+						</div>
+					</div>
+					<br/><br/><br/><br/><br/><br/><br/>
+					<br/><br/><br/><br/><br/><br/><br/>
+					<br/><br/><br/><br/><br/><br/><br/>
+					<br/><br/><br/><br/><br/><br/><br/>
+					<FooterTwo />
+            </div>);
             }
         }
 

@@ -95,7 +95,7 @@ class Login extends React.Component {
   			</div>
 			<div style={{clear: 'both'}}>
 				<button type="submit" className="btn btn-large btn-default" onClick={() => this.login()} style={{float: 'left'}}>Sign in</button>
-				<a href="/" style={{color: 'red', float: 'right'}}>Forgot password?</a>
+				<a href="/#/ForgotPassword" style={{color: 'red', float: 'right'}}>Forgot password?</a>
 			</div>
 		</div>
 	</div>
