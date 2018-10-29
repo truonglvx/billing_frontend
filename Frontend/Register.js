@@ -2,9 +2,6 @@
  * Created by mnace on 8/7/2018.
  */
 var $ = require('./assets/js/jquery.min');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 var classNameNames=require('classnames');
@@ -17,7 +14,7 @@ class Register extends React.Component {
 			constructor(){
                 super();
 				this.register=this.register.bind(this);
-				this.state={errRegMessageHeader: '', errRegMessageBody: ''};
+				this.state={errRegMessageHeader: '', errRegMessageBody: '', confFile: require('./backend.json')};
 				document.addEventListener('keypress', (event) => {
 					const keyName = event.key;
 					if(keyName === 'Enter'){
@@ -34,7 +31,7 @@ class Register extends React.Component {
 			}
 			register(){
 				var me=this;
-			    var url = 'https://billing-api.vapour-apps.com/va_saas/users/';
+			    var url = me.state.confFile.url + '/va_saas/users/';
 				var InputEmail=document.getElementById("InputEmail").value;
 				var InputPassword=document.getElementById("InputPassword").value;
 				var InputConfirmPassword=document.getElementById("InputConfirmPassword").value;

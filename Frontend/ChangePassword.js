@@ -20,7 +20,7 @@ class ChangePassword extends React.Component {
             
 			constructor(){
                 super();
-				this.state={currentUsername: '', message: ''};
+				this.state={currentUsername: '', message: '', confFile: require('./backend.json')};
 				this.changePassword=this.changePassword.bind(this);
 				document.addEventListener('keypress', (event) => {
 					const keyName = event.key;
@@ -34,7 +34,7 @@ class ChangePassword extends React.Component {
 				var me=this;
 				document.getElementById("triger").style.display = 'none';
 				var token=localStorage.getItem("token");
-				fetch('https://billing-api.vapour-apps.com/va_saas/get-user/', {
+				fetch(me.state.confFile.url+'/va_saas/get-user/', {
  				method: 'GET',
   				headers:{
 						'Authorization' : 'JWT ' +token,
@@ -52,7 +52,7 @@ class ChangePassword extends React.Component {
 			changePassword(){
 				var me=this;
 				console.log('Password change');
-				var url = 'https://billing-api.vapour-apps.com/va_saas/change_user_password/';
+				var url = me.state.confFile.url+'/va_saas/change_user_password/';
 				var InputOldPassword=document.getElementById("InputOldPassword").value;
 				var InputNewPassword=document.getElementById("InputNewPassword").value;
 			    var data = {"old_password" : InputOldPassword, "new_password" : InputNewPassword, "username": me.state.currentUsername};

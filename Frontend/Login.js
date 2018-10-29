@@ -2,9 +2,6 @@
  * Created by mnace on 8/7/2018.
  */
 var $ = require('./assets/js/jquery.min');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 var classNameNames=require('classnames');
@@ -16,7 +13,7 @@ class Login extends React.Component {
             
 			constructor(){
                 super();
-				this.state={previouslyClicked: false};
+				this.state={previouslyClicked: false, confFile: require('./backend.json')};
 				this.login=this.login.bind(this);
 				this.handleNotificationClose=this.handleNotificationClose.bind(this);
 				document.addEventListener('keypress', (event) => {
@@ -40,7 +37,7 @@ class Login extends React.Component {
 			
 			login(){
 				var me=this;
-			    var url = 'https://billing-api.vapour-apps.com/va_saas/token-auth/';
+			    var url = me.state.confFile.url + '/va_saas/token-auth/';
 				var InputUsername=document.getElementById("InputUsername").value;
 				var InputPassword=document.getElementById("InputPassword").value;
 			    var data = {"username" : InputUsername, "password" : InputPassword};

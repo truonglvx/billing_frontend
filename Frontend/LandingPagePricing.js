@@ -2,9 +2,6 @@
  * Created by mnace on 8/2/2017.
  */
 var $ = require('jquery');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 var classNames=require('classnames');
@@ -15,7 +12,7 @@ var Icons=require('glyphicons');
         class LandingPagePricing extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {pricingHeader: '', pricingDetails: ''};
+                this.state = {pricingHeader: '', pricingDetails: '', confFile: require('./backend.json')};
             }
 			textChange1(){
 				document.getElementsByClassName("tekst")[0].textContent="Monthly";
@@ -34,7 +31,7 @@ var Icons=require('glyphicons');
 		componentDidMount(){
 		var me=this;
 
-		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPagePricing/?company_name=VapourApps')
+		fetch(me.state.confFile.url + '/va_saas/getCompanyPagePricing/?company_name=VapourApps')
   		.then(function(response) {
     			return response.json();
  		 })
@@ -75,7 +72,7 @@ var Icons=require('glyphicons');
 
                 <div className="col-md-6">
                   <div className="card text-center shadow-1 hover-shadow-9">
-                    <div className="card-img-top text-white bg-img h-200 d-flex align-items-center" style={{backgroundImage: 'url(../assets/img/thumb/3.jpg)', dataOverlay: 1}}>
+                    <div className="card-img-top text-white bg-img h-200 d-flex align-items-center" style={{backgroundImage: 'url(../assets/img/13.jpg)', dataOverlay: 1}}>
                       <div className="position-relative w-100">
                         <p className="lead-4 text-uppercase fw-600 ls-1 mb-0">Starter</p>
                         <p><span className="tekst" data-bind-radio="pricing-6" data-monthly="Monthly" data-yearly="Yearly">Monthly</span> Package</p>
@@ -93,7 +90,7 @@ var Icons=require('glyphicons');
                       </p>
                       <br/>
                       <div>
-                        <a className="btn btn-round btn-outline-secondary w-200" href="#" data-bind-href="pricing-6" data-monthly="#monthly" data-yearly="#yearly">Sign up</a>
+                        <a className="btn btn-round btn-outline-secondary w-200" href="/#/Register" data-bind-href="pricing-6" data-monthly="#monthly" data-yearly="#yearly">Sign up</a>
                       </div>
                     </div>
                   </div>
@@ -101,7 +98,7 @@ var Icons=require('glyphicons');
 
                 <div className="col-md-6">
                   <div className="card text-center shadow-1 hover-shadow-9">
-                    <div className="card-img-top text-white bg-img h-200 d-flex align-items-center" style={{backgroundImage: 'url(../assets/img/thumb/11.jpg)', dataOverlay: 2}}>
+                    <div className="card-img-top text-white bg-img h-200 d-flex align-items-center" style={{backgroundImage: 'url(../assets/img/23.jpg)', dataOverlay: 2}}>
                       <div className="position-relative w-100">
                         <p className="lead-4 text-uppercase fw-600 ls-1 mb-0">Business</p>
                         <p><span className="tekst" data-bind-radio="pricing-6" data-monthly="Monthly" data-yearly="Yearly">Monthly</span> Package</p>
@@ -119,7 +116,7 @@ var Icons=require('glyphicons');
                       </p>
                       <br/>
                       <div>
-                        <a className="btn btn-round btn-secondary w-200" href="#" data-bind-href="pricing-6" data-monthly="#monthly" data-yearly="#yearly">Sign up</a>
+                        <a className="btn btn-round btn-secondary w-200" href="/#/Register" data-bind-href="pricing-6" data-monthly="#monthly" data-yearly="#yearly">Sign up</a>
                       </div>
                     </div>
                   </div>

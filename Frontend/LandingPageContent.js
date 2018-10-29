@@ -2,9 +2,6 @@
  * Created by mnace on 8/2/2017.
  */
 var $ = require('jquery');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 var classNames=require('classnames');
@@ -15,14 +12,14 @@ var Icons=require('glyphicons');
         class LandingPageContent extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {landingHeader:'', landingText:'', landingImageURL:''};
+                this.state = {landingHeader:'', landingText:'', landingImageURL:'', confFile: require('./backend.json')};
 
             }
 	    
 	    componentDidMount(){
 		var me=this;
 
-		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+		fetch(me.state.confFile.url + '/va_saas/getCompanyPageLanding/?company_name=VapourApps')
   		.then(function(response) {
     			return response.json();
  		 })

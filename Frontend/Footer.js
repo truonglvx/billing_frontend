@@ -2,13 +2,11 @@
  * Created by mnace on 8/2/2017.
  */
 var $ = require('./assets/js/jquery.min');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 var classNames=require('classnames');
 var Icons=require('glyphicons');
+const Link = require('react-router-hash-link').HashLink;
 
 
 
@@ -16,7 +14,7 @@ var Icons=require('glyphicons');
             constructor(props) {
                 super(props);
                 this.state = {footerLogo: '', footerText: '', footerFacebook: '',
-			      footerTwitter: '', footerYoutube: '', footerInstagram: ''};
+			      footerTwitter: '', footerYoutube: '', footerInstagram: '', confFile: require('./backend.json')};
 
             }
 	
@@ -24,7 +22,7 @@ var Icons=require('glyphicons');
 	    componentDidMount(){
 		var me=this;
 
-		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+		fetch(me.state.confFile.url + '/va_saas/getCompanyPageLanding/?company_name=VapourApps')
   		.then(function(response) {
     			return response.json();
  		 })
@@ -37,9 +35,6 @@ var Icons=require('glyphicons');
 				     footerYoutube: response.footer_youtube,
 				     footerInstagram: response.footer_instagram});
   		});
-	
-		var markdown = require( "markdown" ).markdown;
-console.log(markdown.toHTML( "Hello *World*!" ) );
 	    
             }
 
@@ -58,7 +53,7 @@ console.log(markdown.toHTML( "Hello *World*!" ) );
             <div className="col-6 col-md-3 col-xl-2">
               <h6 className="mb-4 mt-1"><strong>Company</strong></h6>
               <div className="nav flex-column">
-                <a className="nav-link" href="/#/">About</a>
+                <a className="nav-link" href="/#/Features">About</a>
                 <a className="nav-link" href="/#/">Careers</a>
                 <a className="nav-link" href="/#/">Contact</a>
               </div>
@@ -67,8 +62,8 @@ console.log(markdown.toHTML( "Hello *World*!" ) );
             <div className="col-6 col-md-3 col-xl-2">
               <h6 className="mb-4 mt-1"><strong>Product</strong></h6>
               <div className="nav flex-column">
-                <a className="nav-link" href="/#/">Features</a>
-                <a className="nav-link" href="/#/">Pricing</a>
+			  	<Link id="linkFeatures" className="nav-link" to="Features/#features">Features</Link>
+				<Link id="linkPricing" className="nav-link" to="/#pricing">Pricing</Link>
                 <a className="nav-link" href="/#/TermsOfService">Terms of service</a>
               </div>
             </div>
@@ -78,7 +73,7 @@ console.log(markdown.toHTML( "Hello *World*!" ) );
               <div className="nav flex-column">
                 <a className="nav-link" href="/#/">Help Center</a>
                 <a className="nav-link" href="/#/">API</a>
-                <a className="nav-link" href="/#/">Privacy policy</a>
+                <a className="nav-link" href="/#/PrivacyPolicy">Privacy policy</a>
               </div>
             </div>
 

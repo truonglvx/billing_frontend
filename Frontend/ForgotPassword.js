@@ -13,7 +13,7 @@ class ForgotPassword extends React.Component {
             
 			constructor(){
                 super();
-				this.state={previouslyClicked: false};
+				this.state={previouslyClicked: false, confFile: require('./backend.json')};
 				this.forgotPassword=this.forgotPassword.bind(this);
 				document.addEventListener('keypress', (event) => {
 					const keyName = event.key;
@@ -33,7 +33,7 @@ class ForgotPassword extends React.Component {
 			forgotPassword(){
 				console.log('ForgotPassword');
 				var me=this;
-			    var url = 'https://billing-api.vapour-apps.com/va_saas/forgot_password';
+			    var url = me.state.confFile.url+ '/va_saas/forgot_password';
 				var InputEmail=document.getElementById("InputEmail").value;
 			    var data = {"email" : InputEmail};
 			    console.log(data);

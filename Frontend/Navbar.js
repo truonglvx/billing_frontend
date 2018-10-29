@@ -2,9 +2,6 @@
  * Created by mnace on 7/28/2017.
  */
 var $ = require('./assets/js/jquery.min');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 const Link = require('react-router-hash-link').HashLink;
@@ -13,17 +10,16 @@ var Icons=require('glyphicons');
 var Script=require('react-load-script');
 
 
-        class Navbar extends React.Component {
+class Navbar extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {headerLogo: ''};
-
+                this.state = {headerLogo: '', confFile: require('./backend.json')};
             }
 	
 	componentDidMount(){
 		var me=this;
 
-		fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+		fetch(me.state.confFile.url + '/va_saas/getCompanyPageLanding/?company_name=VapourApps')
   		.then(function(response) {
     			return response.json();
  		 })
@@ -37,10 +33,9 @@ var Script=require('react-load-script');
 		console.log('RRRR');
 	}
 
-          render() {
+   render() {
     return (
         <div>
-			
 			<div className="demo-navbar">
 		<nav className="navbar navbar-expand-lg navbar-dark">
             <div className="container">

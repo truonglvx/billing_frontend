@@ -2,9 +2,6 @@
  * Created by mnace on 8/2/2017.
  */
 var $ = require('jquery');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 var classNames=require('classnames');
@@ -20,7 +17,7 @@ var Icons=require('glyphicons');
             }
           render() {
     return (
-        <div>
+        <div id="features">
 	<div className="row">
 	<div className="col-md-8 col-md-offset-2">
 	  <section className="section">

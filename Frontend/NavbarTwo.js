@@ -2,9 +2,6 @@
  * Created by mnace on 7/28/2017.
  */
 var $ = require('./assets/js/jquery.min');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 var className=require('classnames');
@@ -15,13 +12,13 @@ var Script=require('react-load-script');
         class NavbarTwo extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = {username: '', headerLogo: ''};
+                this.state = {username: '', headerLogo: '', confFile: require('./backend.json')};
 				this.logout=this.logout.bind(this);
 
             }
 			componentDidMount(){
 				var me=this;
-				fetch('https://billing-api.vapour-apps.com/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+				fetch(me.state.confFile.url + '/va_saas/getCompanyPageLanding/?company_name=VapourApps')
 				.then(function(response) {
 					return response.json();
 				})
@@ -30,7 +27,7 @@ var Script=require('react-load-script');
 					me.setState({headerLogo: response.header_logo});
 				});
 				var token=localStorage.getItem("token");
-				fetch('https://billing-api.vapour-apps.com/va_saas/get-user', {
+				fetch(me.state.confFile.url + '/va_saas/get-user', {
  				method: 'GET',
   				headers:{
     					'Authorization' : 'JWT ' +token,
@@ -84,6 +81,7 @@ var Script=require('react-load-script');
                   <div className="dropdown-menu dropdown-menu-right">
                     <a className="dropdown-item" href="/#/Profile">Profile</a>
                     <a className="dropdown-item" href="/#/ChangePassword">ChangePassword</a>
+					<a className="dropdown-item" href="/#/Services">Help center</a>
                     <div className="dropdown-divider"></div>
                     <a className="dropdown-item" onClick={() => this.logout()} style={{cursor: 'pointer'}}>Logout</a>
                   </div>

@@ -2,9 +2,6 @@
  * Created by mnace on 9/4/2018.
  */
 var $ = require('./assets/js/jquery.min');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var React=require('react');
 var ReactDOM=require('react-dom');
 var classNameNameNames=require('classnames');

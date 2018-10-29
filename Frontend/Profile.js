@@ -2,9 +2,6 @@
  * Created by mnace on 10/21/2018.
  */
 var $ = require('./assets/js/jquery.min');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
 var Bootstrap=require('react-bootstrap');
 var React=require('react');
 var ReactDOM=require('react-dom');
@@ -19,13 +16,13 @@ class Profile extends React.Component {
 			constructor(){
                     super();
 					this.changePassword=this.changePassword.bind(this);
-					this.state={username: '', firstName: '', lastName:'', email: '', message: ''};
+					this.state={username: '', firstName: '', lastName:'', email: '', message: '', confFile: require('./backend.json')};
             }
 			componentDidMount(){
 				document.getElementById("triger").style.display = 'none';
 				var me=this;
 				var token=localStorage.getItem("token");
-				fetch('https://billing-api.vapour-apps.com/va_saas/get-user', {
+				fetch(me.state.confFile.url + '/va_saas/get-user', {
  				method: 'GET',
   				headers:{
     					'Authorization' : 'JWT ' +token,
@@ -46,7 +43,7 @@ class Profile extends React.Component {
 			changePassword(){
 				var me=this;
 				console.log('Password change');
-				var url = 'https://billing-api.vapour-apps.com/va_saas/change_user_password/';
+				var url = me.state.confFile.url + '/va_saas/change_user_password/';
 				var InputOldPassword=document.getElementById("InputOldPassword").value;
 				var InputNewPassword=document.getElementById("InputNewPassword").value;
 			    var data = {"old_password" : InputOldPassword, "new_password" : InputNewPassword, "username": this.state.username};
