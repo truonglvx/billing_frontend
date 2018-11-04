@@ -2,9 +2,7 @@
  * Created by mnace on 8/7/2018.
  */
 var $ = require('./assets/js/jquery.min');
-var Backbone = require('backbone');
-Backbone.$ = $;
-module.exports = Backbone;
+var queryString = require('query-string');
 var React=require('react');
 var ReactDOM=require('react-dom');
 var classNames=require('classnames');
@@ -23,7 +21,19 @@ class Features extends React.Component {
                 this.state = {headerLogo: ''};
 
             }
-	
+			scrollToFeatures(){
+				document.getElementById("features").scrollIntoView();
+			}
+			componentDidMount() {
+				var me=this;
+				const urlParams = this.props.location.search;
+				const parsed = queryString.parse(urlParams);
+				if(parsed.features == 'true'){
+				setTimeout(function(){ 
+					me.scrollToFeatures(); 
+				}, 500);
+				}
+			}
 
 			render() {
                 return (

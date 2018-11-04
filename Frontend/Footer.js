@@ -18,7 +18,35 @@ const Link = require('react-router-hash-link').HashLink;
 
             }
 	
-	    
+	    redirectAbout(){
+			document.location.replace("/#/Features");
+			document.location.reload(true);
+		}
+		
+		redirectRegister(){
+			document.location.replace("/#/Register");
+			document.location.reload(true);
+		}
+		redirectPricing(){
+			document.location.replace("/#/?pricing=true");
+			document.location.reload(true);
+			//location.href = '/#/?pricing=true';
+			//this.props.pricing();
+		}
+		
+		redirectFeatures(){
+			document.location.replace("/#/Features?features=true");
+			document.location.reload(true);
+		}
+		redirectTermsOfService(){
+			document.location.replace("/#/TermsOfService");
+			document.location.reload(true);
+		}
+		
+		redirectPrivacyPolicy(){
+			document.location.replace("/#/PrivacyPolicy");
+			document.location.reload(true);
+		}
 	    componentDidMount(){
 		var me=this;
 
@@ -51,34 +79,34 @@ const Link = require('react-router-hash-link').HashLink;
             </div>
 
             <div className="col-6 col-md-3 col-xl-2">
-              <h6 className="mb-4 mt-1"><strong>Company</strong></h6>
+              <h6 className="mb-4 mt-1"><strong>Vapour Apps</strong></h6>
               <div className="nav flex-column">
-                <a className="nav-link" href="/#/Features">About</a>
-                <a className="nav-link" href="/#/">Careers</a>
-                <a className="nav-link" href="/#/">Contact</a>
+                <a className="nav-link" onClick={() => this.redirectAbout()} style={{cursor: 'pointer'}}>About</a>
+                <a className="nav-link" href="/">Careers</a>
+                <a className="nav-link" href="/">Contact</a>
               </div>
             </div>
 
             <div className="col-6 col-md-3 col-xl-2">
               <h6 className="mb-4 mt-1"><strong>Product</strong></h6>
               <div className="nav flex-column">
-			  	<Link id="linkFeatures" className="nav-link" to="Features/#features">Features</Link>
-				<Link id="linkPricing" className="nav-link" to="/#pricing">Pricing</Link>
-                <a className="nav-link" href="/#/TermsOfService">Terms of service</a>
+			  	<a className="nav-link" onClick={() => this.redirectFeatures()} style={{cursor: 'pointer'}}>Features</a>
+				<a className="nav-link" onClick={() => this.redirectPricing()} style={{cursor: 'pointer'}}>Pricing</a>
+                <a className="nav-link" onClick={() => this.redirectTermsOfService()} style={{cursor: 'pointer'}}>Terms of service</a>
               </div>
             </div>
 
             <div className="col-6 col-md-6 col-xl-2">
               <h6 className="mb-4 mt-1"><strong>Support</strong></h6>
               <div className="nav flex-column">
-                <a className="nav-link" href="/#/">Help Center</a>
-                <a className="nav-link" href="/#/">API</a>
-                <a className="nav-link" href="/#/PrivacyPolicy">Privacy policy</a>
+                <a className="nav-link" href="/">Help Center</a>
+                <a className="nav-link" href="/">API</a>
+                <a className="nav-link" onClick={() => this.redirectPrivacyPolicy()} style={{cursor: 'pointer'}}>Privacy policy</a>
               </div>
             </div>
 
             <div className="col-6 col-md-6 col-xl-2 text-center">
-              <p><a className="btn btn-block btn-round btn-primary" href="/#/Register">Sign up</a></p>
+              <p><a className="btn btn-block btn-round btn-primary"  onClick={() => this.redirectRegister()}>Sign up</a></p>
               <br/>
               <div className="social social-bordered">
                 <a className="social-facebook" href={this.state.footerFacebook}><i className="fa fa-facebook"></i></a>

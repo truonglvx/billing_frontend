@@ -22,6 +22,7 @@
     "jquery-migrate": "^3.0.1",
     "markdown": "^0.5.0",
     "network": "^0.3.2",
+    "query-string": "^6.2.0",
     "react": "^15.6.2",
     "react-bootstrap": "^0.31.5",
     "react-bootstrap-multiselect": "^2.4.1",

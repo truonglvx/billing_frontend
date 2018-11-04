@@ -5,6 +5,7 @@ var $ = require('./assets/js/jquery.min');
 var React=require('react');
 var ReactDOM=require('react-dom');
 const Link = require('react-router-hash-link').HashLink;
+const Redirect = require('react-router-dom').Redirect
 var classNameNameNames=require('classnames');
 var Icons=require('glyphicons');
 var Script=require('react-load-script');
@@ -29,6 +30,25 @@ class Navbar extends React.Component {
   		});
 	    
             }
+	redirectAbout(){
+		document.location.replace("/#/Features");
+		document.location.reload(true);
+	}
+	
+	redirectLogin(){
+		document.location.replace("/#/Login");
+		document.location.reload(true);
+	}
+	redirectRegister(){
+		document.location.replace("/#/Register");
+		document.location.reload(true);
+	}
+	redirectPricing(){
+		document.location.replace("/#/?pricing=true");
+		document.location.reload(true);
+		//location.href = '/#/?pricing=true';
+		//this.props.pricing();
+	}
 	displayR(){
 		console.log('RRRR');
 	}
@@ -50,15 +70,15 @@ class Navbar extends React.Component {
 
               <section className="navbar-mobile">
                 <nav className="nav nav-navbar mr-auto">
-                  <a className="nav-link active" href="/#/">Home</a>
-                  <a className="nav-link" href="/#/Features">About</a>
-                  <Link id="linkPricing" className="nav-link" to="/#pricing">Pricing</Link>
-                  <a className="nav-link" href="/#/">Contact</a>
+                  <a className="nav-link active" href="/">Home</a>
+                  <a className="nav-link" onClick={() => this.redirectAbout()} style={{cursor: 'pointer'}}>About</a>
+				  <a className="nav-link" onClick={() => this.redirectPricing()} style={{cursor: 'pointer'}}>Pricing</a>
+                  <a className="nav-link" href="/">Contact</a>
                 </nav>
 
                 <div>
-                  <a className="btn btn-sm btn-light ml-lg-5 mr-2" href="/#/Login">Login</a>
-                  <a className="btn btn-sm btn-success" href="/#/Register">Sign up</a>
+                  <button className="btn btn-sm btn-light ml-lg-5 mr-2" onClick={() => this.redirectLogin()}>Login</button>
+                  <button className="btn btn-sm btn-success" onClick={() => this.redirectRegister()}>Sign up</button>
                 </div>
               </section>
 			
