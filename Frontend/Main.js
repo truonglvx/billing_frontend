@@ -31,7 +31,6 @@ class Main extends React.Component {
 				var me=this;
 				const urlParams = this.props.location.search;
 				const parsed = queryString.parse(urlParams);
-				console.log(parsed.pricing);
 				if(parsed.pricing == 'true'){
 				setTimeout(function(){ 
 					me.update(); 

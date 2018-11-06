@@ -8,8 +8,6 @@ var classNames=require('classnames');
 var Icons=require('glyphicons');
 var NavbarTwo=require('./NavbarTwo');
 var ServicesPageBlock1=require('./ServicesPageBlock1');
-var ServicesPageBlock2=require('./ServicesPageBlock2');
-var ServicesPageBlock3=require('./ServicesPageBlock3');
 var FooterTwo=require('./FooterTwo');
 
 class Services extends React.Component {
@@ -25,7 +23,7 @@ class Services extends React.Component {
 				
 				<NavbarTwo />
 				<br/><br/><br/><br/>
-				<ServicesPageBlock3 />
+				<ServicesPageBlock1 />
 				<br/><br/>
 				<FooterTwo />
                 </div>);

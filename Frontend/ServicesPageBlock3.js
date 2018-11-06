@@ -1,130 +1,167 @@
 /**
- * Created by mnace on 9/4/2018.
+ * Created by mnace on 8/7/2018.
  */
 var $ = require('./assets/js/jquery.min');
-var React=require('react');
-var ReactDOM=require('react-dom');
-var classNameNameNames=require('classnames');
-var Icons=require('glyphicons');
-var Script=require('react-load-script');
+var React = require('react');
+var ReactDOM = require('react-dom');
+var classNames = require('classnames');
+var Icons = require('glyphicons');
+var Script = require('react-load-script');
 
 class ServicesPageBlock3 extends React.Component {
-            
-			constructor(){
-                    super();
-					this.state={subscriptions: [], confFile: require('./backend.json'),};
-					this.addNewSubscription=this.addNewSubscription.bind(this);
-            }
-			addNewSubscription(){
-				location.href = '/#/AddNewService';
-			}
-			
-			getAllSubscriptions(){
-				var me=this;
-				var token=localStorage.getItem("token");
-				var url=me.state.confFile.url + '/va_silver/get_subscriptions/';
-				fetch(url, {
- 				method: 'GET',
-  				headers:{
-						'Authorization' : 'JWT ' +token,
-    					'Content-Type': 'application/json'
-  					}
-				})
-				.then(function(response) {
-					return response.json();
-				})
-				.then(function(myJson) {
-					var response=myJson;
-					console.log('Fetching');
-					console.log(response);
-					me.setState({subscriptions: response.data});
-				});
-			}
-			showMeta(object){
-				var array = [];
-				var keys=Object.getOwnPropertyNames(object);
-				var values=Object.values(object);
-				if(values.length > 0){
-				for(var j=0;j<keys.length-1;j++){
-					array.push(<span key={j+1}>{keys[j]}: {values[j]}, </span>);
-				}
-				array.push(<span key={keys.length}>{keys[keys.length-1]}: {values[keys.length-1]} </span>);
-				console.log(array);
-				return (<small>{array}</small>);
-				}
-			}
-			showSubscriptions(){
-				var me=this;
-				var indents = [];
-				for (var i = 0; i < this.state.subscriptions.length; i++) {
-					indents.push(
-					<div className="media-list-body bg-white b-1" key={i+1}>
 
-						<div className="media align-items-center" style={{paddingLeft: '10px'}}>
-							<button type="button" className="close">
-								<span style={{fontSize: '35px', marginRight: '30px'}}>&times;</span>
-							</button>
+    constructor() {
+        super();
+    }
 
-							<a className="media-body text-truncate" href="#" data-toggle="quickview">
-								<h2 style={{fontWeight: 'bold'}}>{this.state.subscriptions[i].description} (Start date: {this.state.subscriptions[i].start_date}, End date: {this.state.subscriptions[i].ended_at}, Status: {this.state.subscriptions[i].state})</h2>
-								<small>Company: {this.state.subscriptions[i].company}, Plan: {this.state.subscriptions[i].plan_name}</small>
-								<br/>
-								{this.showMeta(this.state.subscriptions[i].meta)}
-							</a>
+    render() {
+        return (
 
-							<span className="lead text-fade mr-25" title="" data-provide="tooltip" data-original-title="Balance" style={{fontSize: '20px'}}>{parseFloat(this.state.subscriptions[i].amount).toFixed(2)} {this.state.subscriptions[i].currency}</span>
-						</div>
+            <div>
+                <main className="main-content">
 
-					</div>);
-				}
-				
-				if(me.state.subscriptions.length > 0){
-					return(
-					<div>
-						<div className="row">
-							<div className="col-md-8 col-md-offset-2 main-content">
+                    <section className="section">
+                        <div className="container">
 
-								<div className="media-list media-list-divided media-list-hover" data-provide="selectall">
-									<div>
-											<div className="lookup lookup-circle lookup-right"></div>
-									</div>
-									{indents}
-									<footer className="flexbox align-items-center py-20">
-										<span className="flex-grow text-right text-lighter pr-2">1-10 of 1,853</span>
-										<nav>
-											<a className="btn btn-sm btn-square disabled" href="#"><i className="ti-angle-left"></i></a>
-											<a className="btn btn-sm btn-square" href="#"><i className="ti-angle-right"></i></a>
-										</nav>
-									</footer>
+                            <div className="col-lg-8">
 
-								</div>
-							</div>
+                                <table className="table table-cart">
+                                    <tbody style={{ vAlign: 'middle' }}>
+                                        <tr>
+                                            <td>
+                                                <a className="item-remove" href="#"><i className="ti-close"></i></a>
+                                            </td>
 
-						</div>
-						
-						<br/>
-						<br/>
-						<div className="row">
-							<div className="col-md-10 text-md-right">
-								<button type="button" className="btn btn-xl btn-success" onClick={()=> this.addNewSubscription()}>
-									Add new subscription
-								</button>
-							</div>
-						</div>
-					</div>
-					);
-				}
-			}
-			
-			componentWillMount(){
-				this.getAllSubscriptions();
-			}
-			render() {
-                return (
-				<div>
-				{this.showSubscriptions()}
-                </div>);
-            }
-        }
+                                            <td>
+                                                <a href="item.html">
+                                                    <img className="rounded" src="assets/img/shop/10.jpg" alt="..." />
+                                                </a>
+                                            </td>
 
-        module.exports = ServicesPageBlock3;
+                                            <td>
+                                                <h4>Apple EarPods</h4>
+                                                <p style={{ fontSize: '0.9em' }}>White and wireless</p>
+                                            </td>
+
+                                            <td>
+                                                <label>Quantity</label>
+                                                <input className="form-control form-control-lg" type="text" placeholder="Quantity" defaultValue="1" />
+                                            </td>
+
+                                            <td>
+                                                <h2 className="price">$160</h2>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <a className="item-remove" href="#"><i className="ti-close"></i></a>
+                                            </td>
+
+                                            <td>
+                                                <a href="item.html">
+                                                    <img className="rounded" src="assets/img/shop/11.jpg" alt="..." />
+                                                </a>
+                                            </td>
+
+                                            <td>
+                                                <h4>Beats On-Ear Headphones</h4>
+                                                <p style={{ fontSize: '0.9em' }}>Gold color</p>
+                                            </td>
+
+                                            <td>
+                                                <label>Quantity</label>
+                                                <input className="form-control form-control-lg" type="text" placeholder="Quantity" defaultValue="1" />
+                                            </td>
+
+                                            <td>
+                                                <h2 className="price">$299</h2>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <a className="item-remove" href="#"><i className="ti-close"></i></a>
+                                            </td>
+
+                                            <td>
+                                                <a href="item.html">
+                                                    <img className="rounded" src="assets/img/shop/12.jpg" alt="..." />
+                                                </a>
+                                            </td>
+
+                                            <td>
+                                                <h4>Sony PlayStation 4</h4>
+                                                <p style={{ fontSize: '0.9em' }}>Includes FIFA 2018</p>
+                                            </td>
+
+                                            <td>
+                                                <label>Quantity</label>
+                                                <input className="form-control form-control-lg" type="text" placeholder="Quantity" defaultValue="1" />
+                                            </td>
+
+                                            <td>
+                                                <h2 className="price">$224</h2>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                            <div className="col-lg-4">
+                                <div className="cart-price">
+                                    <div className="flexbox">
+                                        <div>
+                                            <p><strong>Subtotal:</strong></p>
+                                            <p><strong>Shipping:</strong></p>
+                                            <p><strong>Tax (%10):</strong></p>
+                                        </div>
+
+                                        <div>
+                                            <p>$683</p>
+                                            <p>$39</p>
+                                            <p>$68</p>
+                                        </div>
+                                    </div>
+
+                                    <hr />
+
+                                    <div className="flexbox">
+                                        <div>
+                                            <p><strong>Total:</strong></p>
+                                        </div>
+
+                                        <div>
+                                            <p className="fw-600">$790</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="row">
+                                    <div className="col-6">
+                                        <a className="btn btn-block btn-secondary" href="#">Shop more</a>
+                                    </div>
+
+                                    <div className="col-6">
+                                        <button className="btn btn-block btn-primary" type="submit">Proceed <i className="ti-angle-right fs-9"></i></button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                    </section>
+
+                </main>
+            </div>);
+    }
+}
+
+module.exports = ServicesPageBlock3;

@@ -1,167 +1,156 @@
 /**
- * Created by mnace on 8/7/2018.
+ * Created by mnace on 11/6/2018.
  */
 var $ = require('./assets/js/jquery.min');
-var React=require('react');
-var ReactDOM=require('react-dom');
-var classNames=require('classnames');
-var Icons=require('glyphicons');
-var Script=require('react-load-script');
+var React = require('react');
+var ReactDOM = require('react-dom');
+var classNameNames = require('classnames');
+var Icons = require('glyphicons');
+var Script = require('react-load-script');
 
 class ServicesPageBlock2 extends React.Component {
-            
-			constructor(){
-                    super();
-            }
-			
-			render() {
-                return (
-				
-				<div>
-<main className="main-content">
 
-      <section className="section">
-        <div className="container">
+    constructor(props) {
+        super(props);
+        this.state = { confFile: require('./backend.json'), plans: [], plansTemp: [], selectedPlanIndex: '', selectedPlan: {} };
+        this.selectPlan = this.selectPlan.bind(this);
+    }
 
-            <div className="col-lg-8">
+    getMonthlyPlans() {
+        var me = this;
+        var newArray = me.state.plans.filter(function (el) {
+            return el.interval == 'month';
+        });
+        me.setState({ plansTemp: newArray });
+    }
 
-              <table className="table table-cart">
-                <tbody style={{vAlign: 'middle'}}>
-                  <tr>
-                    <td>
-                      <a className="item-remove" href="#"><i className="ti-close"></i></a>
-                    </td>
+    getYearlyPlans() {
+        var me = this;
+        var newArray = me.state.plans.filter(function (el) {
+            return el.interval == 'year';
+        });
+        me.setState({ plansTemp: newArray });
+    }
 
-                    <td>
-                      <a href="item.html">
-                        <img className="rounded" src="assets/img/shop/10.jpg" alt="..."/>
-                      </a>
-                    </td>
-
-                    <td>
-                      <h4>Apple EarPods</h4>
-                      <p style={{fontSize: '0.9em'}}>White and wireless</p>
-                    </td>
-
-                    <td>
-                      <label>Quantity</label>
-                      <input className="form-control form-control-lg" type="text" placeholder="Quantity" defaultValue="1"/>
-                    </td>
-
-                    <td>
-                      <h2 className="price">$160</h2>
-                    </td>
-                  </tr>
-
-
-                  <tr>
-                    <td>
-                      <a className="item-remove" href="#"><i className="ti-close"></i></a>
-                    </td>
-
-                    <td>
-                      <a href="item.html">
-                        <img className="rounded" src="assets/img/shop/11.jpg" alt="..."/>
-                      </a>
-                    </td>
-
-                    <td>
-                      <h4>Beats On-Ear Headphones</h4>
-                      <p style={{fontSize: '0.9em'}}>Gold color</p>
-                    </td>
-
-                    <td>
-                      <label>Quantity</label>
-                      <input className="form-control form-control-lg" type="text" placeholder="Quantity" defaultValue="1"/>
-                    </td>
-
-                    <td>
-                      <h2 className="price">$299</h2>
-                    </td>
-                  </tr>
-
-
-                  <tr>
-                    <td>
-                      <a className="item-remove" href="#"><i className="ti-close"></i></a>
-                    </td>
-
-                    <td>
-                      <a href="item.html">
-                        <img className="rounded" src="assets/img/shop/12.jpg" alt="..."/>
-                      </a>
-                    </td>
-
-                    <td>
-                      <h4>Sony PlayStation 4</h4>
-                      <p style={{fontSize: '0.9em'}}>Includes FIFA 2018</p>
-                    </td>
-
-                    <td>
-                      <label>Quantity</label>
-                      <input className="form-control form-control-lg" type="text" placeholder="Quantity" defaultValue="1"/>
-                    </td>
-
-                    <td>
-                      <h2 className="price">$224</h2>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-
-            </div>
-
-
-            <div className="col-lg-4">
-              <div className="cart-price">
-                <div className="flexbox">
-                  <div>
-                    <p><strong>Subtotal:</strong></p>
-                    <p><strong>Shipping:</strong></p>
-                    <p><strong>Tax (%10):</strong></p>
-                  </div>
-
-                  <div>
-                    <p>$683</p>
-                    <p>$39</p>
-                    <p>$68</p>
-                  </div>
-                </div>
-
-                <hr/>
-
-                <div className="flexbox">
-                  <div>
-                    <p><strong>Total:</strong></p>
-                  </div>
-
-                  <div>
-                    <p className="fw-600">$790</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-6">
-                  <a className="btn btn-block btn-secondary" href="#">Shop more</a>
-                </div>
-
-                <div className="col-6">
-                  <button className="btn btn-block btn-primary" type="submit">Proceed <i className="ti-angle-right fs-9"></i></button>
-                </div>
-              </div>
-
-            </div>
-
-
-
-        </div>
-      </section>
-
-    </main>
-                </div>);
-            }
+    selectPlan(index, plan) {
+        var me = this;
+        if (me.state.selectedPlanIndex === '') {
+            me.setState({ selectedPlanIndex: index, selectedPlan: plan });
+            document.getElementsByClassName("pricing-1")[index].style.backgroundColor = "#F2F3F4";
         }
+        else {
+            document.getElementsByClassName("pricing-1")[me.state.selectedPlanIndex].style.backgroundColor = "white";
+            document.getElementsByClassName("pricing-1")[index].style.backgroundColor = "#F2F3F4";
+            me.setState({ selectedPlanIndex: index, selectedPlan: plan });
+            console.log(index);
+        }
+    }
 
-        module.exports = ServicesPageBlock2;
+    componentWillMount() {
+        var me = this;
+        fetch(me.state.confFile.url + '/va_silver/get_plans/')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                var response = myJson;
+                me.setState({ plans: response.data });
+                me.getMonthlyPlans();
+            });
+
+    }
+
+    showCurrency(text) {
+        if (text == "EUR") {
+            return (<span>&euro;</span>);
+        }
+        else if (text == "USD") {
+            return (<span>&#36;</span>);
+        }
+        else {
+            return (<span>{text}</span>);
+        }
+    }
+    showContent() {
+        var me = this;
+        var indents = this.state.plansTemp.map(function (plan, index) {
+            return (<div className="col-md-4" key={index + 1}>
+                <div className="pricing-1">
+                    <p className="plan-name">{plan.name}</p>
+                    <br />
+                    <h2 className="price">{me.showCurrency(plan.currency)} {parseFloat(plan.amount).toFixed(2)}</h2>
+                    <p className="small">&nbsp;</p>
+
+                    <div className="text-muted">
+                        <small>{plan.feature.plan_description}</small>
+                    </div>
+
+                    <br />
+                    <p className="text-center py-3">
+                        <button className="btn btn-secondary" onClick={() => me.selectPlan(index, plan)}>SELECT</button>
+                    </p>
+                </div>
+                <br /><br />
+            </div>);
+        });
+           
+
+        if (this.state.plansTemp.length > 0) {
+            return (
+                <div>
+
+                    <section className="section">
+                        <div className="container">
+
+                            <div className="text-center my-7">
+                                <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label className="btn btn-round btn-outline-secondary w-150 active" onClick={() => this.getMonthlyPlans()}>
+                                        <input type="radio" name="pricing-1" value="monthly" autoComplete="off" defaultChecked /> Monthly
+                                     </label>
+                                    <label className="btn btn-round btn-outline-secondary w-150" onClick={() => this.getYearlyPlans()}>
+                                        <input type="radio" name="pricing-1" value="yearly" autoComplete="off" /> Yearly
+                                    </label>
+                                </div>
+                            </div>
+
+                            {indents}
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+        else {
+            return (
+                <div>
+                    <section className="section">
+                        <div className="container">
+
+                            <div className="text-center my-7">
+                                <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label className="btn btn-round btn-outline-secondary w-150 active" onClick={() => this.getMonthlyPlans()}>
+                                        <input type="radio" name="pricing-1" value="monthly" autoComplete="off" defaultChecked /> Monthly
+                                     </label>
+                                    <label className="btn btn-round btn-outline-secondary w-150" onClick={() => this.getYearlyPlans()}>
+                                        <input type="radio" name="pricing-1" value="yearly" autoComplete="off" /> Yearly
+                                    </label>
+                                </div>
+                            </div>
+
+                            <p>No plans to show!</p>
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                    {this.showContent()}
+            </div>
+        );
+    }
+}
+
+module.exports = ServicesPageBlock2;
