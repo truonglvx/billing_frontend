@@ -9,13 +9,15 @@ var Icons = require('glyphicons');
 var NavbarTwo = require('./NavbarTwo');
 
 var AddSubscriptionStep1 = require('./ServicesPageBlock2');
+var AddSubscriptionStep2 = require('./ServicesPageBlock4');
 var ServicesPageBlock3 = require('./ServicesPageBlock3');
 
 var FooterTwo = require('./FooterTwo');
 var StepZilla = require('react-stepzilla').default;
 const steps = [
     { name: 'Step 1', component: <AddSubscriptionStep1 /> },
-    { name: 'Step 2', component: <ServicesPageBlock3 /> }
+    { name: 'Step 2', component: <AddSubscriptionStep2 /> },
+    { name: 'Step 4', component: <ServicesPageBlock3 /> }
 ];
 
 class AddSubscription extends React.Component {

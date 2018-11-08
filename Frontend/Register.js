@@ -108,7 +108,7 @@ class Register extends React.Component {
     				<label htmlFor="InputConfirmPassword" style={{fontSize: '1em'}}>Confirm Password</label>
     				<input type="password" className="form-control" id="InputConfirmPassword" placeholder="Confirm Password" style={{fontSize: '1em'}}/>
   			</div>
-  			<button type="submit" className="btn btn-large btn-default" onClick={() => this.register()}>Submit</button>
+  			<button type="submit" className="btn btn-large btn-secondary" onClick={() => this.register()}>Submit</button>
   		</div>
 	</div>
     </div>

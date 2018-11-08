@@ -77,7 +77,6 @@ class ServicesPageBlock2 extends React.Component {
             return (<div className="col-md-4" key={index + 1}>
                 <div className="pricing-1">
                     <p className="plan-name">{plan.name}</p>
-                    <br />
                     <h2 className="price">{me.showCurrency(plan.currency)} {parseFloat(plan.amount).toFixed(2)}</h2>
                     <p className="small">&nbsp;</p>
 

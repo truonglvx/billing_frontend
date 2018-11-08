@@ -84,7 +84,7 @@ class ForgotPassword extends React.Component {
 									<input type="email" className="form-control" id="InputEmail" placeholder="Enter email" style={{fontSize: '1em'}}/>
 								</div>
 								<div style={{clear: 'both'}}>
-									<button type="submit" className="btn btn-large btn-default" onClick={() => this.forgotPassword()} style={{float: 'right'}}>Submit</button>
+									<button type="submit" className="btn btn-large btn-secondary" onClick={() => this.forgotPassword()} style={{float: 'right'}}>Submit</button>
 								</div>
 							</div>
 							</div>
