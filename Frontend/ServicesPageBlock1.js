@@ -89,13 +89,6 @@ class ServicesPageBlock1 extends React.Component {
                                     <div className="lookup lookup-circle lookup-right"></div>
                                 </div>
                                 {indents}
-                                <footer className="flexbox align-items-center py-20">
-                                    <span className="flex-grow text-right text-lighter pr-2">1-10 of 1,853</span>
-                                    <nav>
-                                        <a className="btn btn-sm btn-square disabled" href="#"><i className="ti-angle-left"></i></a>
-                                        <a className="btn btn-sm btn-square" href="#"><i className="ti-angle-right"></i></a>
-                                    </nav>
-                                </footer>
 
                             </div>
                         </div>
@@ -110,6 +103,28 @@ class ServicesPageBlock1 extends React.Component {
                                 Add new subscription
 								</button>
                         </div>
+                    </div>
+                </div>
+            );
+        }
+        else {
+            return (
+
+                <div>
+                    <div className="row">
+                        <div className="col-md-8 col-md-offset-2 main-content">
+                            <p> No subscriptions to show !! </p>
+                            <br />
+                            <br />
+                            <div className="row">
+                                <div className="col-md-10 text-md-right">
+                                    <button type="button" className="btn btn-xl btn-success" onClick={() => this.addNewSubscription()}>
+                                        Add new subscription
+								</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             );

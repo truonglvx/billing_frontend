@@ -37,18 +37,19 @@ class ServicesPageBlock2 extends React.Component {
         if (me.state.selectedPlanIndex === '') {
             me.setState({ selectedPlanIndex: index, selectedPlan: plan });
             document.getElementsByClassName("pricing-1")[index].style.backgroundColor = "#F2F3F4";
+            this.props.saveStateStepOne(plan);
         }
         else {
             document.getElementsByClassName("pricing-1")[me.state.selectedPlanIndex].style.backgroundColor = "white";
             document.getElementsByClassName("pricing-1")[index].style.backgroundColor = "#F2F3F4";
             me.setState({ selectedPlanIndex: index, selectedPlan: plan });
-            console.log(index);
+            this.props.saveStateStepOne(plan);
         }
     }
 
     componentWillMount() {
         var me = this;
-        fetch(me.state.confFile.url + '/va_silver/get_plans/')
+        fetch(me.state.confFile.url + '/va_silver/get_plans/?private=False')
             .then(function (response) {
                 return response.json();
             })
@@ -74,7 +75,7 @@ class ServicesPageBlock2 extends React.Component {
     showContent() {
         var me = this;
         var indents = this.state.plansTemp.map(function (plan, index) {
-            return (<div className="col-md-4" key={index + 1}>
+            return (<div className="col-md-offset-1 col-md-4" key={index + 1}>
                 <div className="pricing-1">
                     <p className="plan-name">{plan.name}</p>
                     <h2 className="price">{me.showCurrency(plan.currency)} {parseFloat(plan.amount).toFixed(2)}</h2>
@@ -92,7 +93,7 @@ class ServicesPageBlock2 extends React.Component {
                 <br /><br />
             </div>);
         });
-           
+
 
         if (this.state.plansTemp.length > 0) {
             return (
@@ -111,7 +112,6 @@ class ServicesPageBlock2 extends React.Component {
                                     </label>
                                 </div>
                             </div>
-
                             {indents}
                         </div>
                     </section>
@@ -146,7 +146,7 @@ class ServicesPageBlock2 extends React.Component {
     render() {
         return (
             <div>
-                    {this.showContent()}
+                {this.showContent()}
             </div>
         );
     }

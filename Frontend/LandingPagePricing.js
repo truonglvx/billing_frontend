@@ -30,6 +30,11 @@ class LandingPagePricing extends React.Component {
         me.setState({ plansTemp: newArray });
     }
 
+    redirectRegister() {
+        document.location.replace("/#/Register");
+        document.location.reload(true);
+    }
+
     componentWillMount() {
         var me = this;
         fetch(me.state.confFile.url + '/va_silver/get_plans/?private=False')
@@ -91,7 +96,7 @@ class LandingPagePricing extends React.Component {
                         </p>
                         <br />
                         <div>
-                            <a className="btn btn-round btn-outline-secondary w-200" href="/#/Register" >Sign up</a>
+                            <btn className="btn btn-round btn-outline-secondary w-200" onClick={() => this.redirectRegister()}>Sign up</btn>
                         </div>
                     </div>
                 </div>
