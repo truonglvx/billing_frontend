@@ -6,7 +6,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var classNameNames = require('classnames');
 var Icons = require('glyphicons');
-var Script = require('react-load-script');
+var showdown = require('showdown'),
+    converter = new showdown.Converter();
 
 class ServicesPageBlock2 extends React.Component {
 
@@ -14,8 +15,27 @@ class ServicesPageBlock2 extends React.Component {
         super(props);
         this.state = { confFile: require('./backend.json'), plans: [], plansTemp: [], selectedPlanIndex: '', selectedPlan: {} };
         this.selectPlan = this.selectPlan.bind(this);
+        this.isValidated = this.isValidated.bind(this);
     }
 
+    isEmpty(obj) {
+        for (var prop in obj) {
+            if (obj.hasOwnProperty(prop))
+                return false;
+        }
+
+        return JSON.stringify(obj) === JSON.stringify({});
+    }
+
+    isValidated() {
+        if (this.isEmpty(this.state.selectedPlan)) {
+            document.getElementById("unsucclogin").click();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
     getMonthlyPlans() {
         var me = this;
         var newArray = me.state.plans.filter(function (el) {
@@ -37,18 +57,19 @@ class ServicesPageBlock2 extends React.Component {
         if (me.state.selectedPlanIndex === '') {
             me.setState({ selectedPlanIndex: index, selectedPlan: plan });
             document.getElementsByClassName("pricing-1")[index].style.backgroundColor = "#F2F3F4";
-            this.props.saveStateStepOne(plan);
+            this.props.saveStateStepOne(plan, index);
         }
         else {
             document.getElementsByClassName("pricing-1")[me.state.selectedPlanIndex].style.backgroundColor = "white";
             document.getElementsByClassName("pricing-1")[index].style.backgroundColor = "#F2F3F4";
             me.setState({ selectedPlanIndex: index, selectedPlan: plan });
-            this.props.saveStateStepOne(plan);
+            this.props.saveStateStepOne(plan, index);
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         var me = this;
+        document.getElementById("unsucclogin").style.display = 'none';
         fetch(me.state.confFile.url + '/va_silver/get_plans/?private=False')
             .then(function (response) {
                 return response.json();
@@ -57,6 +78,14 @@ class ServicesPageBlock2 extends React.Component {
                 var response = myJson;
                 me.setState({ plans: response.data });
                 me.getMonthlyPlans();
+                if (me.props.selectedPlan().id != "") {
+                    me.setState({ selectedPlanIndex: me.props.selectedPlanIndex(), selectedPlan: me.props.selectedPlan() });
+                    document.getElementsByClassName("pricing-1")[me.props.selectedPlanIndex()].style.backgroundColor = "#F2F3F4";
+                    //console.log('Not a first visit');
+                }
+                else {
+                    //console.log('First visit Step 1');
+                }
             });
 
     }
@@ -82,7 +111,7 @@ class ServicesPageBlock2 extends React.Component {
                     <p className="small">&nbsp;</p>
 
                     <div className="text-muted">
-                        <small>{plan.feature.plan_description}</small>
+                        <small><div dangerouslySetInnerHTML={{ __html: converter.makeHtml(plan.feature.plan_description) }} /></small>
                     </div>
 
                     <br />
@@ -147,6 +176,18 @@ class ServicesPageBlock2 extends React.Component {
         return (
             <div>
                 {this.showContent()}
+                <button id="unsucclogin" className="btn btn-primary" type="button" data-toggle="popup" data-target="#popup-slide-down">Slide Down</button>
+                <div id="popup-slide-down" className="popup col-6 col-md-4" data-position="top-right" data-animation="slide-down">
+                    <button type="button" className="close" data-dismiss="popup" aria-label="Close" onClick={() => this.handleNotificationClose()}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div className="media">
+                        <div className="media-body">
+                            <h3>Add subscription (Step 1) Notification</h3>
+                            <p className="mb-1 text-danger" style={{ fontSize: '1.2em' }}>Select a package to proceed !</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

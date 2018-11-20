@@ -28,6 +28,11 @@ class Login extends React.Component {
         document.getElementById("unsucclogin").style.display = 'none';
     }
 
+    redirectLogin() {
+        document.location.replace("/#/ForgotPassword");
+        document.location.reload(true);
+    }
+
     componentWillMount() {
     }
 
@@ -56,6 +61,7 @@ class Login extends React.Component {
                     console.log('Success:', response);
                     localStorage.setItem("token", response.token);
                     window.location.replace("/#/Services");
+                    document.location.reload(true);
                 }
                 else {
                     if (me.state.previouslyClicked == false) {
@@ -93,7 +99,7 @@ class Login extends React.Component {
                                 </div>
                                 <div style={{ clear: 'both' }}>
                                     <button type="submit" className="btn btn-large btn-secondary" onClick={() => this.login()} style={{ float: 'left' }}>Sign in</button>
-                                    <a href="/#/ForgotPassword" style={{ color: 'red', float: 'right' }}>Forgot password?</a>
+                                    <a onClick={() => this.redirectLogin()} style={{ color: 'red', float: 'right', cursor: 'pointer'  }}>Forgot password?</a>
                                 </div>
                             </div>
                         </div>

@@ -12,7 +12,6 @@ var FeaturesPageBlock1=require('./FeaturesPageBlock1');
 var FeaturesPageBlock2=require('./FeaturesPageBlock2');
 var Footer=require('./Footer');
 var LandingPagePricing=require('./LandingPagePricing');
-var Script=require('react-load-script');
 
 class Features extends React.Component {
             

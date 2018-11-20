@@ -11,16 +11,16 @@ class ServicesPageBlock4 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { confFile: require('./backend.json'), customers: [], selectedCompany: '', message: '' };
+        this.state = { confFile: require('./backend.json'), customers: [], selectedCustomer: {company: '', id: ''}, message: '' };
         this.handleChange = this.handleChange.bind(this);
         this.showCustomerOptions = this.showCustomerOptions.bind(this);
         this.createCustomer = this.createCustomer.bind(this);
+        this.findCustomerByCompanyName = this.findCustomerByCompanyName.bind(this);
+        this.getCustomers = this.getCustomers.bind(this);
     }
 
-    componentDidMount() {
+    getCustomers() {
         var me = this;
-        document.getElementById("triger").style.display = 'none';
-        me.setState({ selectedCompany: document.getElementById("company").value });
         var token = localStorage.getItem("token");
         var url = me.state.confFile.url + '/va_silver/get_customers/';
         fetch(url, {
@@ -37,8 +37,27 @@ class ServicesPageBlock4 extends React.Component {
                 var response = myJson;
                 console.log(response.data);
                 me.setState({ customers: response.data });
-            });
+                if (response.data.length > 0) {
+                    var selectedCompany = document.getElementById("company").value;
+                    me.setState({ selectedCustomer: me.findCustomerByCompanyName(selectedCompany) });
+                    me.props.saveStateStepTwo(me.findCustomerByCompanyName(selectedCompany));
+                }
 
+            });
+    }
+    componentDidMount() {
+        var me = this;
+        document.getElementById("triger").style.display = 'none';
+        this.getCustomers();
+    }
+
+    findCustomerByCompanyName(company) {
+        var me = this;
+        for (var i = 0; i < this.state.customers.length; i++) {
+            if (this.state.customers[i].company == company) {
+                return this.state.customers[i];
+            }
+        }
     }
 
     createCustomer() {
@@ -93,44 +112,38 @@ class ServicesPageBlock4 extends React.Component {
             .then(function (myJson) {
                 var response = myJson;
                 console.log(response);
-                //var dataT = { "relation_type": "owner", "customer": response.id, "user": "1"};
-                //var formBodyT = [];
-                //for (var property in dataT) {
-                //    var encodedKey = encodeURIComponent(property);
-                //    var encodedValue = encodeURIComponent(dataT[property]);
-                //    formBodyT.push(encodedKey + "=" + encodedValue);
-                //}
-                //formBodyT = formBodyT.join("&");
-                //console.log(formBodyT);
-                //fetch(me.state.confFile.url + '/admin/silver_extensions/usercustomermapping/add/', {
-                //    method: 'POST',
-                //    body: formBodyT,
-                //    headers: {
-                //        'Authorization': 'JWT ' + token,
-                //        'Content-Type': 'application/x-www-form-urlencoded'
+                var dataT = { "relation_type": "owner", "customer_id": response.id};
+                fetch(me.state.confFile.url + '/va_saas/map_customer_to_user/', {
+                    method: 'POST',
+                    body: JSON.stringify(dataT),
+                    headers: {
+                        'Authorization': 'JWT ' + token,
+                        'Content-Type': 'application/json'
 
-                //    }
-                //})
-                //    .then(function (response) {
-                //        return response.text();
-                //    })
-                //    .then(function (myJson) {
-                //        console.log(myJson);
+                    }
+                })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (myJson) {
+                        console.log(myJson);
+                        me.getCustomers();
 
-                //    });
+                    });
 
             });
     }
     handleChange() {
         var me = this;
         var selectedCompany = document.getElementById("company").value;
-        me.setState({ selectedCompany: selectedCompany });
+        me.setState({ selectedCustomer: me.findCustomerByCompanyName(selectedCompany) });
+        this.props.saveStateStepTwo(me.findCustomerByCompanyName(selectedCompany));
     }
 
     showCustomerOptions() {
         console.log(this.state);
         var options = this.state.customers.map(function (option, index) {
-            return (<option key={index + 1} style={{ fontSize: '20px' }}>{option.company}</option>);
+            return (<option key={index + 1} style={{ fontSize: '20px' }} value={option.company}>{option.company}</option>);
         });
         return options;
     }

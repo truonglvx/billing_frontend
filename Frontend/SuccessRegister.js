@@ -19,6 +19,7 @@ class SuccessRegister extends React.Component {
 			
 			redirect(){
 				window.location.replace("/#/Login");
+                document.location.reload(true);
 			}
 			
 			componentDidMount(){

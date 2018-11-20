@@ -31,7 +31,11 @@ class LandingPageContent extends React.Component {
                     landingImageURL: response.landing_image
                 });
             });
+    }
 
+    redirectRegister() {
+        document.location.replace("/#/Register");
+        document.location.reload(true);
     }
 
     render() {
@@ -46,8 +50,8 @@ class LandingPageContent extends React.Component {
                                 <h1>{this.state.landingHeader}</h1>
                                 <p className="lead mt-5 mb-8" style={{ fontSize: '1.1em' }}>{this.state.landingText}</p>
                                 <p className="gap-xy">
-                                    <a className="btn btn-round btn-primary" href="/#/Register">SignUp</a>
-                                    <a className="btn btn-round btn-outline-secondary" href="/#/Register">Order now</a>
+                                    <button className="btn btn-round btn-primary" onClick={() => this.redirectRegister()}>SignUp</button>
+                                    <button className="btn btn-round btn-outline-secondary" onClick={() => this.redirectRegister()}>Order now</button>
                                 </p>
                             </div>
 

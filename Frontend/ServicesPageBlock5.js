@@ -26,6 +26,45 @@ class ServicesPageBlock5 extends React.Component {
         }
         return niza;
     }
+
+    getInputValuesCheckbox(input_values) {
+        var niza = []
+        for (var j = 0; j < input_values.length; j++) {
+            niza.push(
+                <div className="custom-control custom-checkbox" key={input_values[j]}>
+                    <input type="checkbox" className="custom-control-input" id={input_values[j]}/>
+                    <label className="custom-control-label">{input_values[j]}</label>
+                </div>
+            );
+        }
+        return niza;
+    }
+
+    saveMetaData() {
+        var metaData = {};
+        for (var i = 0; i < this.state.selectedPlanSteps.length; i++) {
+            if (this.state.selectedPlanSteps[i].input_type == "text") {
+                metaData[this.state.selectedPlanSteps[i].input_name] = document.getElementById(this.state.selectedPlanSteps[i].input_name).value;
+            }
+            else if (this.state.selectedPlanSteps[i].input_type == "password") {
+                metaData[this.state.selectedPlanSteps[i].input_name] = document.getElementById(this.state.selectedPlanSteps[i].input_name).value;
+            }
+            else if (this.state.selectedPlanSteps[i].input_type == "select") {
+                metaData[this.state.selectedPlanSteps[i].input_name] = document.getElementById(this.state.selectedPlanSteps[i].input_name).value;
+            }
+            else if (this.state.selectedPlanSteps[i].input_type == "checkbox") {
+                var values = {};
+                var input_values = this.state.selectedPlanSteps[i].input_value.split(",");
+                for (var j = 0; j < input_values.length; j++) {
+                    values[input_values[j]] = document.getElementById(input_values[j]).checked;
+                }
+                metaData[this.state.selectedPlanSteps[i].input_name] = values;
+            }
+            
+        }
+        this.props.saveStateStepThree(metaData);
+    }
+
     showContent() {
         var metaFields = [];
         for (var i = 0; i < this.state.selectedPlanSteps.length; i++) {
@@ -34,6 +73,13 @@ class ServicesPageBlock5 extends React.Component {
                     <div className="form-group">
                         <label style={{ fontSize: '1.1em' }}>{this.state.selectedPlanSteps[i].input_name}</label>
                         <input id={this.state.selectedPlanSteps[i].input_name} className="form-control form-control-lg" type="text" style={{ fontSize: '1em' }} />
+                    </div>);
+            }
+            else if (this.state.selectedPlanSteps[i].input_type == "password") {
+                metaFields.push(
+                    <div className="form-group">
+                        <label style={{ fontSize: '1.1em' }}>{this.state.selectedPlanSteps[i].input_name}</label>
+                        <input id={this.state.selectedPlanSteps[i].input_name} className="form-control form-control-lg" type="password" style={{ fontSize: '1em' }} />
                     </div>);
             }
             else if (this.state.selectedPlanSteps[i].input_type == "select") {
@@ -46,6 +92,17 @@ class ServicesPageBlock5 extends React.Component {
                 </div>
                 );
             }
+
+            else if (this.state.selectedPlanSteps[i].input_type == "checkbox") {
+                var input_values = this.state.selectedPlanSteps[i].input_value.split(",");
+                metaFields.push(<div className="custom-controls-stacked">
+                    <h3 className="divider" style={{ fontSize: '1.1em' }}>{this.state.selectedPlanSteps[i].input_name}</h3>
+                    {this.getInputValuesCheckbox(input_values)}
+                    <br/>
+                </div>
+                );
+            }
+
         }
         return metaFields;
     }
@@ -53,9 +110,12 @@ class ServicesPageBlock5 extends React.Component {
         return (
 
             <div>
-                <br/>
+                <br />
                 <p style={{ fontSize: '1.3em' }}>Meta data: </p>
                 {this.showContent()}
+                <br />
+                <br />
+                <button type="submit" className="btn float-right btn-large btn-secondary" onClick={() => this.saveMetaData()}>Save meta data</button>
                 <br />
                 <br />
             </div>

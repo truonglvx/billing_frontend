@@ -21,10 +21,10 @@ class AddSubscription extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedPlan: { name: '' }, steps: [
-                { name: 'Step 1', component: <AddSubscriptionStep1 saveStateStepOne={this.handleSaveStateStepOne.bind(this)} /> },
-                { name: 'Step 2', component: <AddSubscriptionStep2 /> },
-                { name: 'Step 3', component: <AddSubscriptionStep3 selectedPlan={this.getSelectedPlan.bind(this)} /> },
+            selectedPlan: { id: '', name: '' }, selectedPlanIndex: '', selectedCustomer: { id: '', company: '' }, metaData: {}, steps: [
+                { name: 'Step 1', component: <AddSubscriptionStep1 saveStateStepOne={this.handleSaveStateStepOne.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} selectedPlanIndex={this.getSelectedPlanIndex.bind(this)}/> },
+                { name: 'Step 2', component: <AddSubscriptionStep2 saveStateStepTwo={this.handleSaveStateStepTwo.bind(this)} /> },
+                { name: 'Step 3', component: <AddSubscriptionStep3 selectedPlan={this.getSelectedPlan.bind(this)} saveStateStepThree={this.handleSaveStateStepThree.bind(this)} /> },
                 { name: 'Step 4', component: <ServicesPageBlock3 /> }
             ]
         };
@@ -35,22 +35,35 @@ class AddSubscription extends React.Component {
         return this.state.selectedPlan;
     }
 
-    handleStepChange(step) {
-        console.log(step);
+    getSelectedPlanIndex() {
+        return this.state.selectedPlanIndex;
     }
 
-    handleSaveStateStepOne(plan) {
-        this.setState({ selectedPlan: plan });
+    handleStepChange(step) {
+
+    }
+
+    handleSaveStateStepOne(plan, index) {
+        this.setState({ selectedPlan: plan, selectedPlanIndex: index});
+    }
+
+    handleSaveStateStepTwo(customer) {
+        this.setState({ selectedCustomer: customer });
+    }
+
+    handleSaveStateStepThree(metaData) {
+        this.setState({ metaData: metaData });
     }
     render() {
         return (
             <div>
                 <NavbarTwo />
                 <br /><br /><br />
+                <br/>
                 <div className="row">
                     <div className="col-md-offset-2 col-md-8">
                         <div className='step-progress'>
-                            <StepZilla steps={this.state.steps} onStepChange={(step) => this.handleStepChange(step)} />
+                            <StepZilla steps={this.state.steps} onStepChange={(step) => this.handleStepChange(step)} stepsNavigation={false} />
                         </div>
                     </div>
                 </div>

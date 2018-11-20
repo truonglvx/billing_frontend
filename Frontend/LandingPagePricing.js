@@ -6,7 +6,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
 var Icons = require('glyphicons');
-
+var showdown = require('showdown'),
+    converter = new showdown.Converter();
 
 
 class LandingPagePricing extends React.Component {
@@ -92,7 +93,7 @@ class LandingPagePricing extends React.Component {
                         </p>
 
                         <p>
-                            {this.state.plansTemp[i].feature.plan_description}
+                            <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.state.plansTemp[i].feature.plan_description) }} />
                         </p>
                         <br />
                         <div>

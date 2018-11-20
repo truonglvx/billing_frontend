@@ -6,7 +6,6 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var classNameNameNames = require('classnames');
 var Icons = require('glyphicons');
-var Script = require('react-load-script');
 
 class ServicesPageBlock1 extends React.Component {
 
@@ -16,7 +15,8 @@ class ServicesPageBlock1 extends React.Component {
         this.addNewSubscription = this.addNewSubscription.bind(this);
     }
     addNewSubscription() {
-        location.href = '/#/AddNewService';
+        window.location.replace("/#/AddNewService");
+        document.location.reload(true);
     }
 
     getAllSubscriptions() {
