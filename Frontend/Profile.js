@@ -84,11 +84,9 @@ class Profile extends React.Component {
             <div>
 
                 <NavbarTwo />
-                <br />
-                <br />
-                <br />
-                <br />
-                <div className="container emp-profile">
+                <br /> <br /> <br />
+                <br /> <br /> <br /> <br />
+                <div className="container">
                     <div className="row">
                         <div className="col-md-4">
                             <div className="profile-img">

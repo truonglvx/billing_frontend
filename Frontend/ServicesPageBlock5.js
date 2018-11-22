@@ -18,6 +18,11 @@ class ServicesPageBlock5 extends React.Component {
         console.log(this.state.selectedPlanSteps);
     }
 
+    isValidated() {
+        this.saveMetaData();
+        return true;
+    }
+
     getInputValuesSelect(input_values) {
         var niza = []
         for (var j = 0; j < input_values.length; j++) {
@@ -113,11 +118,7 @@ class ServicesPageBlock5 extends React.Component {
                 <br />
                 <p style={{ fontSize: '1.3em' }}>Meta data: </p>
                 {this.showContent()}
-                <br />
-                <br />
-                <button type="submit" className="btn float-right btn-large btn-secondary" onClick={() => this.saveMetaData()}>Save meta data</button>
-                <br />
-                <br />
+                <br /> <br /> <br /> <br />
             </div>
         );
     }

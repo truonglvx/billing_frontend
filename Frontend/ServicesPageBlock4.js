@@ -38,9 +38,20 @@ class ServicesPageBlock4 extends React.Component {
                 console.log(response.data);
                 me.setState({ customers: response.data });
                 if (response.data.length > 0) {
-                    var selectedCompany = document.getElementById("company").value;
-                    me.setState({ selectedCustomer: me.findCustomerByCompanyName(selectedCompany) });
-                    me.props.saveStateStepTwo(me.findCustomerByCompanyName(selectedCompany));
+                    if (me.props.selectedCustomer().company == '') {
+                            var selectedCompany = document.getElementById("company").value;
+                            me.setState({ selectedCustomer: me.findCustomerByCompanyName(selectedCompany) });
+                            me.props.saveStateStepTwo(me.findCustomerByCompanyName(selectedCompany));
+                            console.log('First visit');
+                            console.log(me.props.selectedCustomer());
+                    }
+                    else
+                    {
+                        console.log('Not a first ');
+                        me.setState({ selectedCustomer: me.findCustomerByCompanyName(me.props.selectedCustomer().company ) });
+                        me.props.saveStateStepTwo(me.findCustomerByCompanyName(me.props.selectedCustomer().company));
+                        document.getElementById("company").value = me.props.selectedCustomer().company;
+                    }
                 }
 
             });

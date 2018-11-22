@@ -66,10 +66,11 @@ class ServicesPageBlock1 extends React.Component {
                         </button>
 
                         <a className="media-body text-truncate" href="#" data-toggle="quickview">
-                            <h2 style={{ fontWeight: 'bold' }}>{this.state.subscriptions[i].description} (Start date: {this.state.subscriptions[i].start_date}, End date: {this.state.subscriptions[i].ended_at}, Status: {this.state.subscriptions[i].state})</h2>
-                            <small>Company: {this.state.subscriptions[i].company}, Plan: {this.state.subscriptions[i].plan_name}</small>
+                            <h2 style={{ fontWeight: 'bold' }}>{this.state.subscriptions[i].plan_name} ({this.state.subscriptions[i].state})</h2>
+                            <small>Customer: {this.state.subscriptions[i].company} - {this.state.subscriptions[i].description}</small><br/>
+                            <small>Start date: {this.state.subscriptions[i].start_date}, End date: {this.state.subscriptions[i].ended_at}</small>
                             <br />
-                            {this.showMeta(this.state.subscriptions[i].meta)}
+                            {JSON.stringify(this.state.subscriptions[i].meta)}
                         </a>
 
                         <span className="lead text-fade mr-25" title="" data-provide="tooltip" data-original-title="Balance" style={{ fontSize: '20px' }}>{parseFloat(this.state.subscriptions[i].amount).toFixed(2)} {this.state.subscriptions[i].currency}</span>
@@ -81,27 +82,29 @@ class ServicesPageBlock1 extends React.Component {
         if (me.state.subscriptions.length > 0) {
             return (
                 <div>
-                    <div className="row">
-                        <div className="col-md-8 col-md-offset-2 main-content">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12 main-content">
 
-                            <div className="media-list media-list-divided media-list-hover" data-provide="selectall">
-                                <div>
-                                    <div className="lookup lookup-circle lookup-right"></div>
+                                <div className="media-list media-list-divided media-list-hover" data-provide="selectall">
+                                    <div>
+                                        <div className="lookup lookup-circle lookup-right"></div>
+                                    </div>
+                                    {indents}
+
                                 </div>
-                                {indents}
-
                             </div>
+
                         </div>
 
-                    </div>
-
-                    <br />
-                    <br />
-                    <div className="row">
-                        <div className="col-md-10 text-md-right">
-                            <button type="button" className="btn btn-xl btn-success" onClick={() => this.addNewSubscription()}>
-                                Add new subscription
+                        <br />
+                        <br />
+                        <div className="row">
+                            <div className="col-md-12 text-md-right">
+                                <button type="button" className="btn btn-xl btn-success" onClick={() => this.addNewSubscription()}>
+                                    Add new subscription
 								</button>
+                            </div>
                         </div>
                     </div>
                 </div>

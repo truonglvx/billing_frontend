@@ -93,6 +93,7 @@ class ChangePassword extends React.Component {
                 <br />
                 <br />
                 <br />
+                <div className="container">
                 <div className="row">
                     <div className="col-md-offset-4 col-md-5">
                         <div className="form-group">
@@ -103,7 +104,7 @@ class ChangePassword extends React.Component {
                             <label htmlFor="InputNewPassword" style={{ fontSize: '1em' }}>New Password</label>
                             <input type="password" className="form-control" id="InputNewPassword" placeholder="New Password" style={{ fontSize: '1em' }} />
                         </div>
-                        <button type="submit" className="btn btn-large btn-default" onClick={() => this.changePassword()}>Submit</button>
+                        <button type="submit" className="btn btn-large btn-secondary" onClick={() => this.changePassword()}>Submit</button>
                     </div>
                 </div>
 
@@ -121,6 +122,7 @@ class ChangePassword extends React.Component {
                         </div>
                     </div>
                 </div>
+              </div>
             </div>);
     }
 }
