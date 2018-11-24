@@ -67,6 +67,16 @@ class NavbarTwo extends React.Component {
         localStorage.removeItem("token");
         window.location.replace("/");
     }
+	
+	toggle(){
+        console.log('toggle');
+		var x = document.getElementById('dropdown');
+		if (x.style.display === "") {
+            x.style.display = "block";
+        }
+        else {
+        x.style.display = "none";}
+	}
 
     render() {
         return (
@@ -90,11 +100,11 @@ class NavbarTwo extends React.Component {
                             </nav>
 
                             <div className="dropdown ml-lg-5">
-                                <span className="dropdown-toggle no-caret" data-toggle="dropdown">
+                                <span className="dropdown-toggle no-caret" data-toggle="dropdown" data-target="#demo">
                                     <img className="avatar avatar-xs" src="assets/img/avatar/1.jpg" alt="user" />
                                     {this.state.username}
                                 </span>
-                                <div className="dropdown-menu dropdown-menu-right">
+                                <div id="demo" className="collapse in dropdown-menu dropdown-menu-right">
                                     <a className="dropdown-item" onClick={() => this.redirectProfile()} style={{ cursor: 'pointer' }}>Profile</a>
                                     <a className="dropdown-item" onClick={() => this.redirectChangePassword()} style={{ cursor: 'pointer' }}>ChangePassword</a>
                                     <a className="dropdown-item" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Help center</a>

@@ -141,15 +141,14 @@ class ServicesPageBlock3 extends React.Component {
         var me = this;
         var url = me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id) + '/subscriptions/';
         var token = localStorage.getItem("token");
-        console.log(me.getFormattedDate(me.calculateEndDate(me.getCurrentDate(), me.state.temporarySubscription.plan.interval, me.state.temporarySubscription.plan.interval_count)));
+        //console.log(me.getFormattedDate(me.calculateEndDate(me.getCurrentDate(), me.state.temporarySubscription.plan.interval, me.state.temporarySubscription.plan.interval_count)));
         var data = {
             "plan": me.state.confFile.url + '/silver/plans/' + String(this.state.temporarySubscription.plan.id) + '/',
             "customer": me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id) + '/',
             "start_date": me.getFormattedDate(me.getCurrentDate()),
-            "ended_at": me.getFormattedDate(me.calculateEndDate(me.getCurrentDate(), me.state.temporarySubscription.plan.interval, me.state.temporarySubscription.plan.interval_count)),
             "meta": this.state.temporarySubscription.metaData
         };
-        console.log(data);
+        //console.log(data);
 
 
         fetch(url, {
@@ -163,11 +162,15 @@ class ServicesPageBlock3 extends React.Component {
             if (response.status == 201) {
                 console.log("Succesfully created subscription");
                 document.getElementById("triger").click();
+                setTimeout(function () {
+                    document.location.replace("/#/Services");
+                    document.location.reload(true);
+                }, 2500);
             }
                 return response.json();
             })
          .then(function (response) {
-                console.log(response);
+                //console.log(response);
             })
             .catch(error => console.error('Error:', error));
     }
