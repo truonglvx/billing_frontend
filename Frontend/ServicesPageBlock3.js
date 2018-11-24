@@ -7,6 +7,29 @@ var ReactDOM = require('react-dom');
 var classNames = require('classnames');
 var Icons = require('glyphicons');
 
+Date.isLeapYear = function (year) {
+    return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
+};
+
+Date.getDaysInMonth = function (year, month) {
+    return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+};
+
+Date.prototype.isLeapYear = function () {
+    return Date.isLeapYear(this.getFullYear());
+};
+
+Date.prototype.getDaysInMonth = function () {
+    return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+};
+
+Date.prototype.addMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() + value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};
 class ServicesPageBlock3 extends React.Component {
 
     constructor(props) {
@@ -16,11 +39,15 @@ class ServicesPageBlock3 extends React.Component {
         this.parseMetaData = this.parseMetaData.bind(this);
         this.purchase = this.purchase.bind(this);
         this.getCurrentDate = this.getCurrentDate.bind(this);
+        this.calculateEndDate = this.calculateEndDate.bind(this);
     }
 
     componentDidMount() {
-        console.log(this.state.temporarySubscription);
+        //console.log(this.state.temporarySubscription);
+        document.getElementById("triger").style.display = 'none';
         this.parseMetaData();
+        this.calculateEndDate(new Date("01/31/2012"), 'month', 1);
+        this.calculateEndDate(new Date("01/31/2012"), 'year',  1);
     }
 
     computeTaxPercent() {
@@ -33,11 +60,10 @@ class ServicesPageBlock3 extends React.Component {
         }
     }
 
-    getCurrentDate() {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
+    getFormattedDate(date) {
+        var dd = date.getDate();
+        var mm = date.getMonth() + 1; //January is 0!
+        var yyyy = date.getFullYear();
 
         if (dd < 10) {
             dd = '0' + dd
@@ -47,8 +73,28 @@ class ServicesPageBlock3 extends React.Component {
             mm = '0' + mm
         }
 
-        today = yyyy + '-' + mm + '-' + dd;
+        date = yyyy + '-' + mm + '-' + dd;
+        return date;
+    }
+
+    getCurrentDate(date) {
+        var today = new Date();
         return today;
+    }
+
+    calculateEndDate(startDate, interval, intervalCount){
+        if (interval == 'month') {
+            //console.log(startDate.addMonths(intervalCount));
+            return startDate.addMonths(intervalCount);
+        }
+        else if (interval == 'year') {
+            var year = parseInt(startDate.getFullYear());
+            var month = parseInt(startDate.getMonth());
+            var date = parseInt(startDate.getDate());
+            var newDate = new Date(year + intervalCount, month, date);
+            //console.log(newDate.toString());
+            return newDate;
+        }
     }
 
     parseMetaData() {
@@ -59,7 +105,7 @@ class ServicesPageBlock3 extends React.Component {
         var arrayValues = Object.values(this.state.temporarySubscription.metaData);
         for (var i = 0; i < arrayKeys.length; i++) {
             if (arrayValues[i] == "") {
-                arrayOfKeyValuePairs.push(<p><small>{arrayKeys[i]} : none</small><br/></p>);
+                arrayOfKeyValuePairs.push(<p><small>{arrayKeys[i]} : none</small><br /></p>);
                 // console.log("" + arrayKeys[i] + ": " + "NaN");
             }
             else {
@@ -78,14 +124,14 @@ class ServicesPageBlock3 extends React.Component {
                     else {
                         arrayOfKeyValuePairs.push(<p><small>{arrayKeys[i]} : {checked.toString()}</small><br /></p>);
                     }
-                   // console.log("" + arrayKeys[i] + ": " + checked.toString());
+                    // console.log("" + arrayKeys[i] + ": " + checked.toString());
                 }
                 else {
                     arrayOfKeyValuePairs.push(<p><small>{arrayKeys[i]} : {String(arrayValues[i])}</small> <br /></p>);
                     // console.log("" + arrayKeys[i] + ": " + String(arrayValues[i]));
                 }
             }
-            
+
         }
 
         return arrayOfKeyValuePairs;
@@ -93,12 +139,14 @@ class ServicesPageBlock3 extends React.Component {
 
     purchase() {
         var me = this;
-        var url = me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id)+'/subscriptions/';
+        var url = me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id) + '/subscriptions/';
         var token = localStorage.getItem("token");
+        console.log(me.getFormattedDate(me.calculateEndDate(me.getCurrentDate(), me.state.temporarySubscription.plan.interval, me.state.temporarySubscription.plan.interval_count)));
         var data = {
             "plan": me.state.confFile.url + '/silver/plans/' + String(this.state.temporarySubscription.plan.id) + '/',
             "customer": me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id) + '/',
-            "start_date": me.getCurrentDate(),
+            "start_date": me.getFormattedDate(me.getCurrentDate()),
+            "ended_at": me.getFormattedDate(me.calculateEndDate(me.getCurrentDate(), me.state.temporarySubscription.plan.interval, me.state.temporarySubscription.plan.interval_count)),
             "meta": this.state.temporarySubscription.metaData
         };
         console.log(data);
@@ -111,8 +159,14 @@ class ServicesPageBlock3 extends React.Component {
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token
             }
-        }).then(res => res.json())
-            .then(function (response) {
+        }).then(function (response) {
+            if (response.status == 201) {
+                console.log("Succesfully created subscription");
+                document.getElementById("triger").click();
+            }
+                return response.json();
+            })
+         .then(function (response) {
                 console.log(response);
             })
             .catch(error => console.error('Error:', error));
@@ -200,6 +254,18 @@ class ServicesPageBlock3 extends React.Component {
                     </section>
 
                 </main>
+                <button id="triger" className="btn btn-primary" type="button" data-toggle="popup" data-target="#popup-slide-down">Slide Down</button>
+                <div id="popup-slide-down" className="popup col-6 col-md-4" data-position="top-right" data-animation="slide-down">
+                    <button type="button" className="close" data-dismiss="popup" aria-label="Close" onClick={() => this.handleNotificationClose()}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div className="media">
+                        <div className="media-body">
+                            <h3>Add subscription (Final step)</h3>
+                            <p className="mb-1 text-success" style={{ fontSize: '1.2em' }}>Sucessfully added subscription !!!</p>
+                        </div>
+                    </div>
+                </div>
             </div>);
     }
 }
