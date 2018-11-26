@@ -174,7 +174,7 @@ class ServicesPageBlock4 extends React.Component {
                 <button type="submit" className="btn float-right btn-large btn-secondary" data-toggle="modal" data-target="#modal-default"><i className="fa fa-plus"> Add company</i></button>
                 <br />
                 <br />
-                <div className="modal fade" id="modal-default" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal" id="modal-default" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content" >
                             <div className="modal-header">
