@@ -16,7 +16,7 @@ class FooterTwo extends React.Component {
     }
     componentDidMount() {
         var me = this;
-        fetch(me.state.confFile.url + '/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+        fetch(me.state.confFile.url + '/va_saas/getCompanyPageLanding/')
             .then(function (response) {
                 return response.json();
             })

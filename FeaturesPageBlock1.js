@@ -16,7 +16,7 @@ class FeaturesPageBlock1 extends React.Component {
     componentDidMount() {
         var me = this;
 
-        fetch(me.state.confFile.url + '/va_saas/getCompanyPageAbout/?company_name=VapourApps')
+        fetch(me.state.confFile.url + '/va_saas/getCompanyPageAbout/')
             .then(function (response) {
                 return response.json();
             })
@@ -29,7 +29,7 @@ class FeaturesPageBlock1 extends React.Component {
                 });
             });
 
-        fetch(me.state.confFile.url + '/va_saas/getCompanyPageAbout/?company_name=VapourApps')
+        fetch(me.state.confFile.url + '/va_saas/getCompanyPageAbout/')
             .then(function (response) {
                 return response.json();
             })
@@ -42,7 +42,7 @@ class FeaturesPageBlock1 extends React.Component {
                 });
             });
 
-        fetch(me.state.confFile.url + '/va_saas/getCompanyPageAboutSteps/?company_name=VapourApps')
+        fetch(me.state.confFile.url + '/va_saas/getCompanyPageAboutSteps/')
             .then(function (response) {
                 return response.json();
             })

@@ -3,7 +3,7 @@
  */
 var React = require('react');
 var ReactDOM = require('react-dom');
-var classNameNameNames = require('classnames');
+var className = require('classnames');
 var Icons = require('glyphicons');
 
 class ServicesPageBlock1 extends React.Component {

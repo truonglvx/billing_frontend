@@ -48,7 +48,7 @@ class LandingPagePricing extends React.Component {
                 me.setState({ plans: response.data });
                 me.getMonthlyPlans();
             });
-        fetch(me.state.confFile.url + '/va_saas/getCompanyPagePricing/?company_name=VapourApps')
+        fetch(me.state.confFile.url + '/va_saas/getCompanyPagePricing/')
             .then(function (response) {
                 return response.json();
             })

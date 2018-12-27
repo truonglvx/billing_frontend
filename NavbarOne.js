@@ -18,7 +18,7 @@ class NavbarOne extends React.Component {
     componentDidMount() {
         var me = this;
 
-        fetch(me.state.confFile.url + '/va_saas/getCompanyPageLanding/?company_name=VapourApps')
+        fetch(me.state.confFile.url + '/va_saas/getCompanyPageLanding/')
             .then(function (response) {
                 return response.json();
             })
@@ -40,7 +40,7 @@ class NavbarOne extends React.Component {
                             <div className="navbar-left mr-4">
                                 <button className="navbar-toggler" type="button">&#9776;</button>
                                 <a className="navbar-brand" href="/#/">
-                                    <img className="logo-dark" src={this.state.headerLogo} alt="logo" />
+                                <img className="logo-dark" src={this.state.headerLogo} alt="logo" />
                                     <img className="logo-light" src={this.state.headerLogo} alt="logo" />
                                 </a>
                             </div>
@@ -54,7 +54,7 @@ class NavbarOne extends React.Component {
 
                                 <div>
                                     <a className="btn btn-sm btn-light ml-lg-5 mr-2" href="/#/Login">Login</a>
-                                    <a className="btn btn-sm btn-success" href="/#/Register">Sign up</a>
+                                    <a className="btn btn-sm btn-success" href="/#/Register">Sign up</a>                                                            
                                 </div>
                             </section>
 
