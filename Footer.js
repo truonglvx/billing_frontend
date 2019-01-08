@@ -18,6 +18,11 @@ class Footer extends React.Component {
 
     }
 
+    redirectContact() {
+        document.location.replace("/#/Contact");
+        document.location.reload(true);
+    }
+
     redirectAbout() {
         document.location.replace("/#/Features");
         document.location.reload(true);
@@ -85,7 +90,7 @@ class Footer extends React.Component {
                                 <div className="nav flex-column">
                                     <a className="nav-link" onClick={() => this.redirectAbout()} style={{ cursor: 'pointer' }}>About</a>
                                     <a className="nav-link" href="/">Careers</a>
-                                    <a className="nav-link" href="/">Contact</a>
+                                    <a className="nav-link" onClick={() => this.redirectContact()} style={{ cursor: 'pointer' }}>Contact</a>
                                 </div>
                             </div>
 

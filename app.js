@@ -24,6 +24,7 @@ var SuccessRegister = require('./SuccessRegister');
 var Profile = require('./Profile');
 var ForgotPassword = require('./ForgotPassword');
 var PrivacyPolicy = require('./PrivacyPolicy');
+var Contact = require('./Contact');
 
 var App = React.createClass({
     render: function () {
@@ -53,6 +54,8 @@ var App = React.createClass({
                     <Route path='/Profile' component={Profile} />
 
                     <Route path='/ForgotPassword' component={ForgotPassword} />
+
+                    <Route path='/Contact' component={Contact} />
                 </div>
             </HashRouter>
         );

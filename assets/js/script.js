@@ -27,7 +27,7 @@ $(function() {
     |
     */
 
-    googleApiKey: 'AIzaSyDRBLFOTTh2NFM93HpUA4ZrA99yKnCAsto',
+    googleApiKey: 'AIzaSyCDlY-4inN9uNhXZq-AVhFCD6bO7f-9WQs',
 
     /*
     |--------------------------------------------------------------------------

@@ -49,6 +49,12 @@ class Navbar extends React.Component {
         //location.href = '/#/?pricing=true';
         //this.props.pricing();
     }
+
+    redirectContact(){
+        document.location.replace("/#/Contact");
+        document.location.reload(true);
+    }
+
     displayR() {
         console.log('RRRR');
     }
@@ -73,7 +79,7 @@ class Navbar extends React.Component {
                                     <a className="nav-link active" href="/">Home</a>
                                     <a className="nav-link" onClick={() => this.redirectAbout()} style={{ cursor: 'pointer' }}>About</a>
                                     <a className="nav-link" onClick={() => this.redirectPricing()} style={{ cursor: 'pointer' }}>Pricing</a>
-                                    <a className="nav-link" href="/">Contact</a>
+                                    <a className="nav-link" onClick={() => this.redirectContact()} style={{ cursor: 'pointer' }}>Contact</a>
                                 </nav>
 
                                 <div>
