@@ -47,14 +47,10 @@ class ServicesPageBlock5 extends React.Component {
 
     saveMetaData() {
         var metaData = {};
+        var vm_data={};
+        var input_types_array=['text', 'password', 'select'];
         for (var i = 0; i < this.state.selectedPlanSteps.length; i++) {
-            if (this.state.selectedPlanSteps[i].input_type == "text") {
-                metaData[this.state.selectedPlanSteps[i].input_name] = document.getElementById(this.state.selectedPlanSteps[i].input_name).value;
-            }
-            else if (this.state.selectedPlanSteps[i].input_type == "password") {
-                metaData[this.state.selectedPlanSteps[i].input_name] = document.getElementById(this.state.selectedPlanSteps[i].input_name).value;
-            }
-            else if (this.state.selectedPlanSteps[i].input_type == "select") {
+            if (input_types_array.includes(this.state.selectedPlanSteps[i].input_type)) {
                 metaData[this.state.selectedPlanSteps[i].input_name] = document.getElementById(this.state.selectedPlanSteps[i].input_name).value;
             }
             else if (this.state.selectedPlanSteps[i].input_type == "checkbox") {
@@ -65,8 +61,13 @@ class ServicesPageBlock5 extends React.Component {
                 }
                 metaData[this.state.selectedPlanSteps[i].input_name] = values;
             }
-            
+
+            else if (this.state.selectedPlanSteps[i].input_type == "hidden"){
+
+                vm_data[this.state.selectedPlanSteps[i].input_name]=this.state.selectedPlanSteps[i].input_value;
+            }
         }
+        metaData['vm_data']=vm_data;
         this.props.saveStateStepThree(metaData);
     }
 
