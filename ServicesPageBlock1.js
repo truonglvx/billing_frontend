@@ -10,18 +10,68 @@ class ServicesPageBlock1 extends React.Component {
 
     constructor() {
         super();
-        this.state = { subscriptions: [], confFile: require('./backend.json'), cancelSubscription: {} };
+        this.state = { subscriptions: [], confFile: require('./backend.json'), cancelSubscription: {}, subscriptions_status: ['not_created', 'managed_by_salt','created', 'managed_by_ssh'], subscriptions_progress: []};
         this.addNewSubscription = this.addNewSubscription.bind(this);
         this.openModal = this.openModal.bind(this);
         this.modalConfirm = this.modalConfirm.bind(this);
+        this.setSubscriptionProgress = this.setSubscriptionProgress.bind(this);
+        this.getSubscriptionStatus = this.getSubscriptionStatus.bind(this);
     }
     addNewSubscription() {
         window.location.replace("/#/AddNewService");
         document.location.reload(true);
     }
+    getSubscriptionStatus(){
+        var me=this;
+        var subscriptions_status_list=me.state.subscriptions_status;
+        console.log('Started Fetching progress_status');
+        fetch("https://66.155.4.76/api/servers/get_server_data?server_name=novobox-test", {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Token ab60ce81305e475691e5cfceaefefd77',
+                    }
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (myJson) {
+                    var response_progress = myJson;
+                    console.log('Finished fetching progress_status');
+                    console.log(response_progress);
+                    subscriptions_status_list.append(response_progress.data.launch_status);
+                    me.setState({ subscriptions_status: subscriptions_status_list });
+                    
+                });
+    }
+
+    setSubscriptionProgress(){
+        var me=this;
+        var subscriptions_progress_list=[];
+        var subscriptions_status=me.state.subscriptions_status;
+        for (var i = 0; i<subscriptions_status.length; i++) {
+            if(subscriptions_status[i] == 'managed_by_salt'){
+                subscriptions_progress_list.push("100");
+            }
+            else if(subscriptions_status[i] == 'managed_by_ssh'){
+                subscriptions_progress_list.push("66");
+            }
+            else if(subscriptions_status[i] == 'created'){
+                subscriptions_progress_list.push("33");
+            }
+            else if(subscriptions_status[i] == 'not_created'){
+                subscriptions_progress_list.push("0");
+            }
+            else{
+                subscriptions_progress_list.push("0");
+            }
+        }
+
+        me.setState({subscriptions_progress: subscriptions_progress_list});
+    }
 
     getAllSubscriptions() {
         var me = this;
+        var subscriptions_status_list=me.state.subscriptions_status;
         var token = localStorage.getItem("token");
         var url = me.state.confFile.url + '/va_silver/get_subscriptions/';
         fetch(url, {
@@ -40,6 +90,8 @@ class ServicesPageBlock1 extends React.Component {
                 console.log(response);
                 me.setState({ subscriptions: response.data });
             });
+
+            me.setSubscriptionProgress();
     }
 
     openModal(subscription) {
@@ -130,7 +182,12 @@ class ServicesPageBlock1 extends React.Component {
                             {JSON.stringify(this.state.subscriptions[i].meta)}
                         </a>
 
-                        <span className="lead text-fade mr-25" title="" data-provide="tooltip" data-original-title="Balance" style={{ fontSize: '20px' }}>{parseFloat(this.state.subscriptions[i].amount).toFixed(2)} {this.state.subscriptions[i].currency}</span>
+                    <div className="progress" style={{"height": "30px", "width": "15%"}}>
+                        <div className="progress-bar progress-bar-striped bg-success" role="progressbar" style={{"width":  this.state.subscriptions_progress[i]+"%" }} aria-valuenow={this.state.subscriptions_progress[i]} aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    
+                    <span className="lead text-fade mr-25" title="" data-provide="tooltip" data-original-title="Balance" style={{ fontSize: '20px' }}>{parseFloat(this.state.subscriptions[i].amount).toFixed(2)} {this.state.subscriptions[i].currency}</span>
                     </div>
 
                 </div>);
@@ -224,6 +281,7 @@ class ServicesPageBlock1 extends React.Component {
 
     componentWillMount() {
         this.getAllSubscriptions();
+        this.getSubscriptionStatus();
     }
     render() {
         return (
