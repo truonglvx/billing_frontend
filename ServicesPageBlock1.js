@@ -31,7 +31,8 @@ class ServicesPageBlock1 extends React.Component {
         for(var i=0; i<subscriptions.length; i++){
                 if(subscriptions[i].meta.hasOwnProperty('vm_data')){
                     var subscriptions_status_list=me.state.subscriptions_status;
-                    fetch("https://66.155.4.76/api/servers/get_server_data?server_name="+subscriptions[i].meta.vm_data.server_name, {
+
+                    fetch("https://66.155.4.76/api/servers/get_server_data?server_name="+subscriptions[i].meta.novobox_name, {
                         method: 'GET',
                         headers: {
                             'Authorization': 'Token ab60ce81305e475691e5cfceaefefd77',
