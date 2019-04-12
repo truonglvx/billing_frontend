@@ -45,6 +45,7 @@ class LandingPagePricing extends React.Component {
             .then(function (myJson) {
                 var response = myJson;
                 console.log('Fetching');
+                console.log('Plans', response.data);
                 me.setState({ plans: response.data });
                 me.getMonthlyPlans();
             });

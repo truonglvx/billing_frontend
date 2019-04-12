@@ -266,3 +266,25 @@ ol.progtrckr li.progtrckr-done:before {
 ol.progtrckr li.progtrckr-done:hover:before {
   color: #333;
 }
+
+/* Subscriptions custom CSS */
+#cancelButtonModalSpanEden{
+  font-size: 35px;
+  margin-right: 30px;
+}
+
+#cancelButtonModalSpanDva{
+  margin-right: 50px;
+}
+
+#divItemSubscription{
+  padding-left: 10px;
+}
+
+#headingSubscription{
+  font-weight: bold;
+}
+
+#spanBalance{
+  font-size: 20px;
+}

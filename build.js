@@ -7,6 +7,6 @@ var resolve = require('path').resolve;
 
 
 browserify(resolve(__dirname, "app.js"))
-  .transform(resolve(__dirname, "node_modules/babelify"), {presets: ["react"]})
+  .transform(resolve(__dirname, "node_modules/babelify"), {presets: ["react", "es2015"]})
   .bundle()
   .pipe(fs.createWriteStream(resolve(__dirname, "bundle.js")));
