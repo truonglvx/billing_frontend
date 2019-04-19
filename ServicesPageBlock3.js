@@ -34,16 +34,21 @@ class ServicesPageBlock3 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { confFile: require('./backend.json'), temporarySubscription: { plan: this.props.selectedPlan(), customer: this.props.selectedCustomer(), metaData: this.props.metaData() } };
+        this.state = { confFile: require('./backend.json'), temporarySubscription: { plan: this.props.selectedPlan(), customer: this.props.selectedCustomer(), metaData: this.props.metaData() }, modalText: '' };
         this.computeTaxPercent = this.computeTaxPercent.bind(this);
         this.parseMetaData = this.parseMetaData.bind(this);
         this.purchase = this.purchase.bind(this);
         this.getCurrentDate = this.getCurrentDate.bind(this);
         this.calculateEndDate = this.calculateEndDate.bind(this);
+        this.proformaFlow=this.proformaFlow.bind(this);
+        this.invoiceFlow=this.invoiceFlow.bind(this);
+        this.createSubscription=this.createSubscription.bind(this);
+        this.activateSubscription=this.activateSubscription.bind(this);
+        this.redirectToSubscriptionsPage=this.redirectToSubscriptionsPage.bind(this);
     }
 
     componentDidMount() {
-        //console.log(this.state.temporarySubscription);
+        console.log("Temporary subscription", this.state.temporarySubscription);
         document.getElementById("triger").style.display = 'none';
         this.parseMetaData();
         this.calculateEndDate(new Date("01/31/2012"), 'month', 1);
@@ -137,42 +142,185 @@ class ServicesPageBlock3 extends React.Component {
         return arrayOfKeyValuePairs;
     }
 
-    purchase() {
-        var me = this;
+    async invoiceFlow(){
+        var me=this;
+        console.log('INVOICE FLOW');
+        var created_subscription = await me.createSubscription();
+
+        const subscription_id=created_subscription.id;
+        const customer_id=me.state.temporarySubscription.customer.id;
+        var activated_subscription = await me.activateSubscription(customer_id, subscription_id);
+        console.log('Activated subscription', activated_subscription);
+
+        me.redirectToSubscriptionsPage();
+    }
+
+    async proformaFlow(){
+        console.log('PROFORMA FLOW');
+        var me=this;
+        var created_proforma = await me.createProforma();
+        console.log("CREATED PROFORMA", created_proforma);
+    }
+
+    async createProforma(){
+        var me=this;
+        var url = me.state.confFile.url + '/silver/proformas/'; 
+        var token = localStorage.getItem("token");
+        //Logic for calculation of transaction_xe_rate
+         var data = {
+            "transaction_xe_rate": 61.5,
+            "currency": "MKD",
+            "customer": me.state.confFile.url + '/silver/customers/' + String(me.state.temporarySubscription.customer.id) + '/',
+            "issue_date": me.getFormattedDate(me.getCurrentDate()),
+            "proforma_entries":[
+                {
+                    "description": "Subscription",
+                    "product_code": "daily-plan",
+                    "prorated": "false",
+                    "quantity": 1,
+                    "start_date": me.getFormattedDate(me.getCurrentDate()),
+                    "unit": "subscription",
+                    "unit_price": me.state.temporarySubscription.plan.amount
+                }
+            ],
+            "provider": me.state.confFile.url + '/silver/providers/' + String(me.state.temporarySubscription.plan.plan_provider.id) + '/',
+            "sales_tax_name": "VAT",
+            "sales_tax_percent": 0,
+            "state": "issued"
+        };
+
+        //Request for creating subscription (Silver endpoint)
+
+        var response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT ' + token
+                }
+            }).then(function (response) {
+                if (response.status == 201) {
+                    
+                    me.setState({modalText: "Succesfully created proforma !!!"});
+                    document.getElementById("triger").click();
+                }
+                    return response.json();
+                })
+             .then(function (response) {
+                    //console.log('RESPONSE', response);
+                    return response;
+            })
+            .catch(function(error){
+                me.setState({modalText: "Unsuccesfully created proforma !!!"});
+                document.getElementById("modalText").classList.remove('text-success');
+                document.getElementById("modalText").classList.add('text-danger');
+                document.getElementById("triger").click();
+            });
+            const json=await response;
+            console.log('RESPONSE', json);
+            return json;
+    }
+
+    async createSubscription(){
+        var me=this;
         var url = me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id) + '/subscriptions/';
         var token = localStorage.getItem("token");
-        //console.log(me.getFormattedDate(me.calculateEndDate(me.getCurrentDate(), me.state.temporarySubscription.plan.interval, me.state.temporarySubscription.plan.interval_count)));
-        var data = {
+         var data = {
             "plan": me.state.confFile.url + '/silver/plans/' + String(this.state.temporarySubscription.plan.id) + '/',
             "customer": me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id) + '/',
             "start_date": me.getFormattedDate(me.getCurrentDate()),
             "meta": this.state.temporarySubscription.metaData
         };
-        //console.log(data);
 
+        //Request for creating subscription (Silver endpoint)
 
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'JWT ' + token
-            }
-        }).then(function (response) {
-            if (response.status == 201) {
-                console.log("Succesfully created subscription");
+        var response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT ' + token
+                }
+            }).then(function (response) {
+                if (response.status == 201) {
+                    //console.log("Succesfully created subscription");
+                    me.setState({modalText: "Succesfully created subscription !!!"});
+                    document.getElementById("triger").click();
+                }
+                    return response.json();
+                })
+             .then(function (response) {
+                    //console.log('RESPONSE', response);
+                    return response;
+            })
+            .catch(function(error){
+                me.setState({modalText: "Unsuccesfully created subscription !!!"});
+                document.getElementById("modalText").classList.remove('text-success');
+                document.getElementById("modalText").classList.add('text-danger');
                 document.getElementById("triger").click();
-                setTimeout(function () {
-                    document.location.replace("/#/Services");
-                    document.location.reload(true);
-                }, 2500);
-            }
-                return response.json();
+            });
+            const json=await response;
+            console.log('RESPONSE', json);
+            return json;
+    }
+
+   async activateSubscription(customerId, subscriptionId){
+        var me=this;
+        var url = me.state.confFile.url + '/silver/customers/' + String(customerId) + '/subscriptions/'+String(subscriptionId)+"/activate/";
+        var token = localStorage.getItem("token");
+         var data = {
+            "start_date": me.getFormattedDate(me.getCurrentDate()),
+        };
+
+        //Request for activating subscription (Silver endpoint)
+
+        var response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT ' + token
+                }
+            }).then(function (response) {
+                console.log('Response status', response.status);
+                if (response.status == 200) {
+                   // console.log("Succesfully activated subscription");
+                    me.setState({modalText: "Succesfully created and activated subscription !!!"});
+                    //document.getElementById("triger").click();
+                }
+                    return response.json();
+                })
+             .then(function (response) {
+                    //console.log('RESPONSE', response);
+                    return response;
             })
-         .then(function (response) {
-                //console.log(response);
-            })
-            .catch(error => console.error('Error:', error));
+            .catch(function(error){
+                me.setState({modalText: "Unsuccesfully activated subscription !!!"});
+                document.getElementById("modalText").classList.remove('text-success');
+                document.getElementById("modalText").classList.add('text-danger');                
+                document.getElementById("triger").click();
+            });
+            const json=await response;
+            console.log('RESPONSE', json);
+            return json;
+    }
+
+    redirectToSubscriptionsPage(){
+        setTimeout(function () {
+            document.location.replace("/#/Services");
+            document.location.reload(true);
+        }, 2500);
+    }
+
+
+    purchase() {
+        var me=this;
+        if(me.state.temporarySubscription.plan.plan_provider.flow == "invoice"){
+            me.invoiceFlow();
+        }
+        else{
+            me.proformaFlow();
+        }
     }
     render() {
         return (
@@ -265,7 +413,7 @@ class ServicesPageBlock3 extends React.Component {
                     <div className="media">
                         <div className="media-body">
                             <h3>Add subscription (Final step)</h3>
-                            <p className="mb-1 text-success" style={{ fontSize: '1.2em' }}>Sucessfully added subscription !!!</p>
+                            <p id="modalText" className="mb-1 text-success" style={{ fontSize: '1.2em' }}>{this.state.modalText}</p>
                         </div>
                     </div>
                 </div>

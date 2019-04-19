@@ -76,6 +76,7 @@ class ServicesPageBlock2 extends React.Component {
             })
             .then(function (myJson) {
                 var response = myJson;
+                console.log('Plans', response.data);
                 me.setState({ plans: response.data });
                 me.getMonthlyPlans();
                 if (me.props.selectedPlan().id != "") {
