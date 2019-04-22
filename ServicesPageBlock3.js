@@ -45,6 +45,8 @@ class ServicesPageBlock3 extends React.Component {
         this.createSubscription=this.createSubscription.bind(this);
         this.activateSubscription=this.activateSubscription.bind(this);
         this.redirectToSubscriptionsPage=this.redirectToSubscriptionsPage.bind(this);
+        this.getTransactionXERate=this.getTransactionXERate.bind(this);
+        this.addBillingLog=this.addBillingLog.bind(this);
     }
 
     componentDidMount() {
@@ -89,7 +91,6 @@ class ServicesPageBlock3 extends React.Component {
 
     calculateEndDate(startDate, interval, intervalCount){
         if (interval == 'month') {
-            //console.log(startDate.addMonths(intervalCount));
             return startDate.addMonths(intervalCount);
         }
         else if (interval == 'year') {
@@ -97,7 +98,6 @@ class ServicesPageBlock3 extends React.Component {
             var month = parseInt(startDate.getMonth());
             var date = parseInt(startDate.getDate());
             var newDate = new Date(year + intervalCount, month, date);
-            //console.log(newDate.toString());
             return newDate;
         }
     }
@@ -150,46 +150,118 @@ class ServicesPageBlock3 extends React.Component {
         const subscription_id=created_subscription.id;
         const customer_id=me.state.temporarySubscription.customer.id;
         var activated_subscription = await me.activateSubscription(customer_id, subscription_id);
-        console.log('Activated subscription', activated_subscription);
 
         me.redirectToSubscriptionsPage();
     }
 
     async proformaFlow(){
-        console.log('PROFORMA FLOW');
         var me=this;
+        console.log('PROFORMA FLOW');
+        var created_subscription = await me.createSubscription();
         var created_proforma = await me.createProforma();
+        console.log("CREATED SUBSCRIPTION", created_subscription);
         console.log("CREATED PROFORMA", created_proforma);
+        const subscription_id=created_subscription.id;
+        const proforma_id=created_proforma.id;
+        var billing_log=await me.addBillingLog(subscription_id, proforma_id);
+        console.log("ADDED BILLING LOG", billing_log);
+    }
+
+    async addBillingLog(subscriptionId, proformaId){
+        var me=this;
+        var url = me.state.confFile.url + '/va_silver/add_billing_log';
+        var token = localStorage.getItem("token");
+        var data = {
+            "subscription_id": subscriptionId,
+            "proforma_id": proformaId
+        };
+
+        //Request for creating subscription (Silver endpoint)
+
+        var response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT ' + token
+                }
+            }).then(function (response) {
+                if (response.status == 200 || response.status == 201) {
+                }
+                    return response.json();
+                })
+             .then(function (response) {
+                    return response;
+            })
+            .catch(function(error){
+
+            });
+            const json=await response;
+            console.log('Response', json);
+            return json;
+    }
+
+    async getTransactionXERate(from, to){
+        var me=this;
+        var url = `https://free.currencyconverterapi.com/api/v6/convert?q=${from}_${to}&compact=ultra&apiKey=${me.state.confFile['api_key']}`;
+
+        //Request for creating subscription (Silver endpoint)
+
+        var response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(function (response) {
+                    return response.json();
+                })
+             .then(function (response) {
+                    return response;
+            })
+            .catch(function(error){
+
+            });
+            const json=await response;
+            return json;
     }
 
     async createProforma(){
         var me=this;
         var url = me.state.confFile.url + '/silver/proformas/'; 
         var token = localStorage.getItem("token");
+        
         //Logic for calculation of transaction_xe_rate
-         var data = {
-            "transaction_xe_rate": 61.5,
-            "currency": "MKD",
+        var transaction_xe_rate = await me.getTransactionXERate(me.state.temporarySubscription.plan.currency, me.state.temporarySubscription.customer.currency);
+        transaction_xe_rate=transaction_xe_rate[me.state.temporarySubscription.plan.currency+'_'+me.state.temporarySubscription.customer.currency];
+        
+        //Logic for adding proforma_entries
+        var description=`Subscription (interval = ${me.state.temporarySubscription.plan.interval}) : ${me.getCurrentDate().toDateString()} - ${this.calculateEndDate(me.getCurrentDate(), 'month', 1).toDateString()}`;
+        var proforma_entry = 
+        {
+            "description": description,
+            "product_code": me.state.temporarySubscription.plan.product_code.value,
+            "prorated": "false",
+            "quantity": 1,
+            "start_date": me.getFormattedDate(me.getCurrentDate()),
+            "unit": "subscription",
+            "unit_price": me.state.temporarySubscription.plan.amount
+        };
+
+        var proforma_entries=[];
+        proforma_entries.push(proforma_entry);
+
+        var data = {
+            "transaction_xe_rate": transaction_xe_rate.toFixed(2),
             "customer": me.state.confFile.url + '/silver/customers/' + String(me.state.temporarySubscription.customer.id) + '/',
             "issue_date": me.getFormattedDate(me.getCurrentDate()),
-            "proforma_entries":[
-                {
-                    "description": "Subscription",
-                    "product_code": "daily-plan",
-                    "prorated": "false",
-                    "quantity": 1,
-                    "start_date": me.getFormattedDate(me.getCurrentDate()),
-                    "unit": "subscription",
-                    "unit_price": me.state.temporarySubscription.plan.amount
-                }
-            ],
+            "proforma_entries": proforma_entries,
             "provider": me.state.confFile.url + '/silver/providers/' + String(me.state.temporarySubscription.plan.plan_provider.id) + '/',
             "sales_tax_name": "VAT",
             "sales_tax_percent": 0,
             "state": "issued"
         };
 
-        //Request for creating subscription (Silver endpoint)
+        //Request for creating proformas (Silver endpoint)
 
         var response = await fetch(url, {
                 method: 'POST',
@@ -207,7 +279,6 @@ class ServicesPageBlock3 extends React.Component {
                     return response.json();
                 })
              .then(function (response) {
-                    //console.log('RESPONSE', response);
                     return response;
             })
             .catch(function(error){
@@ -217,7 +288,6 @@ class ServicesPageBlock3 extends React.Component {
                 document.getElementById("triger").click();
             });
             const json=await response;
-            console.log('RESPONSE', json);
             return json;
     }
 
@@ -243,14 +313,12 @@ class ServicesPageBlock3 extends React.Component {
                 }
             }).then(function (response) {
                 if (response.status == 201) {
-                    //console.log("Succesfully created subscription");
                     me.setState({modalText: "Succesfully created subscription !!!"});
                     document.getElementById("triger").click();
                 }
                     return response.json();
                 })
              .then(function (response) {
-                    //console.log('RESPONSE', response);
                     return response;
             })
             .catch(function(error){
@@ -260,7 +328,6 @@ class ServicesPageBlock3 extends React.Component {
                 document.getElementById("triger").click();
             });
             const json=await response;
-            console.log('RESPONSE', json);
             return json;
     }
 
@@ -282,16 +349,12 @@ class ServicesPageBlock3 extends React.Component {
                     'Authorization': 'JWT ' + token
                 }
             }).then(function (response) {
-                console.log('Response status', response.status);
                 if (response.status == 200) {
-                   // console.log("Succesfully activated subscription");
                     me.setState({modalText: "Succesfully created and activated subscription !!!"});
-                    //document.getElementById("triger").click();
                 }
                     return response.json();
                 })
              .then(function (response) {
-                    //console.log('RESPONSE', response);
                     return response;
             })
             .catch(function(error){
@@ -301,7 +364,6 @@ class ServicesPageBlock3 extends React.Component {
                 document.getElementById("triger").click();
             });
             const json=await response;
-            console.log('RESPONSE', json);
             return json;
     }
 
