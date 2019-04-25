@@ -1,4 +1,5 @@
 {
  "url": "https://localhost",
- "company_name": "Company_name"
+ "company_name": "Company_name",
+ "api_key": "your_api_key_from_https://free.currencyconverterapi.com/"
 }

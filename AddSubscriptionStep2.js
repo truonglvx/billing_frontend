@@ -1,13 +1,11 @@
 /**
  * Created by mnace on 11/8/2018.
  */
-var $ = require('./assets/js/jquery.min');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 
-class ServicesPageBlock4 extends React.Component {
+class AddSubscriptionStep2 extends React.Component {
 
     constructor(props) {
         super(props);
@@ -1106,4 +1104,4 @@ class ServicesPageBlock4 extends React.Component {
     }
 }
 
-module.exports = ServicesPageBlock4;
+module.exports = AddSubscriptionStep2;

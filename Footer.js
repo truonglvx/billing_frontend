@@ -1,12 +1,9 @@
 /**
  * Created by mnace on 8/2/2017.
  */
-var $ = require('./assets/js/jquery.min');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
-const Link = require('react-router-hash-link').HashLink;
 
 class Footer extends React.Component {
     constructor(props) {

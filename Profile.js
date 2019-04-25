@@ -1,15 +1,12 @@
 /**
  * Created by mnace on 10/21/2018.
  */
-var $ = require('./assets/js/jquery.min');
 var Bootstrap = require('react-bootstrap');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 var NavbarTwo = require('./NavbarTwo');
 var FooterTwo = require('./FooterTwo');
-var Script = require('react-load-script');
 
 class Profile extends React.Component {
 

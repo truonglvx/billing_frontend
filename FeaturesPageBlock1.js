@@ -1,8 +1,10 @@
-var $ = require('jquery');
+/**
+ * Created by mnace on 8/7/2018.
+ */
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 
 
 

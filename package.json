@@ -8,7 +8,6 @@
     "buffer": "^5.2.1",
     "classnames": "^2.2.5",
     "express": "^4.15.3",
-    "glyphicons": "^0.2.0",
     "jquery": "^3.3.1",
     "markdown": "^0.5.0",
     "popper.js": "^1.15.0",
@@ -17,10 +16,8 @@
     "react-bootstrap": "^0.31.5",
     "react-dom": "^15.6.2",
     "react-html-parser": "^2.0.2",
-    "react-load-script": "0.0.6",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-router-hash-link": "^1.2.0",
     "react-script-tag": "^1.1.2",
     "react-stepzilla": "^4.7.3",
     "request": "^2.81.0",
@@ -35,7 +32,7 @@
   },
   "scripts": {
     "build": "node build.js",
-    "buildCustomComponents": "mustache customComponents.json ServicesPageBlock1_template.js > ServicesPageBlock1.js",
+    "buildCustomComponents": "mustache customComponents.json ListSubscriptions_template.js > ListSubscriptions.js",
     "start": "node server.js"
   },
   "author": "Vapour Apps",

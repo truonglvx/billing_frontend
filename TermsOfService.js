@@ -1,19 +1,17 @@
 /**
  * Created by mnace on 8/2/2017.
  */
-var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var queryString = require('query-string');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 var markdown = require("markdown").markdown;
-var showdown = require('showdown'),
-    converter = new showdown.Converter();
 var Navbar = require('./Navbar');
 var NavbarTwo = require('./NavbarTwo');
 var Footer = require('./Footer');
 var FooterTwo = require('./FooterTwo');
+var showdown = require('showdown'),
+converter = new showdown.Converter();
 
 
 class TermsOfService extends React.Component {

@@ -1,15 +1,13 @@
 /**
  * Created by mnace on 11/6/2018.
  */
-var $ = require('./assets/js/jquery.min');
 var React = require('react');
 var ReactDOM = require('react-dom');
-var classNameNames = require('classnames');
-var Icons = require('glyphicons');
+var className = require('classnames');
 var showdown = require('showdown'),
-    converter = new showdown.Converter();
+converter = new showdown.Converter();
 
-class ServicesPageBlock2 extends React.Component {
+class AddSubscriptionStep1 extends React.Component {
 
     constructor(props) {
         super(props);
@@ -194,4 +192,4 @@ class ServicesPageBlock2 extends React.Component {
     }
 }
 
-module.exports = ServicesPageBlock2;
+module.exports = AddSubscriptionStep1;

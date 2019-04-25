@@ -1,11 +1,10 @@
 /**
  * Created by mnace on 1/3/2018.
  */
-var $ = require('jquery');
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 var Navbar = require('./Navbar');
 var Footer = require('./Footer');
 
@@ -40,7 +39,6 @@ class Contact extends React.Component {
 							</small>
 						</div>
 					</div>
-                    <h1> Test Pull Request</h1>
 
                     <br /><br />
                     <Footer />

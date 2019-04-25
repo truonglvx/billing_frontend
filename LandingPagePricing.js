@@ -1,13 +1,11 @@
 /**
  * Created by mnace on 10/31/2018.
  */
-var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 var showdown = require('showdown'),
-    converter = new showdown.Converter();
+converter = new showdown.Converter();
 
 
 class LandingPagePricing extends React.Component {

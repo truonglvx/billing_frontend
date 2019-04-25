@@ -6,10 +6,10 @@ var ReactDOM = require('react-dom');
 var classNames = require('classnames');
 var NavbarTwo = require('./NavbarTwo');
 
-var AddSubscriptionStep1 = require('./ServicesPageBlock2');
-var AddSubscriptionStep2 = require('./ServicesPageBlock4');
-var AddSubscriptionStep3 = require('./ServicesPageBlock5');
-var AddSubscriptionStep4 = require('./ServicesPageBlock3');
+var AddSubscriptionStep1 = require('./AddSubscriptionStep1');
+var AddSubscriptionStep2 = require('./AddSubscriptionStep2');
+var AddSubscriptionStep3 = require('./AddSubscriptionStep3');
+var AddSubscriptionStep4 = require('./AddSubscriptionStep4');
 
 var FooterTwo = require('./FooterTwo');
 var StepZilla = require('react-stepzilla').default;
@@ -19,11 +19,12 @@ class AddSubscription extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            createdProforma: {id: ''}, createdSubscription: {id: ''},
             selectedPlan: { id: '', name: '' }, selectedPlanIndex: '', selectedCustomer: { id: '', company: '' }, metaData: {}, steps: [
                 { name: 'Step 1', component: <AddSubscriptionStep1 saveStateStepOne={this.handleSaveStateStepOne.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} selectedPlanIndex={this.getSelectedPlanIndex.bind(this)} /> },
                 { name: 'Step 2', component: <AddSubscriptionStep2 saveStateStepTwo={this.handleSaveStateStepTwo.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} /> },
                 { name: 'Step 3', component: <AddSubscriptionStep3 selectedPlan={this.getSelectedPlan.bind(this)} saveStateStepThree={this.handleSaveStateStepThree.bind(this)} /> },
-                { name: 'Step 4', component: <AddSubscriptionStep4 selectedPlan={this.getSelectedPlan.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} metaData={this.getMetaData.bind(this)} /> }
+                { name: 'Step 4', component: <AddSubscriptionStep4 saveStateStepFour={this.handleSaveStateStepFour.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} metaData={this.getMetaData.bind(this)} /> }
             ]
         };
         this.getSelectedPlan = this.getSelectedPlan.bind(this);
@@ -61,6 +62,11 @@ class AddSubscription extends React.Component {
     handleSaveStateStepThree(metaData) {
         this.setState({ metaData: metaData });
     }
+
+    handleSaveStateStepFour(proforma, subscription){
+        this.setState({createdProforma: proforma, createdSubscription: subscription});
+    }
+
     render() {
         return (
             <div>

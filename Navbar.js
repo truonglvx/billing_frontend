@@ -1,14 +1,9 @@
 /**
  * Created by mnace on 7/28/2017.
  */
-var $ = require('./assets/js/jquery.min');
 var React = require('react');
 var ReactDOM = require('react-dom');
-const Link = require('react-router-hash-link').HashLink;
-const Redirect = require('react-router-dom').Redirect
 var classNameNameNames = require('classnames');
-var Icons = require('glyphicons');
-var Script = require('react-load-script');
 
 
 class Navbar extends React.Component {

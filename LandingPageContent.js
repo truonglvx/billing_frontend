@@ -1,12 +1,9 @@
 /**
  * Created by mnace on 8/2/2017.
  */
-var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
-
 
 
 class LandingPageContent extends React.Component {

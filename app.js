@@ -7,16 +7,14 @@ const HashRouter = require('react-router-dom').HashRouter
 const Route = require('react-router-dom').Route
 var Bootstrap = require('react-bootstrap');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 var request = require('request');
-global.jQuery = require('./assets/js/jquery.min');
 var bootstrap = require('bootstrap');
 
 var Main = require('./Main');
 var Features = require('./Features');
 var Login = require('./Login');
 var Register = require('./Register');
-var Services = require('./Services');
+var Subscriptions = require('./Subscriptions');
 var AddSubscription = require('./AddSubscription');
 var TermsOfService = require('./TermsOfService');
 var ChangePassword = require('./ChangePassword');
@@ -39,9 +37,9 @@ var App = React.createClass({
 
                     <Route path="/Register" component={Register} />
 
-                    <Route path='/Services' component={Services} />
+                    <Route path='/Subscriptions' component={Subscriptions} />
 
-                    <Route path='/AddNewService' component={AddSubscription} />
+                    <Route path='/AddSubscription' component={AddSubscription} />
 
                     <Route path='/TermsOfService' component={TermsOfService} />
 

@@ -1,12 +1,9 @@
 /**
  * Created by mnace on 7/28/2017.
  */
-var $ = require('./assets/js/jquery.min');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var className = require('classnames');
-var Icons = require('glyphicons');
-var Script = require('react-load-script');
 
 
 class NavbarTwo extends React.Component {
@@ -47,7 +44,7 @@ class NavbarTwo extends React.Component {
     }
 
     redirectSubscriptions() {
-        document.location.replace("/#/Services");
+        document.location.replace("/#/Subscriptions");
         document.location.reload(true);
     }
 

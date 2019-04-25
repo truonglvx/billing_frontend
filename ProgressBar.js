@@ -4,7 +4,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 var customFunctions=require('./customFunctions');
 
 class ProgressBar extends React.Component {

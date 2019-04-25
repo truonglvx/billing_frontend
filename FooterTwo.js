@@ -1,12 +1,9 @@
 /**
  * Created by mnace on 8/2/2017.
  */
-var $ = require('./assets/js/jquery.min');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
-
 
 
 class FooterTwo extends React.Component {
@@ -38,7 +35,7 @@ class FooterTwo extends React.Component {
     }
 
     redirectSubscriptions() {
-        document.location.replace("/#/Services");
+        document.location.replace("/#/Subscriptions");
         document.location.reload(true);
     }
     render() {

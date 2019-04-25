@@ -1,11 +1,10 @@
 /**
  * Created by mnace on 8/7/2018.
  */
-var $ = require('./assets/js/jquery.min');
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Icons = require('glyphicons');
 
 Date.isLeapYear = function (year) {
     return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
@@ -30,7 +29,7 @@ Date.prototype.addMonths = function (value) {
     this.setDate(Math.min(n, this.getDaysInMonth()));
     return this;
 };
-class ServicesPageBlock3 extends React.Component {
+class AddSubscriptionStep4 extends React.Component {
 
     constructor(props) {
         super(props);
@@ -369,9 +368,9 @@ class ServicesPageBlock3 extends React.Component {
 
     redirectToSubscriptionsPage(){
         setTimeout(function () {
-            document.location.replace("/#/Services");
+            document.location.replace("/#/Subscriptions");
             document.location.reload(true);
-        }, 2500);
+        }, 2000);
     }
 
 
@@ -483,4 +482,4 @@ class ServicesPageBlock3 extends React.Component {
     }
 }
 
-module.exports = ServicesPageBlock3;
+module.exports = AddSubscriptionStep4;

@@ -1,11 +1,9 @@
 /**
  * Created by mnace on 8/7/2018.
  */
-var $ = require('./assets/js/jquery.min');
 var React = require('react');
 var ReactDOM = require('react-dom');
-var classNameNames = require('classnames');
-var Icons = require('glyphicons');
+var classNames = require('classnames');
 var Navbar = require('./Navbar');
 var Footer = require('./Footer');
 
@@ -60,7 +58,7 @@ class Login extends React.Component {
                 if (response.token != null) {
                     console.log('Success:', response);
                     localStorage.setItem("token", response.token);
-                    window.location.replace("/#/Services");
+                    window.location.replace("/#/Subscriptions");
                     document.location.reload(true);
                 }
                 else {

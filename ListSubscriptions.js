@@ -4,13 +4,10 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var className = require('classnames');
-var Icons = require('glyphicons');
 
-{{#subscriptions_custom_component}}
-import CustomComponent from "./{{subscriptions_custom_component}}";
-{{/subscriptions_custom_component}}
+import CustomComponent from "./ProgressBar";
 
-class ServicesPageBlock1 extends React.Component {
+class ListSubscriptions extends React.Component {
 
     constructor() {
         super();
@@ -22,7 +19,7 @@ class ServicesPageBlock1 extends React.Component {
     }
 
     addNewSubscription() {
-        window.location.replace("/#/AddNewService");
+        window.location.replace("/#/AddSubscription");
         document.location.reload(true);
     }
 
@@ -66,9 +63,7 @@ class ServicesPageBlock1 extends React.Component {
 
     getCustomComponent(subscription){
         
-        {{#subscriptions_custom_component}}
         return <CustomComponent subscription={subscription}/>;
-        {{/subscriptions_custom_component}}
     }
 
     modalConfirm() {
@@ -260,4 +255,4 @@ class ServicesPageBlock1 extends React.Component {
     }
 }
 
-module.exports = ServicesPageBlock1;
+module.exports = ListSubscriptions;

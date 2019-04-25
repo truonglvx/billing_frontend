@@ -1,16 +1,13 @@
 /**
  * Created by mnace on 8/7/2018.
  */
-var $ = require('./assets/js/jquery.min');
 var React=require('react');
 var ReactDOM=require('react-dom');
-var classNames=require('classnames');
-var Icons=require('glyphicons');
 var NavbarTwo=require('./NavbarTwo');
-var ServicesPageBlock1=require('./ServicesPageBlock1');
+var ListSubscriptions=require('./ListSubscriptions');
 var FooterTwo=require('./FooterTwo');
 
-class Services extends React.Component {
+class Subscriptions extends React.Component {
             
 			constructor(){
                     super();
@@ -23,11 +20,11 @@ class Services extends React.Component {
 				
 				<NavbarTwo />
 				<br/><br/><br/><br/>
-				<ServicesPageBlock1 />
+				<ListSubscriptions />
 				<br/><br/>
 				<FooterTwo />
                 </div>);
             }
         }
 
-        module.exports = Services;
+module.exports = Subscriptions;
