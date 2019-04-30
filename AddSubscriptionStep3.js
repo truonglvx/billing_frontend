@@ -46,7 +46,8 @@ class AddSubscriptionStep3 extends React.Component {
 
     saveMetaData() {
         var metaData = {};
-        var vm_data={};
+        var default_data={};
+        var default_data_flag=false;
         var input_types_array=['text', 'password', 'select'];
         for (var i = 0; i < this.state.selectedPlanSteps.length; i++) {
             if (input_types_array.includes(this.state.selectedPlanSteps[i].input_type)) {
@@ -63,10 +64,14 @@ class AddSubscriptionStep3 extends React.Component {
 
             else if (this.state.selectedPlanSteps[i].input_type == "hidden"){
 
-                vm_data[this.state.selectedPlanSteps[i].input_name]=this.state.selectedPlanSteps[i].input_value;
+                default_data[this.state.selectedPlanSteps[i].input_name]=this.state.selectedPlanSteps[i].input_value;
+                default_data_flag=true;
             }
         }
-        metaData['vm_data']=vm_data;
+        if(default_data_flag == true){
+            metaData['default_data']=default_data;
+        }
+
         this.props.saveStateStepThree(metaData);
     }
 

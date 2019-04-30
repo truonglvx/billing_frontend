@@ -16,6 +16,7 @@ class ListSubscriptions extends React.Component {
         this.openModal = this.openModal.bind(this);
         this.modalConfirm = this.modalConfirm.bind(this);
         this.getCustomComponent = this.getCustomComponent.bind(this);
+        this.shouldFetchSubscriptions=this.shouldFetchSubscriptions.bind(this);
     }
 
     addNewSubscription() {
@@ -25,11 +26,9 @@ class ListSubscriptions extends React.Component {
 
     getAllSubscriptions() {
         var me = this;
-        var subscriptions_status_list=me.state.subscriptions_status;
         var token = localStorage.getItem("token");
         var url = me.state.confFile.url + '/va_silver/get_subscriptions/';
         var subscriptions_list=[];
-        var subscription_results;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -51,6 +50,17 @@ class ListSubscriptions extends React.Component {
             });
     }
 
+    shouldFetchSubscriptions(){
+        var me=this;
+        for(var i=0; i<me.state.subscriptions.length;i++){
+            if(me.state.subscriptions[i].meta.hasOwnProperty('default_data')){
+                if(me.state.subscriptions[i].meta.default_data.status != 'Completed'){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 
     openModal(subscription) {
@@ -240,14 +250,27 @@ class ListSubscriptions extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         var me=this;
         me.getAllSubscriptions();
-       // setInterval(function(){
-            me.getAllSubscriptions();
-        //}, 2000);
+        
+       var refreshIntervalId=setInterval(function(){
+
+            if(me.shouldFetchSubscriptions()==false){
+                clearInterval(refreshIntervalId);
+                console.log("STOP REFRESHING");
+            }
+            else{
+                me.getAllSubscriptions();
+                console.log("REFRESHING");
+            }   
+        }, 2500);
+
+        console.log("COMPLETED")
+
     }
     render() {
+        console.log('Rerender');
         return (
             <div>
                 {this.showSubscriptions()}
