@@ -27,28 +27,29 @@ class ProgressBar extends React.Component {
         console.log("COMPONENT WILL UPDATE");
         if(nextProps.subscription.meta.hasOwnProperty('default_data')){
             
-            if(nextProps.subscription.meta.default_data.status != me.state.status){
-                console.log("Props change");
+            if(nextProps.subscription.meta.default_data.status != undefined && nextProps.subscription.meta.default_data.status != me.state.status){
                 me.setSubscriptionProgressAndStatus(nextProps.subscription);
             }
             else {
-                var hard_limit = 100;
-                var interval = 50;
-                var limit = progress_dictionary[me.state.status]+interval;
-                limit = Math.min(limit, hard_limit);
-                console.log("No props change");
-                console.log('LIMIT', limit);
-                var offset = Math.log(parseInt(limit)-me.state.progress);
-                var new_progress = parseInt(me.state.progress) + offset;
-                console.log('New prog', new_progress)
-                if(new_progress < limit){
-                    console.log('Setting to ', new_progress);
-                    me.setState({progress: new_progress});
-                }
-                else{
-                    console.log('Proggress was larger than limit', new_progress, limit);
-                }
 
+                if(nextProps.subscription.meta.default_data.status != undefined){
+                    var hard_limit = 100;
+                    var interval = 50;
+                    var limit = progress_dictionary[me.state.status]+interval;
+                    limit = Math.min(limit, hard_limit);
+                    console.log("No props change");
+                    console.log('LIMIT', limit);
+                    var offset = customFunctions.getBaseLog(100, parseInt(limit)-me.state.progress);
+                    var new_progress = Math.ceil(parseInt(me.state.progress) + offset);
+                    console.log('New prog', new_progress)
+                    if(new_progress < limit){
+                        console.log('Setting to ', new_progress);
+                        me.setState({progress: new_progress});
+                    }
+                    else{
+                        console.log('Proggress was larger than limit', new_progress, limit);
+                    }
+                }
             }
         }
     } 

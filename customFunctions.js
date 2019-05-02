@@ -4,10 +4,17 @@
 
 module.exports = {
 
+getBaseLog(x, y) {
+  return Math.log(y) / Math.log(x);
+},
+
 getSubscriptionStatusAndProgress(subscription){
             var subscription_status='';
             if(subscription.meta.hasOwnProperty('default_data')){
                 subscription_status=subscription.meta.default_data.status;
+                if(!subscription.meta.default_data.hasOwnProperty('status')){
+                    subscription_status='Completed';
+                }
             }
             else{
                 subscription_status='Completed';
