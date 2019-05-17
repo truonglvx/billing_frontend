@@ -20,11 +20,11 @@ class AddSubscription extends React.Component {
         super(props);
         this.state = {
             createdProforma: {id: ''}, createdSubscription: {id: ''},
-            selectedPlan: { id: '', name: '' }, selectedPlanIndex: '', selectedCustomer: { id: '', company: '' }, metaData: {}, steps: [
+            selectedPlan: { id: '', name: '' }, selectedPlanIndex: '', selectedCustomer: { id: '', company: '' }, metaData: {}, fileUploads: [], steps: [
                 { name: 'Step 1', component: <AddSubscriptionStep1 saveStateStepOne={this.handleSaveStateStepOne.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} selectedPlanIndex={this.getSelectedPlanIndex.bind(this)} /> },
                 { name: 'Step 2', component: <AddSubscriptionStep2 saveStateStepTwo={this.handleSaveStateStepTwo.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} /> },
                 { name: 'Step 3', component: <AddSubscriptionStep3 selectedPlan={this.getSelectedPlan.bind(this)} saveStateStepThree={this.handleSaveStateStepThree.bind(this)} /> },
-                { name: 'Step 4', component: <AddSubscriptionStep4 saveStateStepFour={this.handleSaveStateStepFour.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} metaData={this.getMetaData.bind(this)} /> }
+                { name: 'Step 4', component: <AddSubscriptionStep4 saveStateStepFour={this.handleSaveStateStepFour.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} metaData={this.getMetaData.bind(this)} fileUploads={this.getFileUploads.bind(this)}/> }
             ]
         };
         this.getSelectedPlan = this.getSelectedPlan.bind(this);
@@ -47,6 +47,10 @@ class AddSubscription extends React.Component {
         return this.state.metaData;
     }
 
+    getFileUploads(){
+        return this.state.fileUploads;
+    }
+
     handleStepChange(step) {
 
     }
@@ -59,8 +63,8 @@ class AddSubscription extends React.Component {
         this.setState({ selectedCustomer: customer });
     }
 
-    handleSaveStateStepThree(metaData) {
-        this.setState({ metaData: metaData });
+    handleSaveStateStepThree(metaData, fileUploads) {
+        this.setState({ metaData: metaData, fileUploads: fileUploads});
     }
 
     handleSaveStateStepFour(proforma, subscription){

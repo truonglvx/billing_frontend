@@ -5,9 +5,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-var Minio = require('minio');
-var customFunctions = require('./customFunctions');
-var toBuffer = require('blob-to-buffer');
 
 class AddSubscriptionStep3 extends React.Component {
 
@@ -48,6 +45,7 @@ class AddSubscriptionStep3 extends React.Component {
     }
 
     saveMetaData() {
+        var fileUploads=[];
         var metaData = {};
         var default_data={};
         var default_data_flag=false;
@@ -74,49 +72,14 @@ class AddSubscriptionStep3 extends React.Component {
             else if (this.state.selectedPlanSteps[i].input_type == "file"){
                 var file_element=document.getElementById(this.state.selectedPlanSteps[i].input_name);
                 var file=file_element.files[0];
-                console.log('File element with id (', this.state.selectedPlanSteps[i].input_name, '):',file_element);
-                console.log('File element content:', file_element.files[0]);
-                var file_content;
-                toBuffer(file, function (err, buffer) {
-                    if (err) throw err;
-                    file_content=buffer;     
-                });
-            
-              
-            
-                // Instantiate the minio client with the endpoint
-                // and access keys as shown below.
-                var minioClient = new Minio.Client({
-                    endPoint: 'play.minio.io',
-                    port: 9000,
-                    useSSL: true,
-                    accessKey: 'Q3AM3UQ867SPQQA43P2F',
-                    secretKey: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG'
-                });
+                fileUploads.push(file);
+            }
 
-                var uuidv4=customFunctions.uuidv4();
-                // Make a bucket uuidv4.
-                minioClient.makeBucket("test" + uuidv4, 'us-east-1', function(err) {
-                    if (err) return console.log(err)
-
-                    console.log('Bucket created successfully in "us-east-1": ', uuidv4);
-
-                    
-                    // Using putObject API upload your file to the bucket.
-                    minioClient.putObject("test" + uuidv4, file.name, file_content, function(err, etag) {
-                      if (err) return console.log(err);
-                      console.log('File uploaded successfully: ', file.name);
-
-                    });
-                });
-            
+            if(default_data_flag == true){
+                metaData['default_data']=default_data;
+            }
         }
-        if(default_data_flag == true){
-            metaData['default_data']=default_data;
-        }
-    }
-
-        this.props.saveStateStepThree(metaData);
+        this.props.saveStateStepThree(metaData, fileUploads);
     }
 
 
@@ -162,7 +125,8 @@ class AddSubscriptionStep3 extends React.Component {
                 metaFields.push(<div class="form-group">
                                     <label for={this.state.selectedPlanSteps[i].input_name}>{this.state.selectedPlanSteps[i].input_name}</label>
                                     <input type="file" class="form-control-file" id={this.state.selectedPlanSteps[i].input_name} webkitdirectory/>
-                                </div>);
+                                </div>
+                );
             }
 
         }

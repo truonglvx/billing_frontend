@@ -5,6 +5,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
+var Minio = require('minio');
+var customFunctions = require('./customFunctions');
+var toBuffer = require('blob-to-buffer');
 
 Date.isLeapYear = function (year) {
     return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
@@ -33,7 +36,7 @@ class AddSubscriptionStep4 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { confFile: require('./backend.json'), temporarySubscription: { plan: this.props.selectedPlan(), customer: this.props.selectedCustomer(), metaData: this.props.metaData() }, modalText: '' };
+        this.state = { confFile: require('./backend.json'), minioConfig: require('./minio_config.json'), temporarySubscription: { plan: this.props.selectedPlan(), customer: this.props.selectedCustomer(), metaData: this.props.metaData(), fileUploads: this.props.fileUploads()}, modalText: ''};
         this.computeTaxPercent = this.computeTaxPercent.bind(this);
         this.parseMetaData = this.parseMetaData.bind(this);
         this.purchase = this.purchase.bind(this);
@@ -46,6 +49,7 @@ class AddSubscriptionStep4 extends React.Component {
         this.redirectToSubscriptionsPage=this.redirectToSubscriptionsPage.bind(this);
         this.getTransactionXERate=this.getTransactionXERate.bind(this);
         this.addBillingLog=this.addBillingLog.bind(this);
+        this.uploadFiles=this.uploadFiles.bind(this);
     }
 
     componentDidMount() {
@@ -144,11 +148,18 @@ class AddSubscriptionStep4 extends React.Component {
     async invoiceFlow(){
         var me=this;
         console.log('INVOICE FLOW');
-        var created_subscription = await me.createSubscription();
+        
+        //Upload files to minio object storage
+        var bucket_url=await me.uploadFiles();
+        console.log('Bucket url', bucket_url);
+
+        var created_subscription = await me.createSubscription(bucket_url);
+        console.log(created_subscription);
 
         const subscription_id=created_subscription.id;
         const customer_id=me.state.temporarySubscription.customer.id;
         var activated_subscription = await me.activateSubscription(customer_id, subscription_id);
+        console.log(activated_subscription);
 
         me.redirectToSubscriptionsPage();
     }
@@ -156,7 +167,12 @@ class AddSubscriptionStep4 extends React.Component {
     async proformaFlow(){
         var me=this;
         console.log('PROFORMA FLOW');
-        var created_subscription = await me.createSubscription();
+        
+        //Upload files to minio object storage
+        var bucket_url=await me.uploadFiles();
+        console.log('Bucket url', bucket_url);
+
+        var created_subscription = await me.createSubscription(bucket_url);
         var created_proforma = await me.createProforma();
         console.log("CREATED SUBSCRIPTION", created_subscription);
         console.log("CREATED PROFORMA", created_proforma);
@@ -290,15 +306,17 @@ class AddSubscriptionStep4 extends React.Component {
             return json;
     }
 
-    async createSubscription(){
+    async createSubscription(bucket_url){
         var me=this;
+        var metaData=this.state.temporarySubscription.metaData;
+        metaData['bucket_url']=bucket_url;
         var url = me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id) + '/subscriptions/';
         var token = localStorage.getItem("token");
          var data = {
             "plan": me.state.confFile.url + '/silver/plans/' + String(this.state.temporarySubscription.plan.id) + '/',
             "customer": me.state.confFile.url + '/silver/customers/' + String(this.state.temporarySubscription.customer.id) + '/',
             "start_date": me.getFormattedDate(me.getCurrentDate()),
-            "meta": this.state.temporarySubscription.metaData
+            "meta": metaData
         };
 
         //Request for creating subscription (Silver endpoint)
@@ -370,9 +388,50 @@ class AddSubscriptionStep4 extends React.Component {
         setTimeout(function () {
             document.location.replace("/#/Subscriptions");
             document.location.reload(true);
-        }, 2000);
+        }, 5000);
     }
 
+    async uploadFiles(){
+        var me=this;
+        // Instantiate the minio client with the endpoint
+        // and access keys as shown below.
+        console.log('Upload files');
+        console.log(me.state.minioConfig);
+        var minioClient = new Minio.Client({
+            endPoint: me.state.minioConfig.endPoint,
+            port: me.state.minioConfig.port,
+            useSSL: me.state.minioConfig.useSSL,
+            accessKey: me.state.minioConfig.accessKey,
+            secretKey: me.state.minioConfig.secretKey
+        });
+        console.log(minioClient);
+        var uuidv4=customFunctions.uuidv4();
+        var bucket_name=me.state.minioConfig.bucketPrefix + uuidv4;
+        var bucket_url = 'https://'+me.state.minioConfig.endPoint+":"+me.state.minioConfig.port+"/minio/"+bucket_name;
+        var file_objects = [];
+        // Make a bucket uuidv4.
+        await minioClient.makeBucket(bucket_name, 'us-east-1', async function(err) {
+            if (err) return console.log(err)
+
+            console.log('Bucket created successfully in "us-east-1": ', uuidv4);
+            for(var i = 0; i < me.state.temporarySubscription.fileUploads.length; i++){
+                var file_counter = 0;
+                file_objects.push(me.state.temporarySubscription.fileUploads[i]);
+                console.log('Calling buffer with ', file_objects[i]);
+                toBuffer(file_objects[i], function (err, buffer) {
+                    if (err) throw err;
+                    var file_name = file_objects[file_counter++].name;
+                    console.log('Calling pubObject with ', bucket_name, file_name, buffer);
+                    minioClient.putObject(bucket_name, file_name, buffer, function(err, etag) {
+                      if (err) return console.log(err);
+                      console.log('File uploaded successfully: ', file_name);
+                    });  
+                });
+
+            }
+        });
+        return bucket_url;
+    }
 
     purchase() {
         var me=this;
