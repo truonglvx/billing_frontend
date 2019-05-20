@@ -161,7 +161,7 @@ class AddSubscriptionStep4 extends React.Component {
         var activated_subscription = await me.activateSubscription(customer_id, subscription_id);
         console.log(activated_subscription);
 
-        me.redirectToSubscriptionsPage();
+//        me.redirectToSubscriptionsPage();
     }
 
     async proformaFlow(){
@@ -420,12 +420,14 @@ class AddSubscriptionStep4 extends React.Component {
                 console.log('Calling buffer with ', file_objects[i]);
                 toBuffer(file_objects[i], function (err, buffer) {
                     if (err) throw err;
-                    var file_name = file_objects[file_counter++].name;
-                    console.log('Calling pubObject with ', bucket_name, file_name, buffer);
+                    var file_name = file_objects[file_counter].name;
+                    console.log('Calling pubObject with ', bucket_name, file_name, buffer, file_counter);
                     minioClient.putObject(bucket_name, file_name, buffer, function(err, etag) {
                       if (err) return console.log(err);
                       console.log('File uploaded successfully: ', file_name);
                     });  
+		    file_counter++;
+
                 });
 
             }
