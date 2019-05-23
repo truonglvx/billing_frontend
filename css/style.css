@@ -346,3 +346,10 @@ ol.progtrckr li.progtrckr-done:hover:before {
     box-shadow: 0 2.5em 0 0;
   }
 }
+
+.multipleFileUpload {
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+  border: solid black 5px;
+}

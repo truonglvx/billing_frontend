@@ -24,8 +24,8 @@ var ForgotPassword = require('./ForgotPassword');
 var PrivacyPolicy = require('./PrivacyPolicy');
 var Contact = require('./Contact');
 
-var App = React.createClass({
-    render: function () {
+class App extends React.Component{
+    render() {
         return (
             <HashRouter>
                 <div>
@@ -58,9 +58,7 @@ var App = React.createClass({
             </HashRouter>
         );
     }
-});
-
-
+}
 
 ReactDOM.render(
     <App />,

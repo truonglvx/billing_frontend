@@ -15,17 +15,20 @@
     "minio": "^7.0.8",
     "popper.js": "^1.15.0",
     "query-string": "^6.4.2",
-    "react": "^15.6.2",
+    "react": "^16.8.6",
     "react-bootstrap": "^0.31.5",
-    "react-dom": "^15.6.2",
+    "react-dom": "^16.8.6",
+    "react-dropzone": "^10.1.5",
     "react-html-parser": "^2.0.2",
+    "react-is": "^16.8.6",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-script-tag": "^1.1.2",
     "react-stepzilla": "^4.7.3",
     "reactstrap": "^8.0.0",
     "request": "^2.81.0",
-    "showdown": "^1.9.0"
+    "showdown": "^1.9.0",
+    "superagent": "^5.0.5"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",

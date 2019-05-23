@@ -5,12 +5,21 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
+import Dropzone from 'react-dropzone';
+
 
 class AddSubscriptionStep3 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { confFile: require('./backend.json'), selectedPlanSteps: this.props.selectedPlan().feature.plan_steps };
+        this.onDrop = (files) => {
+            var previousFiles=this.state.files;
+            console.log('Previous files', previousFiles);
+            console.log('Files', files);
+            previousFiles.push.apply(previousFiles, files);
+            this.setState({files: previousFiles});
+        };
+        this.state = { confFile: require('./backend.json'), selectedPlanSteps: this.props.selectedPlan().feature.plan_steps, files: [] };
     }
 
     componentDidMount() {
@@ -75,17 +84,22 @@ class AddSubscriptionStep3 extends React.Component {
                 if(file != undefined){
                     fileUploads.push(file);
                 }
-            }
+            }            
 
             if(default_data_flag == true){
                 metaData['default_data']=default_data;
             }
         }
+        fileUploads.push.apply(fileUploads, this.state.files);
         this.props.saveStateStepThree(metaData, fileUploads);
     }
 
 
     showContent() {
+         const files = this.state.files.map(file => (
+                                  <li key={file.name}>
+                                    {file.name} - {file.size} bytes
+                                  </li>));
         var metaFields = [];
         for (var i = 0; i < this.state.selectedPlanSteps.length; i++) {
             if (this.state.selectedPlanSteps[i].input_type == "text") {
@@ -131,7 +145,28 @@ class AddSubscriptionStep3 extends React.Component {
                 );
             }
 
+            else if (this.state.selectedPlanSteps[i].input_type == "multiplefile") {
+                metaFields.push(
+                               <div>
+                               <Dropzone onDrop={this.onDrop}>
+                                    {({getRootProps, getInputProps}) => (
+                                      <section>
+                                        <div {...getRootProps({className: 'dropzone'})}>
+                                          <input {...getInputProps()} />
+                                          <div className="multipleFileUpload">Drag 'n' drop some files here, or click to select files</div>
+                                        </div>
+                                      </section>)}
+                                </Dropzone>
+                                <br/>
+                                </div>
+                );
+            }
+
         }
+        metaFields.push(<aside>
+                          <h4>Files</h4>
+                          <ul>{files}</ul>
+                        </aside>);
         return metaFields;
     }
     render() {
