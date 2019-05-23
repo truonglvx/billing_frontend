@@ -72,7 +72,9 @@ class AddSubscriptionStep3 extends React.Component {
             else if (this.state.selectedPlanSteps[i].input_type == "file"){
                 var file_element=document.getElementById(this.state.selectedPlanSteps[i].input_name);
                 var file=file_element.files[0];
-                fileUploads.push(file);
+                if(file != undefined){
+                    fileUploads.push(file);
+                }
             }
 
             if(default_data_flag == true){

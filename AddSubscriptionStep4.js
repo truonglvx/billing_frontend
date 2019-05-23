@@ -36,7 +36,7 @@ class AddSubscriptionStep4 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { confFile: require('./backend.json'), minioConfig: require('./minio_config.json'), temporarySubscription: { plan: this.props.selectedPlan(), customer: this.props.selectedCustomer(), metaData: this.props.metaData(), fileUploads: this.props.fileUploads()}, modalText: ''};
+        this.state = { confFile: require('./backend.json'), minioConfig: require('./minio_config.json'), temporarySubscription: { plan: this.props.selectedPlan(), customer: this.props.selectedCustomer(), metaData: this.props.metaData(), fileUploads: this.props.fileUploads()}, modalText: '', triggered: false};
         this.computeTaxPercent = this.computeTaxPercent.bind(this);
         this.parseMetaData = this.parseMetaData.bind(this);
         this.purchase = this.purchase.bind(this);
@@ -55,6 +55,7 @@ class AddSubscriptionStep4 extends React.Component {
     componentDidMount() {
         console.log("Temporary subscription", this.state.temporarySubscription);
         document.getElementById("triger").style.display = 'none';
+        document.getElementsByClassName("loader")[0].style.display = 'none';
         this.parseMetaData();
         this.calculateEndDate(new Date("01/31/2012"), 'month', 1);
         this.calculateEndDate(new Date("01/31/2012"), 'year',  1);
@@ -153,6 +154,8 @@ class AddSubscriptionStep4 extends React.Component {
         var bucket_url=await me.uploadFiles();
         console.log('Bucket url', bucket_url);
 
+        await new Promise(resolve => setTimeout(resolve, 3000)); // wait 3 sec
+
         var created_subscription = await me.createSubscription(bucket_url);
         console.log(created_subscription);
 
@@ -171,6 +174,8 @@ class AddSubscriptionStep4 extends React.Component {
         //Upload files to minio object storage
         var bucket_url=await me.uploadFiles();
         console.log('Bucket url', bucket_url);
+
+        await new Promise(resolve => setTimeout(resolve, 3000)); // wait 3 sec
 
         var created_subscription = await me.createSubscription(bucket_url);
         var created_proforma = await me.createProforma();
@@ -330,8 +335,19 @@ class AddSubscriptionStep4 extends React.Component {
                 }
             }).then(function (response) {
                 if (response.status == 201) {
-                    me.setState({modalText: "Succesfully created subscription !!!"});
-                    document.getElementById("triger").click();
+                    
+                    if(me.state.triggered == false){
+                        me.setState({modalText: "Succesfully created subscription !!!"});
+                        document.getElementById("triger").click();
+                    }
+                    else{
+                            document.getElementById("triger").click();
+                            document.getElementById("modalText").classList.remove('text-danger');
+                            document.getElementById("modalText").classList.add('text-success'); 
+                            me.setState({modalText: "Succesfully created subscription !!!"});
+                            document.getElementById("triger").click(); 
+                    }
+                    
                 }
                     return response.json();
                 })
@@ -339,10 +355,19 @@ class AddSubscriptionStep4 extends React.Component {
                     return response;
             })
             .catch(function(error){
-                me.setState({modalText: "Unsuccesfully created subscription !!!"});
-                document.getElementById("modalText").classList.remove('text-success');
-                document.getElementById("modalText").classList.add('text-danger');
-                document.getElementById("triger").click();
+                if(me.state.triggered == false){
+                    me.setState({modalText: "Unsuccesfully created subscription !!!"});
+                    document.getElementById("modalText").classList.remove('text-success');
+                    document.getElementById("modalText").classList.add('text-danger');
+                    document.getElementById("triger").click();
+                }
+                else{
+                    document.getElementById("triger").click();
+                    me.setState({modalText: "Unsuccesfully created subscription !!!"});
+                    document.getElementById("modalText").classList.remove('text-success');
+                    document.getElementById("modalText").classList.add('text-danger');
+                    document.getElementById("triger").click();
+                }
             });
             const json=await response;
             return json;
@@ -388,7 +413,7 @@ class AddSubscriptionStep4 extends React.Component {
         setTimeout(function () {
             document.location.replace("/#/Subscriptions");
             document.location.reload(true);
-        }, 5000);
+        }, 3000);
     }
 
     async uploadFiles(){
@@ -396,6 +421,7 @@ class AddSubscriptionStep4 extends React.Component {
         // Instantiate the minio client with the endpoint
         // and access keys as shown below.
         console.log('Upload files');
+        document.getElementsByClassName("loader")[0].style.display = 'block';
         console.log(me.state.minioConfig);
         var minioClient = new Minio.Client({
             endPoint: me.state.minioConfig.endPoint,
@@ -410,29 +436,45 @@ class AddSubscriptionStep4 extends React.Component {
         var bucket_url = 'https://'+me.state.minioConfig.endPoint+":"+me.state.minioConfig.port+"/minio/"+bucket_name;
         var file_objects = [];
         // Make a bucket uuidv4.
-        await minioClient.makeBucket(bucket_name, 'us-east-1', async function(err) {
-            if (err) return console.log(err)
 
-            console.log('Bucket created successfully in "us-east-1": ', uuidv4);
-            for(var i = 0; i < me.state.temporarySubscription.fileUploads.length; i++){
-                var file_counter = 0;
-                file_objects.push(me.state.temporarySubscription.fileUploads[i]);
-                console.log('Calling buffer with ', file_objects[i]);
-                toBuffer(file_objects[i], function (err, buffer) {
-                    if (err) throw err;
-                    var file_name = file_objects[file_counter].name;
-                    console.log('Calling pubObject with ', bucket_name, file_name, buffer, file_counter);
-                    minioClient.putObject(bucket_name, file_name, buffer, function(err, etag) {
-                      if (err) return console.log(err);
-                      console.log('File uploaded successfully: ', file_name);
-                    });  
-		    file_counter++;
-
-                });
-
-            }
+        var response_make_bucket=await minioClient.makeBucket(bucket_name, 'us-east-1').then(function(){
+            return bucket_url;
         });
-        return bucket_url;
+
+        console.log('Bucket created successfully in "us-east-1": ', uuidv4);
+        var number_of_uploaded_files=0;
+        for(var i = 0; i < me.state.temporarySubscription.fileUploads.length; i++){
+            file_objects.push(me.state.temporarySubscription.fileUploads[i]);
+            console.log('Calling buffer with ', file_objects[i]);
+            var buffer = await new Response(file_objects[i]).arrayBuffer().then(function(arrBuffer){
+                return new Buffer(arrBuffer);
+            });
+
+            var file_name = file_objects[i].name;
+            console.log('Calling pubObject with ', bucket_name, file_name, buffer);
+            var response_put_object = await minioClient.putObject(bucket_name, file_name, buffer).then(function(etag){
+                number_of_uploaded_files++;
+                return `File uploaded successfully ${file_name}`;
+            }).catch(function(err){
+                return err;
+            });
+            console.log(response_put_object);
+        }
+        
+        if(number_of_uploaded_files == file_objects.length){
+            me.setState({modalText: "File(s) uploaded succesfully!!!", triggered: true});
+            document.getElementById("triger").click();
+            document.getElementsByClassName("loader")[0].style.display='none';
+            return response_make_bucket;
+        }
+        else{
+            me.setState({modalText: "File uploading failed!!!", triggered: true});
+            document.getElementById("modalText").classList.remove('text-success');
+            document.getElementById("modalText").classList.add('text-danger');     
+            document.getElementById("triger").click();
+            document.getElementsByClassName("loader")[0].style.display='none';
+            return '';
+        }
     }
 
     purchase() {
@@ -448,6 +490,7 @@ class AddSubscriptionStep4 extends React.Component {
         return (
 
             <div>
+
                 <main className="main-content">
 
                     <section className="section">
@@ -481,6 +524,8 @@ class AddSubscriptionStep4 extends React.Component {
 
                                     </tbody>
                                 </table>
+
+                                <div className="loader">Loading...</div>
 
                             </div>
 
@@ -527,6 +572,7 @@ class AddSubscriptionStep4 extends React.Component {
                     </section>
 
                 </main>
+
                 <button id="triger" className="btn btn-primary" type="button" data-toggle="popup" data-target="#popup-slide-down">Slide Down</button>
                 <div id="popup-slide-down" className="popup col-6 col-md-4" data-position="top-right" data-animation="slide-down">
                     <button type="button" className="close" data-dismiss="popup" aria-label="Close" onClick={() => this.handleNotificationClose()}>
@@ -534,11 +580,12 @@ class AddSubscriptionStep4 extends React.Component {
                     </button>
                     <div className="media">
                         <div className="media-body">
-                            <h3>Add subscription (Final step)</h3>
+                            <h3>Add subscription</h3>
                             <p id="modalText" className="mb-1 text-success" style={{ fontSize: '1.2em' }}>{this.state.modalText}</p>
                         </div>
                     </div>
                 </div>
+                
             </div>);
     }
 }
