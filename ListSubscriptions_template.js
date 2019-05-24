@@ -4,7 +4,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var className = require('classnames');
-import i18next from 'i18next';
+//import i18next from 'i18next';
+var customFunctions = require('./customFunctions');
 
 {{#subscriptions_custom_component}}
 import CustomComponent from "./{{subscriptions_custom_component}}";
@@ -258,6 +259,10 @@ class ListSubscriptions extends React.Component {
     componentDidMount() {
         var me=this;
         
+
+        var instance1 = customFunctions.translatorInstance.getInstance();
+        var instance2 = customFunctions.translatorInstance.getInstance();
+ 
         // Initial code template used for i18 internalization
 
        /* i18next.init({

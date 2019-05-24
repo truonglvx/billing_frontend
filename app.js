@@ -9,6 +9,8 @@ var Bootstrap = require('react-bootstrap');
 var classNames = require('classnames');
 var request = require('request');
 var bootstrap = require('bootstrap');
+import { combineReducers, createStore } from 'redux';
+import { connect, Provider } from 'react-redux';
 
 var Main = require('./Main');
 var Features = require('./Features');
@@ -23,6 +25,25 @@ var Profile = require('./Profile');
 var ForgotPassword = require('./ForgotPassword');
 var PrivacyPolicy = require('./PrivacyPolicy');
 var Contact = require('./Contact');
+
+function language(state, action) {
+    if (typeof state === 'undefined') {
+        return {
+            language: 'en'
+        };
+    }
+
+    var newState = Object.assign({}, state);
+    if (action.type == 'LANGUAGE') {
+        newState.language = action.language;
+    }
+    return newState;
+}
+
+
+var mainReducer = combineReducers({language});
+var store = createStore(mainReducer);
+
 
 class App extends React.Component{
     render() {
@@ -61,6 +82,8 @@ class App extends React.Component{
 }
 
 ReactDOM.render(
-    <App />,
+    <Provider store={store}>
+            <App/>
+    </Provider>,
     document.getElementById('root')
 );

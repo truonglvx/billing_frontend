@@ -4,13 +4,17 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var className = require('classnames');
+var customFunctions = require('./customFunctions');
+import { connect } from 'react-redux'
 
 
 class NavbarTwo extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { username: '', headerLogo: '', confFile: require('./backend.json') };
+        this.state = { username: '', headerLogo: '', confFile: require('./backend.json'), translator: customFunctions.translatorInstance, translatorInstance: customFunctions.translatorInstance.getInstance()};
         this.logout = this.logout.bind(this);
+        this.changeLanguage = this.changeLanguage.bind(this);
+        this.translate = this.translate.bind(this);
 
     }
     componentDidMount() {
@@ -58,6 +62,15 @@ class NavbarTwo extends React.Component {
         document.location.reload(true);
     }
 
+    changeLanguage(lng){
+        //localStorage.setItem("lng", lng);
+        //this.setState({lng: lng});
+        this.props.dispatch({type: 'LANGUAGE', language: lng});
+    }
+
+    translate(key){
+        return this.state.translator.translate(key, this.props.language.language);
+    }
 
     logout() {
 
@@ -91,11 +104,17 @@ class NavbarTwo extends React.Component {
 
                         <section className="navbar-mobile">
                             <nav className="nav nav-navbar mr-auto">
-                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Subscriptions</a>
+                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Subscriptions')}</a>
                                 <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Invoices</a>
                                 <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Payments</a>
                             </nav>
 
+                             <div className="dropdown ml-lg-5">
+                                
+                                    <a onClick={() => this.changeLanguage('en')} style={{ cursor: 'pointer' }}>EN</a>
+                                    <hr/>
+                                    <a onClick={() => this.changeLanguage('mk')} style={{ cursor: 'pointer' }}>MK</a>
+                            </div>
                             <div className="dropdown ml-lg-5">
                                 <span className="dropdown-toggle no-caret" data-toggle="dropdown" data-target="#demo">
                                     <img className="avatar avatar-xs" src="assets/img/avatar/1.jpg" alt="user" />
@@ -118,4 +137,6 @@ class NavbarTwo extends React.Component {
     }
 }
 
-module.exports = NavbarTwo;
+module.exports = connect(state => {
+    return {language: state.language};
+})(NavbarTwo);

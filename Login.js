@@ -58,6 +58,7 @@ class Login extends React.Component {
                 if (response.token != null) {
                     console.log('Success:', response);
                     localStorage.setItem("token", response.token);
+                    localStorage.setItem("lng", "en");
                     window.location.replace("/#/Subscriptions");
                     document.location.reload(true);
                 }

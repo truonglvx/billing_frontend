@@ -4,12 +4,15 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
+var customFunctions = require('./customFunctions');
+import { connect } from 'react-redux'
 
 
 class FooterTwo extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { footerLogo: '', confFile: require('./backend.json') };
+        this.state = { footerLogo: '', confFile: require('./backend.json'), translator: customFunctions.translatorInstance, translatorInstance: customFunctions.translatorInstance.getInstance()};
+        this.translate = this.translate.bind(this);
     }
     componentDidMount() {
         var me = this;
@@ -38,6 +41,11 @@ class FooterTwo extends React.Component {
         document.location.replace("/#/Subscriptions");
         document.location.reload(true);
     }
+
+    translate(key){
+        return this.state.translator.translate(key, this.props.language.language);
+    }
+
     render() {
         return (
             <div>
@@ -53,7 +61,7 @@ class FooterTwo extends React.Component {
 
                             <div className="col-md-6">
                                 <div className="nav nav-center">
-                                    <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Subscriptions</a>
+                                    <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Subscriptions')}</a>
                                     <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Invoices</a>
                                     <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Payments</a>
                                     <a className="nav-link" onClick={() => this.redirectTermsOfService()} style={{ cursor: 'pointer' }}>Terms of service</a>
@@ -75,4 +83,6 @@ class FooterTwo extends React.Component {
     }
 }
 
-module.exports = FooterTwo;
+module.exports = connect(state => {
+    return {language: state.language};
+})(FooterTwo);

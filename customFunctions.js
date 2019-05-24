@@ -2,7 +2,54 @@
  * Created by mnace on 10.04.2019.
  */
 
+import i18next from 'i18next';
+
+var translatorInstance = (function () {
+    var instance;
+ 
+    async function createInstance() {
+        var object=i18next.createInstance();
+        await i18next.init({
+          lng: 'en',
+          debug: true,
+          resources: {
+            "en": {
+              translation: {
+                "Subscriptions": "Subscriptions"
+              }
+            },
+            "mk": {
+              translation: {
+                "Subscriptions": "Претплати"
+              }
+            }}}).then(function(){
+            }).then(function(){});
+        return object;
+    }
+ 
+    return {
+        getInstance: function () {
+            if (!instance) {
+                instance = createInstance();
+            }
+            return instance;
+        },
+
+        setLanguage: function(lng){
+            i18next.changeLanguage(lng);
+        },
+
+        translate: function(key, lng){
+            i18next.changeLanguage(lng);
+            var value=i18next.t(key);
+            return value;
+        }
+    };
+})();
+
 module.exports = {
+
+translatorInstance,
 
 getBaseLog(x, y) {
   return Math.log(y) / Math.log(x);
