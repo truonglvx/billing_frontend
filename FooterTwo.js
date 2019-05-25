@@ -62,8 +62,8 @@ class FooterTwo extends React.Component {
                             <div className="col-md-6">
                                 <div className="nav nav-center">
                                     <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Subscriptions')}</a>
-                                    <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Invoices</a>
-                                    <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Payments</a>
+                                    <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Invoices')}</a>
+                                    <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Payments')}</a>
                                     <a className="nav-link" onClick={() => this.redirectTermsOfService()} style={{ cursor: 'pointer' }}>Terms of service</a>
                                     <a className="nav-link" onClick={() => this.redirectPrivacyPolicy()} style={{ cursor: 'pointer' }}>Privacy policy</a>
                                     <a className="nav-link" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>API</a>

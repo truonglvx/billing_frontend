@@ -3,6 +3,8 @@
  */
 
 import i18next from 'i18next';
+var mk_translations_doc=require('./docs/mk.json');
+var en_translations_doc=require('./docs/en.json');
 
 var translatorInstance = (function () {
     var instance;
@@ -14,16 +16,14 @@ var translatorInstance = (function () {
           debug: true,
           resources: {
             "en": {
-              translation: {
-                "Subscriptions": "Subscriptions"
-              }
+              translation: en_translations_doc
             },
             "mk": {
-              translation: {
-                "Subscriptions": "Претплати"
-              }
+              translation: mk_translations_doc
+
             }}}).then(function(){
             }).then(function(){});
+        console.log('i18next Object', object);
         return object;
     }
  

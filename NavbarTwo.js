@@ -63,8 +63,6 @@ class NavbarTwo extends React.Component {
     }
 
     changeLanguage(lng){
-        //localStorage.setItem("lng", lng);
-        //this.setState({lng: lng});
         this.props.dispatch({type: 'LANGUAGE', language: lng});
     }
 
@@ -105,14 +103,13 @@ class NavbarTwo extends React.Component {
                         <section className="navbar-mobile">
                             <nav className="nav nav-navbar mr-auto">
                                 <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Subscriptions')}</a>
-                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Invoices</a>
-                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Payments</a>
+                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Invoices')}</a>
+                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Payments')}</a>
                             </nav>
 
                              <div className="dropdown ml-lg-5">
                                 
-                                    <a onClick={() => this.changeLanguage('en')} style={{ cursor: 'pointer' }}>EN</a>
-                                    <hr/>
+                                    <a onClick={() => this.changeLanguage('en')} style={{ cursor: 'pointer' }}>EN | </a>
                                     <a onClick={() => this.changeLanguage('mk')} style={{ cursor: 'pointer' }}>MK</a>
                             </div>
                             <div className="dropdown ml-lg-5">
