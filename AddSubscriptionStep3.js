@@ -6,24 +6,38 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
 import Dropzone from 'react-dropzone';
+var customFunctions = require('./customFunctions');
 
 
 class AddSubscriptionStep3 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.onDrop = (files) => {
-            var previousFiles=this.state.files;
-            console.log('Previous files', previousFiles);
-            console.log('Files', files);
-            previousFiles.push.apply(previousFiles, files);
-            this.setState({files: previousFiles});
-        };
         this.state = { confFile: require('./backend.json'), selectedPlanSteps: this.props.selectedPlan().feature.plan_steps, files: [] };
+        this.removeFile=this.removeFile.bind(this);
+        this.onDrop=this.onDrop.bind(this);
     }
 
     componentDidMount() {
         console.log(this.state.selectedPlanSteps);
+    }
+
+    onDrop(files){
+            var previousFiles=this.state.files;
+            console.log('Previous files', previousFiles);
+            console.log('Files', files);
+            previousFiles.push.apply(previousFiles, files);
+            var uniqueFiles=[...new Set(previousFiles)];
+            console.log(uniqueFiles);
+            this.setState({files: uniqueFiles});
+    }
+
+    removeFile(file){
+        var file_index=this.state.files.indexOf(file);
+        var files=this.state.files;
+        console.log('Removed file index', file_index);
+        files.splice(file_index, 1);
+        this.setState({files: files});
     }
 
     isValidated() {
@@ -96,10 +110,15 @@ class AddSubscriptionStep3 extends React.Component {
 
 
     showContent() {
-         const files = this.state.files.map(file => (
-                                  <li key={file.name}>
-                                    {file.name} - {file.size} bytes
-                                  </li>));
+        var index=0;
+        const files = this.state.files.map(file => (
+        <tr>
+            <td><a onClick={() => this.removeFile(file)} style={{ cursor: 'pointer', fontSize: '20px' }}><i className="fa fa-times"/></a></td>
+            <td>{file.name}</td>
+            <td>{customFunctions.bytesToSize(file.size, " ")}</td>
+        </tr>));
+
+
         var metaFields = [];
         for (var i = 0; i < this.state.selectedPlanSteps.length; i++) {
             if (this.state.selectedPlanSteps[i].input_type == "text") {
@@ -163,10 +182,26 @@ class AddSubscriptionStep3 extends React.Component {
             }
 
         }
-        metaFields.push(<aside>
-                          <h4>Files</h4>
-                          <ul>{files}</ul>
+
+        if(this.state.files.length > 0){
+            metaFields.push(<aside>
+                        <h4>Files</h4>
+                        <div className="table-responsive-md">
+                            <table className="table table-bodered table-hover">
+                                <thead>
+                                    <tr>
+                                      <th scope="col">Action</th>
+                                      <th scope="col">File Name</th>
+                                      <th scope="col">File Size</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {files}
+                                </tbody>
+                            </table>
+                        </div>
                         </aside>);
+        }
         return metaFields;
     }
     render() {
