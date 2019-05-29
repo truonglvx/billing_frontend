@@ -13,13 +13,13 @@ class AddSubscriptionStep3 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { confFile: require('./backend.json'), selectedPlanSteps: this.props.selectedPlan().feature.plan_steps, files: [] };
+        console.log('Props', props);
+        this.state = { confFile: require('./backend.json'), stepFields: props.stepFields, files: [], index: props.index };
         this.removeFile=this.removeFile.bind(this);
         this.onDrop=this.onDrop.bind(this);
     }
 
     componentDidMount() {
-        console.log(this.state.selectedPlanSteps);
     }
 
     onDrop(files){
@@ -73,27 +73,27 @@ class AddSubscriptionStep3 extends React.Component {
         var default_data={};
         var default_data_flag=false;
         var input_types_array=['text', 'password', 'select'];
-        for (var i = 0; i < this.state.selectedPlanSteps.length; i++) {
-            if (input_types_array.includes(this.state.selectedPlanSteps[i].input_type)) {
-                metaData[this.state.selectedPlanSteps[i].input_name] = document.getElementById(this.state.selectedPlanSteps[i].input_name).value;
+        for (var i = 0; i < this.state.stepFields.length; i++) {
+            if (input_types_array.includes(this.state.stepFields[i].input_type)) {
+                metaData[this.state.stepFields[i].input_name] = document.getElementById(this.state.stepFields[i].input_name).value;
             }
-            else if (this.state.selectedPlanSteps[i].input_type == "checkbox") {
+            else if (this.state.stepFields[i].input_type == "checkbox") {
                 var values = {};
-                var input_values = this.state.selectedPlanSteps[i].input_value.split(",");
+                var input_values = this.state.stepFields[i].input_value.split(",");
                 for (var j = 0; j < input_values.length; j++) {
                     values[input_values[j]] = document.getElementById(input_values[j]).checked;
                 }
-                metaData[this.state.selectedPlanSteps[i].input_name] = values;
+                metaData[this.state.stepFields[i].input_name] = values;
             }
 
-            else if (this.state.selectedPlanSteps[i].input_type == "hidden"){
+            else if (this.state.stepFields[i].input_type == "hidden"){
 
-                default_data[this.state.selectedPlanSteps[i].input_name]=this.state.selectedPlanSteps[i].input_value;
+                default_data[this.state.stepFields[i].input_name]=this.state.stepFields[i].input_value;
                 default_data_flag=true;
             }
 
-            else if (this.state.selectedPlanSteps[i].input_type == "file"){
-                var file_element=document.getElementById(this.state.selectedPlanSteps[i].input_name);
+            else if (this.state.stepFields[i].input_type == "file"){
+                var file_element=document.getElementById(this.state.stepFields[i].input_name);
                 var file=file_element.files[0];
                 if(file != undefined){
                     fileUploads.push(file);
@@ -105,7 +105,9 @@ class AddSubscriptionStep3 extends React.Component {
             }
         }
         fileUploads.push.apply(fileUploads, this.state.files);
-        this.props.saveStateStepThree(metaData, fileUploads);
+        this.props.saveMetaDataAndFiles(metaData, fileUploads);
+        console.log('Saved meta_data', metaData);
+        console.log('Saved files', fileUploads);
     }
 
 
@@ -120,51 +122,51 @@ class AddSubscriptionStep3 extends React.Component {
 
 
         var metaFields = [];
-        for (var i = 0; i < this.state.selectedPlanSteps.length; i++) {
-            if (this.state.selectedPlanSteps[i].input_type == "text") {
+        for (var i = 0; i < this.state.stepFields.length; i++) {
+            if (this.state.stepFields[i].input_type == "text") {
                 metaFields.push(
                     <div className="form-group">
-                        <label style={{ fontSize: '1.1em' }}>{this.state.selectedPlanSteps[i].input_name}</label>
-                        <input id={this.state.selectedPlanSteps[i].input_name} className="form-control form-control-lg" type="text" style={{ fontSize: '1em' }} />
+                        <label style={{ fontSize: '1.1em' }}>{this.state.stepFields[i].input_name}</label>
+                        <input id={this.state.stepFields[i].input_name} className="form-control form-control-lg" type="text" style={{ fontSize: '1em' }} />
                     </div>);
             }
-            else if (this.state.selectedPlanSteps[i].input_type == "password") {
+            else if (this.state.stepFields[i].input_type == "password") {
                 metaFields.push(
                     <div className="form-group">
-                        <label style={{ fontSize: '1.1em' }}>{this.state.selectedPlanSteps[i].input_name}</label>
-                        <input id={this.state.selectedPlanSteps[i].input_name} className="form-control form-control-lg" type="password" style={{ fontSize: '1em' }} />
+                        <label style={{ fontSize: '1.1em' }}>{this.state.stepFields[i].input_name}</label>
+                        <input id={this.state.stepFields[i].input_name} className="form-control form-control-lg" type="password" style={{ fontSize: '1em' }} />
                     </div>);
             }
-            else if (this.state.selectedPlanSteps[i].input_type == "select") {
-                var input_values = this.state.selectedPlanSteps[i].input_value.split(",");
+            else if (this.state.stepFields[i].input_type == "select") {
+                var input_values = this.state.stepFields[i].input_value.split(",");
                 metaFields.push(<div className="form-group">
-                    <label style={{ fontSize: '1.1em' }}>{this.state.selectedPlanSteps[i].input_name}</label>
-                    <select name={this.state.selectedPlanSteps[i].input_name} id={this.state.selectedPlanSteps[i].input_name} className="form-control form-control-lg" style={{ minWidth: '265px', minHeight: '45px', fontSize: '20px' }}>
+                    <label style={{ fontSize: '1.1em' }}>{this.state.stepFields[i].input_name}</label>
+                    <select name={this.state.stepFields[i].input_name} id={this.state.stepFields[i].input_name} className="form-control form-control-lg" style={{ minWidth: '265px', minHeight: '45px', fontSize: '20px' }}>
                         {this.getInputValuesSelect(input_values)}
                     </select>
                 </div>
                 );
             }
 
-            else if (this.state.selectedPlanSteps[i].input_type == "checkbox") {
-                var input_values = this.state.selectedPlanSteps[i].input_value.split(",");
+            else if (this.state.stepFields[i].input_type == "checkbox") {
+                var input_values = this.state.stepFields[i].input_value.split(",");
                 metaFields.push(<div className="custom-controls-stacked">
-                    <h3 className="divider" style={{ fontSize: '1.1em' }}>{this.state.selectedPlanSteps[i].input_name}</h3>
+                    <h3 className="divider" style={{ fontSize: '1.1em' }}>{this.state.stepFields[i].input_name}</h3>
                     {this.getInputValuesCheckbox(input_values)}
                     <br/>
                 </div>
                 );
             }
 
-            else if (this.state.selectedPlanSteps[i].input_type == "file") {
+            else if (this.state.stepFields[i].input_type == "file") {
                 metaFields.push(<div class="form-group">
-                                    <label for={this.state.selectedPlanSteps[i].input_name}>{this.state.selectedPlanSteps[i].input_name}</label>
-                                    <input type="file" class="form-control-file" id={this.state.selectedPlanSteps[i].input_name} webkitdirectory/>
+                                    <label for={this.state.stepFields[i].input_name}>{this.state.stepFields[i].input_name}</label>
+                                    <input type="file" class="form-control-file" id={this.state.stepFields[i].input_name} webkitdirectory/>
                                 </div>
                 );
             }
 
-            else if (this.state.selectedPlanSteps[i].input_type == "multiplefile") {
+            else if (this.state.stepFields[i].input_type == "multiplefile") {
                 metaFields.push(
                                <div>
                                <Dropzone onDrop={this.onDrop}>
@@ -207,7 +209,7 @@ class AddSubscriptionStep3 extends React.Component {
     render() {
         return (
 
-            <div>
+            <div key={this.state.index}>
                 <br />
                 <p style={{ fontSize: '1.3em' }}>Meta data: </p>
                 {this.showContent()}
