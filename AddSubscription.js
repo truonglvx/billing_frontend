@@ -23,7 +23,7 @@ class AddSubscription extends React.Component {
             createdProforma: {id: ''}, createdSubscription: {id: ''},
             selectedPlan: { id: '', name: '' }, selectedPlanIndex: '', selectedCustomer: { id: '', company: '' }, metaData: {}, fileUploads: [], steps: [
                 { name: 'Step 1', component: <AddSubscriptionStep1 saveStateStepOne={this.handleSaveStateStepOne.bind(this)} stepZillaSteps={this.getStepZillaSteps.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} selectedPlanIndex={this.getSelectedPlanIndex.bind(this)} saveStateStepThree={this.handleSaveStateStepThree.bind(this)}/> },
-                { name: 'Step 2', component: <AddSubscriptionStep2 saveStateStepTwo={this.handleSaveStateStepTwo.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} /> },
+                { name: 'Step 2', component: <AddSubscriptionStep2 saveStateStepTwo={this.handleSaveStateStepTwo.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} /> },
                // { name: 'Step 3', component: <AddSubscriptionStep3 selectedPlan={this.getSelectedPlan.bind(this)} saveStateStepThree={this.handleSaveStateStepThree.bind(this)} /> },
                 { name: 'Step 4', component: <AddSubscriptionStep4 saveStateStepFour={this.handleSaveStateStepFour.bind(this)} selectedPlan={this.getSelectedPlan.bind(this)} selectedCustomer={this.getSelectedCustomer.bind(this)} metaData={this.getMetaData.bind(this)} fileUploads={this.getFileUploads.bind(this)}/> }
             ]

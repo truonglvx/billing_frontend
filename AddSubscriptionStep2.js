@@ -9,12 +9,27 @@ class AddSubscriptionStep2 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { confFile: require('./backend.json'), customers: [], selectedCustomer: {company: '', id: ''}, message: '' };
+        this.state = { confFile: require('./backend.json'), customers: [], selectedCustomer: {company: '', id: ''}, message: '', selectedPlan: props.selectedPlan() };
         this.handleChange = this.handleChange.bind(this);
         this.showCustomerOptions = this.showCustomerOptions.bind(this);
         this.createCustomer = this.createCustomer.bind(this);
         this.findCustomerByCompanyName = this.findCustomerByCompanyName.bind(this);
         this.getCustomers = this.getCustomers.bind(this);
+        this.isValidated = this.isValidated.bind(this);
+    }
+
+    isValidated(){
+        if(this.state.confFile.subscription_flow != "standard"){
+            console.log("Custom Flow");
+            var selected_customer = this.state.selectedCustomer;
+            var selected_plan = this.state.selectedPlan;
+            console.log('Selected_plan: ', selected_plan);
+            console.log('Selected_customer: ', selected_customer);
+        }
+        else{
+            console.log("Standard flow");
+        }
+        return true;
     }
 
     getCustomers() {

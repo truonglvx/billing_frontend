@@ -56,7 +56,6 @@ class AddSubscriptionStep1 extends React.Component {
 
     addStepsToWizard(plan, wizardSteps){
         var me=this;
-        console.log('Wizard steps', wizardSteps);
         var steps_to_add=[];
         for(var i=0;i<plan.feature.plan_steps.length;i++){
             var step=plan.feature.plan_steps[i];
@@ -65,15 +64,10 @@ class AddSubscriptionStep1 extends React.Component {
             var component=<AddSubscriptionStep3 stepFields={step_fields} key={i+1} saveMetaDataAndFiles={this.handleSaveMetaDataAndFiles.bind(this)}/>
             var step_object={name: step_name, component: component};
             steps_to_add.push(step_object);
-            console.log('Index: ', i, ", Step: ", step);
         }
         var first_two_steps=wizardSteps.splice(0, 2);
-        console.log('First_two_steps', first_two_steps);
         var last_step=wizardSteps.splice(wizardSteps.length-1, wizardSteps.length);
-        console.log('Last_step', last_step);
         return first_two_steps.concat(steps_to_add).concat(last_step);
-        // console.log('Returning ', all_steps);
-        // return all_steps;
     }
 
     selectPlan(index, plan) {
@@ -87,7 +81,6 @@ class AddSubscriptionStep1 extends React.Component {
 
             //Add steps to StepZilla wizard by the selected plan
             var steps_final=me.addStepsToWizard(plan, wizardSteps);
-            console.log('steps_final', steps_final);
             me.setState({steps: steps_final});
             this.props.saveStateStepOne(plan, index, steps_final);
         }
@@ -99,11 +92,9 @@ class AddSubscriptionStep1 extends React.Component {
 
             //Add steps to StepZilla wizard by the selected plan
             var steps_final=me.addStepsToWizard(plan, wizardSteps);
-            console.log('steps_final', steps_final);
             me.setState({steps: steps_final});
             this.props.saveStateStepOne(plan, index, steps_final);
         }
-        console.log('At the end i have ', me.state.steps);
     }
 
     handleSaveMetaDataAndFiles(metaData, fileUploads){

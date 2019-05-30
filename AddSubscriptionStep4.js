@@ -7,6 +7,7 @@ var ReactDOM = require('react-dom');
 var classNames = require('classnames');
 var Minio = require('minio');
 var customFunctions = require('./customFunctions');
+var utilities = require('./utilities');
 var toBuffer = require('blob-to-buffer');
 
 Date.isLeapYear = function (year) {
@@ -418,54 +419,19 @@ class AddSubscriptionStep4 extends React.Component {
 
     async uploadFiles(){
         var me=this;
-        // Instantiate the minio client with the endpoint
-        // and access keys as shown below.
         console.log('Upload files');
         document.getElementsByClassName("loader")[0].style.display = 'block';
-        console.log(me.state.minioConfig);
-        var minioClient = new Minio.Client({
-            endPoint: me.state.minioConfig.endPoint,
-            port: me.state.minioConfig.port,
-            useSSL: me.state.minioConfig.useSSL,
-            accessKey: me.state.minioConfig.accessKey,
-            secretKey: me.state.minioConfig.secretKey
-        });
-        console.log(minioClient);
-        var uuidv4=customFunctions.uuidv4();
-        var bucket_name=me.state.minioConfig.bucketPrefix + uuidv4;
-        var bucket_url = 'https://'+me.state.minioConfig.endPoint+":"+me.state.minioConfig.port+"/minio/"+bucket_name;
-        var file_objects = [];
-        // Make a bucket uuidv4.
-
-        var response_make_bucket=await minioClient.makeBucket(bucket_name, 'us-east-1').then(function(){
-            return bucket_url;
-        });
-
-        console.log('Bucket created successfully in "us-east-1": ', uuidv4);
-        var number_of_uploaded_files=0;
-        for(var i = 0; i < me.state.temporarySubscription.fileUploads.length; i++){
-            file_objects.push(me.state.temporarySubscription.fileUploads[i]);
-            console.log('Calling buffer with ', file_objects[i]);
-            var buffer = await new Response(file_objects[i]).arrayBuffer().then(function(arrBuffer){
-                return new Buffer(arrBuffer);
-            });
-
-            var file_name = file_objects[i].name;
-            console.log('Calling pubObject with ', bucket_name, file_name, buffer);
-            var response_put_object = await minioClient.putObject(bucket_name, file_name, buffer).then(function(etag){
-                number_of_uploaded_files++;
-                return `File uploaded successfully ${file_name}`;
-            }).catch(function(err){
-                return err;
-            });
-            console.log(response_put_object);
-        }
         
-        if(number_of_uploaded_files == file_objects.length){
+        var response_make_bucket = await utilities.createBucket();
+        var bucket_url = 'https://'+me.state.minioConfig.endPoint+":"+me.state.minioConfig.port+"/minio/"+response_make_bucket;
+
+        var number_of_uploaded_files = await utilities.addFilesToBucket(this.state.temporarySubscription.fileUploads, response_make_bucket);
+        
+        if(number_of_uploaded_files == this.state.temporarySubscription.fileUploads.length){
             me.setState({modalText: "File(s) uploaded succesfully!!!", triggered: true});
             document.getElementById("triger").click();
             document.getElementsByClassName("loader")[0].style.display='none';
-            return response_make_bucket;
+            return bucket_url;
         }
         else{
             me.setState({modalText: "File uploading failed!!!", triggered: true});
@@ -479,11 +445,17 @@ class AddSubscriptionStep4 extends React.Component {
 
     purchase() {
         var me=this;
-        if(me.state.temporarySubscription.plan.plan_provider.flow == "invoice"){
-            me.invoiceFlow();
+        if(me.state.confFile.subscription_flow == "standard"){
+            console.log("Standard Flow");
+            if(me.state.temporarySubscription.plan.plan_provider.flow == "invoice"){
+                me.invoiceFlow();
+            }
+            else{
+                me.proformaFlow();
+            }
         }
         else{
-            me.proformaFlow();
+            console.log('Custom flow');
         }
     }
     render() {
