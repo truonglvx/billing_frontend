@@ -4,6 +4,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var className = require('classnames');
+var Bootstrap = require('react-bootstrap');
 var customFunctions = require('./customFunctions');
 import { connect } from 'react-redux'
 
@@ -92,41 +93,31 @@ class NavbarTwo extends React.Component {
 
                 <nav className="navbar navbar-expand-lg navbar-dark">
                     <div className="container">
-
-                        <div className="navbar-left mr-4">
-                            <button className="navbar-toggler" type="button">&#9776;</button>
-                            <a className="navbar-brand" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>
-                                <img className="logo-dark" src={this.state.headerLogo} alt="logo" />
-                            </a>
-                        </div>
-
-                        <section className="navbar-mobile">
-                            <nav className="nav nav-navbar mr-auto">
-                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Subscriptions')}</a>
-                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Invoices')}</a>
-                                <a className="nav-link active" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>{this.translate('Payments')}</a>
-                            </nav>
-
-                             <div className="dropdown ml-lg-5">
-                                
-                                    <a onClick={() => this.changeLanguage('en')} style={{ cursor: 'pointer' }}>EN | </a>
-                                    <a onClick={() => this.changeLanguage('mk')} style={{ cursor: 'pointer' }}>MK</a>
+                        <div className="row">
+                            <div className="col-md-1">
+                                <i className="fa fa-bars fa-lg" style={{cursor: "pointer"}}></i>
                             </div>
-                            <div className="dropdown ml-lg-5">
-                                <span className="dropdown-toggle no-caret" data-toggle="dropdown" data-target="#demo">
-                                    <img className="avatar avatar-xs" src="assets/img/avatar/1.jpg" alt="user" />
-                                    {this.state.username}
-                                </span>
-                                <div id="demo" className="collapse in dropdown-menu dropdown-menu-right">
-                                    <a className="dropdown-item" onClick={() => this.redirectProfile()} style={{ cursor: 'pointer' }}>Profile</a>
-                                    <a className="dropdown-item" onClick={() => this.redirectChangePassword()} style={{ cursor: 'pointer' }}>ChangePassword</a>
-                                    <a className="dropdown-item" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Help center</a>
-                                    <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item" onClick={() => this.logout()} style={{ cursor: 'pointer' }}>Logout</a>
-                                </div>
+                            <div className="col-md-4">
+                                <a className="navbar-brand" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>
+                                    <img className="logo-dark" src={this.state.headerLogo} alt="logo" />
+                                </a>
                             </div>
-                        </section>
 
+                            <div className="col-md-7 text-md-right align-middle">
+                                    <span className="dropdown-toggle no-caret" data-toggle="dropdown" data-target="#demo">
+                                        <img className="avatar avatar-xs" src="assets/img/avatar/1.jpg" alt="user" />
+                                        {this.state.username}
+                                    </span>
+                                    <div id="demo" className="collapse in dropdown-menu dropdown-menu-right">
+                                        <a className="dropdown-item" onClick={() => this.redirectProfile()} style={{ cursor: 'pointer' }}>Profile</a>
+                                        <a className="dropdown-item" onClick={() => this.redirectChangePassword()} style={{ cursor: 'pointer' }}>ChangePassword</a>
+                                        <a className="dropdown-item" onClick={() => this.redirectSubscriptions()} style={{ cursor: 'pointer' }}>Help center</a>
+                                        <div className="dropdown-divider"></div>
+                                        <a className="dropdown-item" onClick={() => this.logout()} style={{ cursor: 'pointer' }}>Logout</a>
+                                    </div>
+                            </div>
+
+                    </div>
                     </div>
                 </nav>
             </div>
