@@ -9,6 +9,7 @@ var Navbar=require('./Navbar');
 var Footer=require('./Footer');
 var LandingPageContent=require('./LandingPageContent');
 var LandingPagePricing=require('./LandingPagePricing');
+var MainComponent=require('./MainComponent');
 
 
 class Main extends React.Component {
@@ -41,6 +42,8 @@ class Main extends React.Component {
 		<div>
 		
 		<Navbar pricing={() => this.update()}/>
+		<br/><br/><br/>
+		<MainComponent />
 		<LandingPageContent />
 		<LandingPagePricing />
 		<Footer />

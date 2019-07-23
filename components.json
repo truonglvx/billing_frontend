@@ -1,0 +1,122 @@
+[{
+	"component_type": "grid",
+	"component_props": {
+		"num_cols": "2",
+		"num_rows": "2",
+		"components": [{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-default offset-md-4",
+					"text": "Default",
+					"action": [
+						{
+							"type": "call_api_fn",
+							"args":{
+								"request_type": "POST",
+								"url": "",
+								"endpoint": "",
+								"data": {}
+							}
+					
+						},
+
+						{
+							"type": "open_modal",
+							"args":{
+								"component": {
+									"component_type": "modal",
+									"component_props": {
+										"components":[
+
+										]
+									}
+								}
+							}
+
+						}
+					]
+				}
+			},
+
+			{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-info offset-md-4",
+					"text": "Info",
+					"action": ""
+				}
+
+
+			},
+			{
+
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-warning offset-md-6",
+					"text": "Warning",
+					"action": ""
+				}
+
+
+			},
+
+			{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-default offset-md-2",
+					"text": "Default",
+					"action": ""
+				}
+			},
+
+			{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-default",
+					"text": "Default",
+					"action": ""
+				}
+			},
+			{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-default",
+					"text": "Default",
+					"action": ""
+				}
+			},
+			{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-default",
+					"text": "Default",
+					"action": ""
+				}
+			},
+			{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-default",
+					"text": "Default",
+					"action": ""
+				}
+			},
+			{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-default",
+					"text": "Default",
+					"action": ""
+				}
+			},
+			{
+				"component_type": "button",
+				"component_props": {
+					"class": "btn btn-default",
+					"text": "Default",
+					"action": ""
+				}
+			},
+		]
+	}
+}]
