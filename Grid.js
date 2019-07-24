@@ -59,6 +59,11 @@ class Grid extends React.Component{
 					<basicComponents.Button {...component_element.component_props} />
 				);
 			}
+			else if(component_element.component_type == "jumbotron"){
+				components.push(
+					<basicComponents.Jumbotron {...component_element.component_props} />
+				);
+			}
 		}
 		return components;
 	}

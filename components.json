@@ -2,11 +2,21 @@
 	"component_type": "grid",
 	"component_props": {
 		"num_cols": "2",
-		"num_rows": "2",
-		"components": [{
+		"num_rows": "1",
+		"components": [
+			{
+				"component_type": "jumbotron",
+				"component_props": {
+					"class": "bg-info text-white",
+					"heading":"Own and control your private cloud",
+					"text": "VapourApps is an easy to use private cloud dashboard with integrated applications."
+				}
+			},
+
+			{
 				"component_type": "button",
 				"component_props": {
-					"class": "btn btn-default offset-md-4",
+					"class": "btn btn-default offset-md-6",
 					"text": "Default",
 					"action": [
 						{

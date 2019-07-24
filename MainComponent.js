@@ -7,6 +7,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
 var Grid = require('./Grid');
+var basicComponents = require('./basicComponents');
 
 class MainComponent extends React.Component{
 	constructor(props){
@@ -25,6 +26,16 @@ class MainComponent extends React.Component{
 			if(components[i].component_type == "grid"){
 				content.push(
 					<Grid {... components[i].component_props}/>
+				);
+			}
+			else if(components[i].component_type == "button"){
+				content.push( 
+					<basicComponents.Button {...components[i].component_props}/>
+				);
+			}
+			else if(components[i].component_type == "jumbotron"){
+				content.push( 
+					<basicComponents.Jumbotron {...components[i].component_props}/>
 				);
 			}
 		}
