@@ -37,18 +37,20 @@ class Main extends React.Component {
 		}
 	}
 	render() {
+
         return (
 		
-		<div>
-		
-		<Navbar pricing={() => this.update()}/>
-		<br/><br/><br/>
-		<MainComponent />
-		<LandingPageContent />
-		<LandingPagePricing />
-		<Footer />
-		
-        </div>);
+				<div>
+				
+				<Navbar pricing={() => this.update()}/>
+				<br/><br/><br/>
+				<MainComponent />
+				<LandingPageContent />
+				<LandingPagePricing />
+				<Footer />
+				
+		        </div>
+		);
     }
 }
 

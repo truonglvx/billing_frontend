@@ -64,6 +64,11 @@ class Grid extends React.Component{
 					<basicComponents.Jumbotron {...component_element.component_props} />
 				);
 			}
+			else if(component_element.component_type == "table"){
+				components.push(
+					<basicComponents.VATable {...component_element.component_props} />
+				);
+			}
 		}
 		return components;
 	}

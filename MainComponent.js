@@ -38,6 +38,11 @@ class MainComponent extends React.Component{
 					<basicComponents.Jumbotron {...components[i].component_props}/>
 				);
 			}
+			else if(components[i].component_type == "table"){
+				content.push( 
+					<basicComponents.VATable {...components[i].component_props}/>
+				);
+			}
 		}
 
 		return content;

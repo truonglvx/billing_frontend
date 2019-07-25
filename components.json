@@ -1,15 +1,69 @@
 [{
 	"component_type": "grid",
 	"component_props": {
-		"num_cols": "2",
 		"num_rows": "1",
-		"components": [
-			{
+		"num_cols": "2",
+		"components": [{
 				"component_type": "jumbotron",
 				"component_props": {
 					"class": "bg-info text-white",
-					"heading":"Own and control your private cloud",
+					"heading": "Own and control your private cloud",
 					"text": "VapourApps is an easy to use private cloud dashboard with integrated applications."
+				}
+			},
+
+			{
+				"component_type": "table",
+				"component_props": {
+					"minRows": 0,
+					"pageSizeOptions": [10, 50, 100],
+					"data": [
+								{
+									"Name": "Tanner Linsley",
+									"Action": "Remove"
+								},
+								{
+									"Name": "John Smith 1",
+									"Action": "Remove"
+								},
+								{
+									"Name": "John Smith 2",
+									"Action": "Remove"
+								},
+								{
+									"Name": "John Smith 3",
+									"Action": "Remove"
+								},
+								{
+									"Name": "John Smith 4",
+									"Action": "Remove"
+								},
+								{
+									"Name": "John Smith 5",
+									"Action": "Remove"
+								}
+					],
+
+					"columns": [{
+							"name": "Name",
+							"component": {
+								"component_type": "span",
+								"component_props": {
+									"class": "text-right text-black",
+								}
+							}
+						},
+
+						{
+							"name": "Action",
+							"component": {
+								"component_type": "button",
+								"component_props": {
+									"class": "btn btn-secondary"
+								}
+							}
+						}
+					]
 				}
 			},
 
@@ -18,25 +72,24 @@
 				"component_props": {
 					"class": "btn btn-default offset-md-6",
 					"text": "Default",
-					"action": [
-						{
+					"action": [{
 							"type": "call_api_fn",
-							"args":{
+							"args": {
 								"request_type": "POST",
 								"url": "",
 								"endpoint": "",
 								"data": {}
 							}
-					
+
 						},
 
 						{
 							"type": "open_modal",
-							"args":{
+							"args": {
 								"component": {
 									"component_type": "modal",
 									"component_props": {
-										"components":[
+										"components": [
 
 										]
 									}
@@ -126,7 +179,7 @@
 					"text": "Default",
 					"action": ""
 				}
-			},
+			}
 		]
 	}
 }]
