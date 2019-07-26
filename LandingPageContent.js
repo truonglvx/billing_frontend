@@ -36,30 +36,24 @@ class LandingPageContent extends React.Component {
     }
 
     render() {
+
         return (
-            <div>
+                    <div class="container">
+                        <div class="row align-items-center" style={{height: "450px"}}>
+                            <div class="col-md-5">
+                                <h1 style={{textAlign: "center", fontSize: "3.7em"}}>{this.state.landingHeader}</h1>
+                                <p class="lead ml-5 mt-6 mb-7" style={{fontSize: "1.4em", textAlign: "justify"}}>{this.state.landingText}</p>
+                                <p class="gap-xy text-center">
 
-                <header className="header h-fullscreen">
-                    <div className="container">
-                        <div className="row align-items-center h-100">
-
-                            <div className="col-lg-6">
-                                <h1>{this.state.landingHeader}</h1>
-                                <p className="lead mt-5 mb-8" style={{ fontSize: '1.1em' }}>{this.state.landingText}</p>
-                                <p className="gap-xy">
-                                    <button className="btn btn-round btn-primary" onClick={() => this.redirectRegister()}>SignUp</button>
-                                    <button className="btn btn-round btn-outline-secondary" onClick={() => this.redirectRegister()}>Order now</button>
+                                    <button id="register_button_landing_content" className="btn btn-md btn-primary btn-round" onClick={() => this.redirectRegister()}>SignUp</button>
+                                    <button id="order_button_landing_content" className="btn btn-md btn-round ml-lg-5 mr-2" onClick={() => this.redirectRegister()}>Order now</button>
                                 </p>
                             </div>
-
-                            <div className="col-lg-5 ml-auto d-none d-lg-block">
-                                <img src={this.state.landingImageURL} alt="img" />
+                            <div class="col-md-offset-1 col-md-6">
+                                <img src={this.state.landingImageURL} alt="img" style={{height: "330px"}}/>
                             </div>
-
                         </div>
-                    </div>
-                </header>
-            </div>
+                    </div>           
         );
     }
 }

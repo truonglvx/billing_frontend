@@ -16,6 +16,7 @@
 				"component_type": "table",
 				"component_props": {
 					"minRows": 0,
+					"class":"-striped",
 					"pageSizeOptions": [10, 50, 100],
 					"data": [
 								{

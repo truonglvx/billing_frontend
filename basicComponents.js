@@ -94,7 +94,7 @@ class VATable extends React.Component{
 		var columns = this.getColumns();
  
 		return (
-  			<ReactTable data={this.state.props_dict.data} columns={columns} minRows={this.state.props_dict.minRows} pageSizeOptions={this.state.props_dict.pageSizeOptions}/>
+  			<ReactTable data={this.state.props_dict.data} className={this.state.props_dict.class} columns={columns} minRows={this.state.props_dict.minRows} pageSizeOptions={this.state.props_dict.pageSizeOptions}/>
 		);
 	}
 

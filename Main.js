@@ -44,8 +44,9 @@ class Main extends React.Component {
 				
 				<Navbar pricing={() => this.update()}/>
 				<br/><br/><br/>
-				<MainComponent />
+				{/*<MainComponent />*/}
 				<LandingPageContent />
+				<br/><br/><br/>
 				<LandingPagePricing />
 				<Footer />
 				

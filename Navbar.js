@@ -38,7 +38,9 @@ class Navbar extends React.Component {
         document.location.replace("/#/Register");
         document.location.reload(true);
     }
+
     redirectPricing() {
+        console.log('Redirecting pricing...');
         document.location.replace("/#/?pricing=true");
         document.location.reload(true);
         //location.href = '/#/?pricing=true';
@@ -70,16 +72,16 @@ class Navbar extends React.Component {
                             </div>
 
                             <section className="navbar-mobile">
-                                <nav className="nav nav-navbar mr-auto">
-                                    <a className="nav-link active" href="/">Home</a>
-                                    <a className="nav-link" onClick={() => this.redirectAbout()} style={{ cursor: 'pointer' }}>About</a>
-                                    <a className="nav-link" onClick={() => this.redirectPricing()} style={{ cursor: 'pointer' }}>Pricing</a>
-                                    <a className="nav-link" onClick={() => this.redirectContact()} style={{ cursor: 'pointer' }}>Contact</a>
+                                <nav className="nav nav-navbar col-md-6 mr-auto">
+                                    <a className="navlinks_header" href="/#/">Home</a>
+                                    <a className="navlinks_header" href="/#/Features">About</a>
+                                    <span className="navlinks_header" onClick={() => this.redirectPricing()}>Pricing</span>
+                                    <a className="navlinks_header" href="/#/Contact">Contact</a>
                                 </nav>
 
                                 <div>
-                                    <button className="btn btn-sm btn-light ml-lg-5 mr-2" onClick={() => this.redirectLogin()}>Login</button>
-                                    <button className="btn btn-sm btn-success" onClick={() => this.redirectRegister()}>Sign up</button>
+                                    <button id="login_button_navbar" className="btn btn-md btn-round ml-lg-5 mr-2" onClick={() => this.redirectLogin()}>Login</button>
+                                    <button id="register_button_navbar" className="btn btn-md btn-primary btn-round" onClick={() => this.redirectRegister()}>Sign up</button>
                                 </div>
                             </section>
 

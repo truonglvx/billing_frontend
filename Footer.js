@@ -73,7 +73,7 @@ class Footer extends React.Component {
     render() {
         return (
             <div>
-                <footer className="footer py-7">
+                <footer className="py-7">
                     <div className="container">
                         <div className="row gap-y">
 

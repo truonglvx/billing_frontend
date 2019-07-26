@@ -78,8 +78,8 @@ class LandingPagePricing extends React.Component {
         var indents = [];
         for (var i = 0; i < this.state.plansTemp.length; i++) {
             indents.push(<div className="col-md-6" key={i + 1}>
-                <div className="card text-center shadow-1 hover-shadow-9">
-                    <div className="card-img-top text-white bg-img h-200 d-flex align-items-center" style={{ backgroundImage: 'url(' + this.state.confFile.url + this.state.plansTemp[i].feature.plan_image + ')', dataOverlay: 1 }}>
+                <div className="card text-center shadow-1 hover-shadow-9 card_body_landing_page_pricing" style={{borderRadius: "20px", border: "2px solid rgba(255,255,255,0.4)"}}>
+                    <div className="card-img-top text-white bg-img h-200 d-flex align-items-center" style={{ borderTopLeftRadius: "20px", borderTopRightRadius: "20px", backgroundImage: 'url(' + this.state.confFile.url + this.state.plansTemp[i].feature.plan_image + ')', dataOverlay: 1 }}>
                         <div className="position-relative w-100">
                             <p className="lead-4 text-uppercase fw-600 ls-1 mb-0">{this.state.plansTemp[i].name}</p>
                             <p><span className="tekst" data-bind-radio="pricing-6">{this.state.plansTemp[i].interval}</span></p>
@@ -108,7 +108,7 @@ class LandingPagePricing extends React.Component {
 
         if (this.state.plansTemp.length > 0) {
             return (
-                <section className="section bg-gray">
+                <section className="section">
                     <div className="container" id="pricing">
                         <div className="row gap-y align-items-center">
 
@@ -141,7 +141,7 @@ class LandingPagePricing extends React.Component {
         }
         else {
             return (
-                <section className="section bg-gray">
+                <section className="section">
                     <div className="container" id="pricing">
                         <div className="row gap-y align-items-center">
 

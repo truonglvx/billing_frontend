@@ -394,3 +394,70 @@ ul.left-menu a.active {
     background: #e0e0e0;
 }
 
+/*Background linear gradient*/
+
+body {
+  background: linear-gradient(to top, rgba(142,179,200,1) ,rgba(163,196,213,1),rgba(180,208,224,1),rgba(212,233,245,1), rgba(233,242,247,1) ) fixed;
+}
+
+/*rgba(218,202,202,1)*/
+/*body {
+  background: linear-gradient(to bottom, rgba(142,147,178,1) ,rgba(171,166,186,1), rgba(218,202,202,1)) fixed;
+}
+*/
+
+/*body{
+  background-image: linear-gradient(to bottom, rgba(85,113,152,1) ,rgba(171,166,186,1), rgba(218,202,202,1)) fixed;
+
+}*/
+
+
+/*navbar links*/
+
+.navlinks_header {
+  margin-right:3%;
+  margin-left:3%;
+  color: rgba(90,89,88,1);
+  font-weight: bold; 
+  font-size: 1.4em;
+  vertical-align: middle;
+}
+
+.navlinks_header:hover{
+  cursor: pointer; 
+  color: #A4CBE6;
+  font-weight: bold; 
+  font-size: 1.4em;
+}
+
+/*navbar buttons*/
+
+#login_button_navbar{
+  background: #E8F1F6; 
+  border: 2px solid white; 
+  font-weight:bold; 
+  font-size:0.8em;
+}
+
+#register_button_navbar{
+  border: 2px solid white; 
+  font-weight:bold; 
+  font-size:0.8em;
+}
+
+#order_button_landing_content{
+  background: #E8F1F6; 
+  border: 2px solid white; 
+  font-weight:bold; 
+  font-size:0.8em;
+}
+
+#register_button_landing_content{
+  border: 2px solid white; 
+  font-weight:bold; 
+  font-size:0.8em;
+}
+
+.card_body_landing_page_pricing{
+  background-image: linear-gradient(to bottom, rgba(142,179,200,1) ,rgba(163,196,213,1),rgba(180,208,224,1),rgba(212,233,245,1), rgba(233,242,247,1)); 
+}
