@@ -75,50 +75,33 @@ class Login extends React.Component {
     render() {
         return (
 
-            <div>
-
+            <div className="container">
                 <Navbar />
-                <br />
-                <br />
-                <br />
-                <br />
 
-                <div className="col-md-offset-4 col-md-5">
-                    <div className="container" style={{ marginTop: '30px' }}>
-                        <div className="panel panel-default">
-                            <div className="panel-heading"><h3 className="panel-title" style={{ fontSize: '1.5em' }}><strong>Sign In </strong></h3></div>
-                            <div className="panel-body">
-                                <div className="form-group">
-                                    <label htmlFor="InputUsername" style={{ fontSize: '1em' }}>Username</label>
-                                    <input type="email" className="form-control" id="InputUsername" placeholder="Enter username" style={{ fontSize: '1em' }} />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="InputPassword" style={{ fontSize: '1em' }}>Password</label>
-                                    <input type="password" className="form-control" id="InputPassword" placeholder="Password" style={{ fontSize: '1em' }} />
-                                </div>
-                                <div style={{ clear: 'both' }}>
-                                    <button type="submit" className="btn btn-large btn-secondary" onClick={() => this.login()} style={{ float: 'left' }}>Sign in</button>
-                                    <a onClick={() => this.redirectLogin()} style={{ color: 'red', float: 'right', cursor: 'pointer'  }}>Forgot password?</a>
+                <div className="row mt-10 mb-10">
+                    <div className="col-md-offset-4 col-md-5">
+                        <div className="container" style={{ marginTop: '30px' }}>
+                            <div className="panel panel-default">
+                                <div className="panel-heading"><h3 className="panel-title" style={{ fontSize: '1.5em' }}><strong>Sign In </strong></h3></div>
+                                <div className="panel-body">
+                                    <div className="form-group">
+                                        <label htmlFor="InputUsername" style={{ fontSize: '1em' }}>Username</label>
+                                        <input type="email" className="form-control" id="InputUsername" placeholder="Enter username" style={{ fontSize: '1em' }} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="InputPassword" style={{ fontSize: '1em' }}>Password</label>
+                                        <input type="password" className="form-control" id="InputPassword" placeholder="Password" style={{ fontSize: '1em' }} />
+                                    </div>
+                                    <div style={{ clear: 'both' }}>
+                                        <button type="submit" className="btn btn-large btn-secondary" onClick={() => this.login()} style={{ float: 'left' }}>Sign in</button>
+                                        <a onClick={() => this.redirectLogin()} style={{ color: 'red', float: 'right', cursor: 'pointer'  }}>Forgot password?</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
+
                 <button id="unsucclogin" className="btn btn-primary" type="button" data-toggle="popup" data-target="#popup-slide-down">Slide Down</button>
                 <div id="popup-slide-down" className="popup col-6 col-md-4" data-position="top-right" data-animation="slide-down">
                     <button type="button" className="close" data-dismiss="popup" aria-label="Close" onClick={() => this.handleNotificationClose()}>

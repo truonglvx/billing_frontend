@@ -38,18 +38,18 @@ class LandingPageContent extends React.Component {
     render() {
 
         return (
-                    <div class="container">
-                        <div class="row align-items-center" style={{height: "450px"}}>
-                            <div class="col-md-5">
+                    <div className="container">
+                        <div className="row align-items-center gap-xy-6">
+                            <div className="col-md-5">
                                 <h1 style={{textAlign: "center", fontSize: "3.7em"}}>{this.state.landingHeader}</h1>
-                                <p class="lead ml-5 mt-6 mb-7" style={{fontSize: "1.4em", textAlign: "justify"}}>{this.state.landingText}</p>
-                                <p class="gap-xy text-center">
+                                <p className="lead ml-5 mt-6 mb-7" style={{fontSize: "1.4em", textAlign: "justify"}}>{this.state.landingText}</p>
+                                <p className="gap-xy text-center">
 
                                     <button id="register_button_landing_content" className="btn btn-md btn-primary btn-round" onClick={() => this.redirectRegister()}>SignUp</button>
                                     <button id="order_button_landing_content" className="btn btn-md btn-round ml-lg-5 mr-2" onClick={() => this.redirectRegister()}>Order now</button>
                                 </p>
                             </div>
-                            <div class="col-md-offset-1 col-md-6">
+                            <div className="col-md-offset-1 col-md-6">
                                 <img src={this.state.landingImageURL} alt="img" style={{height: "330px"}}/>
                             </div>
                         </div>

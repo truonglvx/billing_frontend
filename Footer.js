@@ -74,8 +74,8 @@ class Footer extends React.Component {
         return (
             <div>
                 <footer className="py-7">
-                    <div className="container">
-                        <div className="row gap-y">
+                    <div>
+                        <div className="gap-y-1">
 
                             <div className="col-md-6 col-xl-4">
                                 <p><a href="/"><img src={this.state.footerLogo} alt="logo" style={{ maxHeight: '50px', maxWidth: '50px' }} /></a></p>

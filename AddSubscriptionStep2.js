@@ -35,6 +35,7 @@ class AddSubscriptionStep2 extends React.Component {
     getCustomers() {
         var me = this;
         var token = localStorage.getItem("token");
+        console.log("Token", token);
         var url = me.state.confFile.url + '/va_silver/get_customers/';
         fetch(url, {
             method: 'GET',
@@ -44,6 +45,7 @@ class AddSubscriptionStep2 extends React.Component {
             }
         })
             .then(function (response) {
+                console.log(response);
                 return response.json();
             })
             .then(function (myJson) {
