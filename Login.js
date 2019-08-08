@@ -31,9 +31,6 @@ class Login extends React.Component {
         document.location.reload(true);
     }
 
-    componentWillMount() {
-    }
-
     handleNotificationClose() {
         this.setState({ previouslyClicked: false });
     }

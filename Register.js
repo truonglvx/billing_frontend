@@ -24,9 +24,7 @@ class Register extends React.Component {
     componentDidMount() {
         document.getElementById("unsuccregister").style.display = 'none';
     }
-    componentWillMount() {
 
-    }
     register() {
         var me = this;
         var url = me.state.confFile.url + '/va_saas/users/';
@@ -76,12 +74,10 @@ class Register extends React.Component {
     render() {
         return (
 
-            <div>
+            <div className="container">
 
                 <Navbar />
-                <br />
-                <br />
-                <br />
+                <div className="row mt-10 mb-10">
                     <div className="col-md-offset-4 col-md-5">
                         <div className="container" style={{ marginTop: '30px' }}>
                             <div className="panel panel-default">
@@ -112,6 +108,7 @@ class Register extends React.Component {
                             </div>
                         </div>
                     </div>
+                </div>
 
                 <button id="unsuccregister" className="btn btn-primary" type="button" data-toggle="popup" data-target="#popup-slide-down">Slide Down</button>
                 <div id="popup-slide-down" className="popup col-6 col-md-4" data-position="top-right" data-animation="slide-down">
