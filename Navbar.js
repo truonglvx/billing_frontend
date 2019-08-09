@@ -60,7 +60,7 @@ class Navbar extends React.Component {
                                 </a>
                             </div>
 
-                            <section className="navbar-mobile mt-4">
+                            <section className="navbar-mobile mt-4 slide-in-right">
                                 <nav className="nav nav-navbar md-offset-1 col-md-7 mr-auto">
                                     <a className="navlinks_header" href="/#/">Home</a>
                                     <a className="navlinks_header" href="/#/Features">About</a>

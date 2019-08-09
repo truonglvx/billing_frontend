@@ -18,7 +18,7 @@ class Logo extends React.Component{
     render(){
         var element;
            if(this.state.props_dict.show_text == true){
-            element=(<svg {...this.state.props_dict} viewBox="0 0 150 50" className="puff-in-top">
+            element=(<svg {...this.state.props_dict} viewBox="0 0 150 50" className="puff-in-top circle">
                 <g transform="matrix(.31477 0 0 .31477 -9.364 -20.577)">
                   <circle
                     transform="rotate(-42.446)"
