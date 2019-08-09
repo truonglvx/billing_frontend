@@ -51,16 +51,16 @@ class Navbar extends React.Component {
                     <nav className="navbar navbar-expand-lg navbar-dark">
                         <div className="container">
 
-                            <div className="navbar-left mr-4 mt-4 col-md-4">
+                            <div className="navbar-left mr-4 mt-3 col-md-4">
                                 <button className="navbar-toggler" type="button">&#9776;</button>
                                 <a className="navbar-brand" href="/#/">
                                     {/*<img className="logo-dark" src={this.state.headerLogo} alt="logo" />
                                     <img className="logo-light" src={this.state.headerLogo} alt="logo" />*/}
-                                    <Logo />
+                                    <Logo width="100%" show_text={true}/>
                                 </a>
                             </div>
 
-                            <section className="navbar-mobile">
+                            <section className="navbar-mobile mt-4">
                                 <nav className="nav nav-navbar md-offset-1 col-md-7 mr-auto">
                                     <a className="navlinks_header" href="/#/">Home</a>
                                     <a className="navlinks_header" href="/#/Features">About</a>

@@ -4,6 +4,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
+var Logo = require('./Logo');
 
 class Footer extends React.Component {
     constructor(props) {
@@ -74,59 +75,70 @@ class Footer extends React.Component {
         return (
             <div>
                 <footer className="py-7">
-                    <div>
-                        <div className="gap-y-1">
-
-                            <div className="col-md-6 col-xl-4">
-                                <p><a href="/"><img src={this.state.footerLogo} alt="logo" style={{ maxHeight: '50px', maxWidth: '50px' }} /></a></p>
-                                <p> {this.state.footerText}</p>
-                            </div>
-
-                            <div className="col-6 col-md-3 col-xl-2">
-                                <h6 className="mb-4 mt-1"><strong>Vapour Apps</strong></h6>
-                                <div className="nav flex-column">
-                                    <a className="nav-link" onClick={() => this.redirectAbout()} style={{ cursor: 'pointer' }}>About</a>
-                                    <a className="nav-link" href="/">Careers</a>
-                                    <a className="nav-link" onClick={() => this.redirectContact()} style={{ cursor: 'pointer' }}>Contact</a>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-3">
+                                <div className="row">
+                                        <a href="/">
+                                           {/* <img src={this.state.footerLogo} alt="logo" style={{ maxHeight: '50px', maxWidth: '50px' }} />*/}
+                                            <Logo width="73%" show_text={false}/>
+                                        </a>
+                                </div>
+                                <div className="row">
+                                    <span> {this.state.footerText}</span>
                                 </div>
                             </div>
 
-                            <div className="col-6 col-md-3 col-xl-2">
-                                <h6 className="mb-4 mt-1"><strong>Product</strong></h6>
-                                <div className="nav flex-column">
-                                    <a className="nav-link" onClick={() => this.redirectFeatures()} style={{ cursor: 'pointer' }}>Features</a>
-                                    <a className="nav-link" onClick={() => this.redirectPricing()} style={{ cursor: 'pointer' }}>Pricing</a>
-                                    <a className="nav-link" onClick={() => this.redirectTermsOfService()} style={{ cursor: 'pointer' }}>Terms of service</a>
-                                </div>
-                            </div>
+                            <div className="col-md-9">
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col">
+                                            <h6 className="mb-4 mt-1"><strong>Vapour Apps</strong></h6>
+                                            <div className="nav flex-column">
+                                                <a className="nav-link" onClick={() => this.redirectAbout()} style={{ cursor: 'pointer' }}>About</a>
+                                                <a className="nav-link" href="/">Careers</a>
+                                                <a className="nav-link" onClick={() => this.redirectContact()} style={{ cursor: 'pointer' }}>Contact</a>
+                                            </div>
+                                        </div>
 
-                            <div className="col-6 col-md-6 col-xl-2">
-                                <h6 className="mb-4 mt-1"><strong>Support</strong></h6>
-                                <div className="nav flex-column">
-                                    <a className="nav-link" href="/">Help Center</a>
-                                    <a className="nav-link" href="/">API</a>
-                                    <a className="nav-link" onClick={() => this.redirectPrivacyPolicy()} style={{ cursor: 'pointer' }}>Privacy policy</a>
-                                </div>
-                            </div>
+                                        <div className="col">
+                                            <h6 className="mb-4 mt-1"><strong>Product</strong></h6>
+                                            <div className="nav flex-column">
+                                                <a className="nav-link" onClick={() => this.redirectFeatures()} style={{ cursor: 'pointer' }}>Features</a>
+                                                <a className="nav-link" onClick={() => this.redirectPricing()} style={{ cursor: 'pointer' }}>Pricing</a>
+                                                <a className="nav-link" onClick={() => this.redirectTermsOfService()} style={{ cursor: 'pointer' }}>Terms of service</a>
+                                            </div>
+                                        </div>
 
-                            <div className="col-6 col-md-6 col-xl-2 text-center">
-                                <p><button className="btn btn-block btn-round btn-primary" onClick={() => this.redirectRegister()}>Sign up</button></p>
-                                <br />
-                                <div className="social social-bordered">
-                                    <a className="social-facebook" href={this.state.footerFacebook}><i className="fa fa-facebook"></i></a>
-                                    <a className="social-twitter" href={this.state.footerTwitter}><i className="fa fa-twitter"></i></a>
-                                    <a className="social-youtube" href={this.state.footerYoutube}><i className="fa fa-youtube"></i></a>
-                                    <a className="social-instagram" href={this.state.footerInstagram}><i className="fa fa-instagram"></i></a>
+                                        <div className="col">
+                                            <h6 className="mb-4 mt-1"><strong>Support</strong></h6>
+                                            <div className="nav flex-column">                                               
+                                                <a className="nav-link" href="/">Help Center</a>
+                                                <a className="nav-link" href="/">API</a>
+                                                <a className="nav-link" onClick={() => this.redirectPrivacyPolicy()} style={{ cursor: 'pointer' }}>Privacy policy</a>                                          
+                                            </div>
+                                        </div>
+
+                                        <div className="col">
+                                            <p class="row"><button className="btn btn-block btn-round btn-primary" onClick={() => this.redirectRegister()}>Sign up</button></p>
+                                            <br />
+                                            <div className="social row">
+                                                <a className="social-facebook col" href={this.state.footerFacebook}><i className="fa fa-facebook"></i></a>
+                                                <a className="social-twitter col" href={this.state.footerTwitter}><i className="fa fa-twitter"></i></a>
+                                                <a className="social-youtube col" href={this.state.footerYoutube}><i className="fa fa-youtube"></i></a>
+                                                <a className="social-instagram col" href={this.state.footerInstagram}><i className="fa fa-instagram"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
                 </footer>
-
             </div>
         );
     }
 }
 
-module.exports = Footer;
+module.exports = Footer;    
